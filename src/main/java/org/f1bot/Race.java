@@ -5,13 +5,15 @@ import java.time.format.DateTimeFormatter;
 
 public class Race {
     String name;
+    String circuitName;
     LocalDateTime localDateTime;
     LocalDateTime localDateTimeQualifying;
 
-    public Race(String name, LocalDateTime localDateTime, LocalDateTime localDateTimeQualifying) {
+    public Race(String name,String circuitName, LocalDateTime localDateTime, LocalDateTime localDateTimeQualifying) {
         this.name = name;
         this.localDateTime = localDateTime;
         this.localDateTimeQualifying = localDateTimeQualifying;
+        this.circuitName = circuitName;
     }
 
     public String getRaceDateAsString() {
