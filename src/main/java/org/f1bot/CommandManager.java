@@ -70,6 +70,7 @@ public class CommandManager extends ListenerAdapter {
         for (Driver d : driverStandings) {
             eb.addField("#"+d.pos+" "+d.name, d.constructorName+"\nPoints: "+d.points, true);
         }
+        if (driverStandings.size()%3 == 2) eb.addField("","",true); //shift last row as if 3 elements if there are only 2
         return eb;
     }
 }
