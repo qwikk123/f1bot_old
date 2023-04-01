@@ -5,13 +5,20 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         F1Data f1Data = new F1Data();
         f1Data.setF1Data();
         f1Data.setNextRace();
 
-        JDA bot = JDABuilder.createDefault("MTA5MTAyNzkzMzI5ODE4MDEzNw.GzkfqP.dMgWJar0oZi3xGNjZmxeJ3dvvk9szPzDh6Lf5Q")
+        File f = new File("tokens/t.token");
+        Scanner s = new Scanner(f);
+
+        JDA bot = JDABuilder.createDefault(s.nextLine())
                 .setActivity(Activity.listening("F1 theme song"))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
