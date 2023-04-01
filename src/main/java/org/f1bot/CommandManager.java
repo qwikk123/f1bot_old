@@ -1,4 +1,4 @@
-package org.example;
+package org.f1bot;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;

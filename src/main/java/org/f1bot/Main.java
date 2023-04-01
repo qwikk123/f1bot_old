@@ -1,4 +1,4 @@
-package org.example;
+package org.f1bot;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -23,5 +23,6 @@ public class Main {
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
         bot.addEventListener(new CommandManager(f1Data));
+        s.close();
     }
 }
