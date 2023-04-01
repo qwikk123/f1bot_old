@@ -24,10 +24,7 @@ public class F1Data {
             conn.connect();
 
             int responsecode = conn.getResponseCode();
-            if (responsecode != 200) {
-                throw new RuntimeException("HttpResponseCode: " + responsecode);
-            }
-
+            if (responsecode != 200) throw new RuntimeException("HttpResponseCode: " + responsecode);
             else {
                 JSONObject json = new JSONObject(new JSONTokener(url.openStream()));
                 JSONArray jArray = json.getJSONObject("MRData").getJSONObject("RaceTable").getJSONArray("Races");
