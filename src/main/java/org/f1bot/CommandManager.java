@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
 import java.awt.Color;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,8 @@ public class CommandManager extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (event.getName().equals("ping")) {
-            event.reply("pong").queue();
+            long ping = OffsetDateTime.now().until(event.getTimeCreated(), ChronoUnit.MILLIS);
+            event.reply("pong after: "+ping+" ms :)").queue();
         }
         else if (event.getName().equals("getrace")) {
             int index = event.getOption("racenumber").getAsInt()-1;
