@@ -15,7 +15,7 @@ public class Main {
         f1Data.setF1Data();
         f1Data.setNextRace();
 
-        File f = new File("tokens/t.tokens");
+        File f = new File("tokens/t.token");
         Scanner s = new Scanner(f);
 
         JDA bot = JDABuilder.createDefault(s.nextLine())
