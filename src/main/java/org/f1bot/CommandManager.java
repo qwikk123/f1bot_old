@@ -39,7 +39,10 @@ public class CommandManager extends ListenerAdapter {
             event.replyEmbeds(createRaceEmbed(race).build()).queue();
         }
         else if (event.getName().equals("driverstandings")) {
-            event.replyEmbeds(createStandingsEmbed(f1Data.getDriverStandings()).build()).queue();
+            event.replyEmbeds(createDriverStandingsEmbed(f1Data.getDriverStandings()).build()).queue();
+        }
+        else if (event.getName().equals("constructorstandings")) {
+            event.replyEmbeds(createConstructorStandingsEmbed(f1Data.getConstructorStandings()).build()).queue();
         }
     }
 
@@ -50,12 +53,14 @@ public class CommandManager extends ListenerAdapter {
         commandData.add(Commands.slash("getrace", "nth race").addOption(OptionType.INTEGER, "racenumber", "Race to get info from", true, true));
         commandData.add(Commands.slash("nextrace", "Get the upcoming Grand Prix"));
         commandData.add(Commands.slash("driverstandings", "Get info on driver championship standings"));
+        commandData.add(Commands.slash("constructorstandings", "Get info on constructor championship standings"));
 
         event.getGuild().updateCommands().addCommands(commandData).queue();
     }
 
     public EmbedBuilder createRaceEmbed(Race r) {
         EmbedBuilder eb = new EmbedBuilder();
+        eb.setThumbnail("https://i.imgur.com/7wyu3ng.png");
         eb.setTitle(r.name);
         eb.setColor(Color.RED);
         eb.addField("Circuit: ", r.circuitName,false);
@@ -63,14 +68,24 @@ public class CommandManager extends ListenerAdapter {
         eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
         return eb;
     }
-    public EmbedBuilder createStandingsEmbed(ArrayList<Driver> driverStandings) {
+    public EmbedBuilder createDriverStandingsEmbed(ArrayList<Driver> driverStandings) {
         EmbedBuilder eb = new EmbedBuilder();
+        eb.setThumbnail("https://i.imgur.com/7wyu3ng.png");
         eb.setTitle("Driver Standings");
         eb.setColor(Color.RED);
         for (Driver d : driverStandings) {
             eb.addField("#"+d.pos+" "+d.name, d.constructorName+"\nPoints: "+d.points, true);
         }
-        if (driverStandings.size()%3 == 2) eb.addField("","",true); //shift last row as if 3 elements if there are only 2
+        return eb;
+    }
+    public EmbedBuilder createConstructorStandingsEmbed(ArrayList<Constructor> constructorStandings) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setThumbnail("https://i.imgur.com/7wyu3ng.png");
+        eb.setTitle("Driver Standings");
+        eb.setColor(Color.RED);
+        for (Constructor d : constructorStandings) {
+            eb.addField("#"+d.pos+" "+d.name, "\nPoints: "+d.points, true);
+        }
         return eb;
     }
 }

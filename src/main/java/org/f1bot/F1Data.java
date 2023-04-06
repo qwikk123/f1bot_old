@@ -69,9 +69,21 @@ public class F1Data {
         JSONObject json = getJson("https://ergast.com/api/f1/current/constructorStandings.json");
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("StandingsTable")
-                .getJSONObject("StandingsLists")
-                .getJSONArray("ConstructorStandings");
+                .getJSONArray("StandingsLists")
+                .getJSONObject(0).getJSONArray("ConstructorStandings");
         constructorStandings = new ArrayList<>();
+        for (int i = 0; i < jArray.length(); i++) {
+            JSONObject jConstructor = jArray.getJSONObject(i);
+            JSONObject jConstructorInfo = jConstructor.getJSONObject("Constructor");
+
+            int pos = jConstructor.getInt("position");
+            String name = jConstructorInfo.getString("name");
+            String nationality = jConstructorInfo.getString("nationality");
+            double points = jConstructor.getDouble("points");
+            int wins = jConstructor.getInt("wins");
+
+            constructorStandings.add(new Constructor(pos,name,nationality,points,wins));
+        }
     }
 
     public void setNextRace() {
@@ -103,6 +115,7 @@ public class F1Data {
     public ArrayList<Driver> getDriverStandings() {
         return driverStandings;
     }
+    public ArrayList<Constructor> getConstructorStandings() { return constructorStandings; }
 
     public JSONObject getJson(String URL) {
         try {

@@ -15,6 +15,7 @@ public class Main {
         f1Data.setF1RaceData();
         f1Data.setNextRace();
         f1Data.setF1DriverStandingsData();
+        f1Data.setF1ConstructorStandingsData();
 
         File f = new File("token/t.token");
         Scanner s = new Scanner(f);
