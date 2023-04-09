@@ -65,7 +65,7 @@ public class CommandManager extends ListenerAdapter {
         eb.setColor(Color.RED);
         eb.addField("Circuit: ", r.circuitName,false);
         eb.addField("Race: ", r.getRaceDateAsString(),true);
-        if(r.hasSprint()) { eb.addField("Sprint: ", r.getRaceDateAsString(),true); }
+        if(r.hasSprint()) { eb.addField("Sprint: ", r.getSprintDateAsString(),true); }
         eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
         return eb;
     }

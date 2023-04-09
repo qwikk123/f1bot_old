@@ -25,7 +25,7 @@ public class Race {
     public String getQualifyingDateAsString() {
         return localDateTimeQualifying.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
     }
-    public String getSprintingDateAsString() {
+    public String getSprintDateAsString() {
         return localDateTimeSprint.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
     }
     public void setSprint(LocalDateTime localDateTimeSprit) {
