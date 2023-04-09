@@ -9,6 +9,8 @@ public class Race {
     LocalDateTime localDateTime;
     LocalDateTime localDateTimeQualifying;
 
+    LocalDateTime localDateTimeSprint;
+
     public Race(String name,String circuitName, LocalDateTime localDateTime, LocalDateTime localDateTimeQualifying) {
         this.name = name;
         this.localDateTime = localDateTime;
@@ -16,10 +18,20 @@ public class Race {
         this.circuitName = circuitName;
     }
 
+
     public String getRaceDateAsString() {
         return localDateTime.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
     }
     public String getQualifyingDateAsString() {
         return localDateTimeQualifying.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
+    }
+    public String getSprintingDateAsString() {
+        return localDateTimeSprint.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
+    }
+    public void setSprint(LocalDateTime localDateTimeSprit) {
+        this.localDateTimeSprint = localDateTimeSprit;
+    }
+    public boolean hasSprint() {
+        return localDateTimeSprint != null;
     }
 }

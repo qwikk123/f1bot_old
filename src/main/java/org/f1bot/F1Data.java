@@ -37,8 +37,12 @@ public class F1Data {
             String circuitName = circuit.getString("circuitName");
 
             String name = jRace.getString("raceName");
-
-            raceList.add(new Race(name, circuitName, ldt, ldtq));
+            Race r = new Race(name, circuitName, ldt, ldtq);
+            if (jRace.has("Sprint")) {
+                JSONObject jSprint = jRace.getJSONObject("Sprint");
+                r.setSprint(getLocalDateTime(jSprint.getString("date"), jSprint.getString("time")));
+            }
+            raceList.add(r);
         }
     }
 
