@@ -12,10 +12,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         F1Data f1Data = new F1Data();
-        f1Data.setF1RaceData();
-        f1Data.setNextRace();
-        f1Data.setF1DriverStandingsData();
-        f1Data.setF1ConstructorStandingsData();
+        f1Data.update();
 
         File f = new File("token/t.token");
         Scanner s = new Scanner(f);

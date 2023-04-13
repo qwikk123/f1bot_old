@@ -99,6 +99,13 @@ public class F1Data {
         }
     }
 
+    public void update() {
+        setF1RaceData();
+        setNextRace();
+        setF1DriverStandingsData();
+        setF1ConstructorStandingsData();
+    }
+
     public boolean hasRace(int i) {
         return i>0&&i<raceList.size();
     }

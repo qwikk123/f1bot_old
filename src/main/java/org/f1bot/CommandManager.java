@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
 import java.awt.Color;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -16,14 +17,20 @@ import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
     F1Data f1Data;
+    LocalDateTime lastUpdate;
 
     public CommandManager(F1Data f1Data) {
         super();
         this.f1Data = f1Data;
+        lastUpdate = LocalDateTime.now();
     }
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+        if (lastUpdate.plusHours(2).isBefore(LocalDateTime.now())) {
+            f1Data.update();
+            System.out.println("UPDATING DATA");
+        }
         if (event.getName().equals("ping")) {
             long ping = event.getTimeCreated().until(OffsetDateTime.now(), ChronoUnit.MILLIS);
             event.reply("pong after: "+ping+" ms :)").queue();
