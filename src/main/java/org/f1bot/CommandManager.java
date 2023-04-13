@@ -30,6 +30,7 @@ public class CommandManager extends ListenerAdapter {
         if (lastUpdate.plusHours(2).isBefore(LocalDateTime.now())) {
             f1Data.update();
             System.out.println("UPDATING DATA");
+            lastUpdate = lastUpdate.plusHours(2);
         }
         if (event.getName().equals("ping")) {
             long ping = event.getTimeCreated().until(OffsetDateTime.now(), ChronoUnit.MILLIS);
