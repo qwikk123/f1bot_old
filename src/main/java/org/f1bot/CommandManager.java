@@ -91,7 +91,7 @@ public class CommandManager extends ListenerAdapter {
     public EmbedBuilder createConstructorStandingsEmbed(ArrayList<Constructor> constructorStandings) {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setThumbnail("https://i.imgur.com/7wyu3ng.png");
-        eb.setTitle("Driver Standings");
+        eb.setTitle("Constructor Standings");
         eb.setColor(Color.RED);
         for (Constructor d : constructorStandings) {
             eb.addField("#"+d.pos+" "+d.name, "\nPoints: "+d.points, true);
