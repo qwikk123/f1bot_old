@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
         F1Data f1Data = new F1Data();
         f1Data.update();
 
@@ -22,6 +22,10 @@ public class Main {
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
         bot.addEventListener(new CommandManager(f1Data));
+        bot.awaitReady();
+        System.out.println("TEST");
+        MessageScheduler messageScheduler = new MessageScheduler(bot,f1Data);
+        messageScheduler.schedule();
         s.close();
     }
 }

@@ -1,6 +1,5 @@
 package org.f1bot;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -9,7 +8,6 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.Color;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
@@ -41,17 +39,17 @@ public class CommandManager extends ListenerAdapter {
             int index = event.getOption("racenumber").getAsInt()-1;
             if (!f1Data.hasRace(index)) { event.reply("invalid racenumber: "+index+1).queue(); return; }
             Race race = f1Data.getRace(index);
-            event.replyEmbeds(createRaceEmbed(race).build()).queue();
+            event.replyEmbeds(EmbedCreator.createRace(race).build()).queue();
         }
         else if (event.getName().equals("nextrace")) {
             Race race = f1Data.getNextRace();
-            event.replyEmbeds(createRaceEmbed(race).build()).queue();
+            event.replyEmbeds(EmbedCreator.createRace(race).build()).queue();
         }
         else if (event.getName().equals("driverstandings")) {
-            event.replyEmbeds(createDriverStandingsEmbed(f1Data.getDriverStandings()).build()).queue();
+            event.replyEmbeds(EmbedCreator.createDriverStandings(f1Data.getDriverStandings()).build()).queue();
         }
         else if (event.getName().equals("constructorstandings")) {
-            event.replyEmbeds(createConstructorStandingsEmbed(f1Data.getConstructorStandings()).build()).queue();
+            event.replyEmbeds(EmbedCreator.createConstructorStandings(f1Data.getConstructorStandings()).build()).queue();
         }
     }
 
@@ -65,37 +63,5 @@ public class CommandManager extends ListenerAdapter {
         commandData.add(Commands.slash("constructorstandings", "Get info on constructor championship standings"));
 
         event.getGuild().updateCommands().addCommands(commandData).queue();
-    }
-
-    public EmbedBuilder createRaceEmbed(Race r) {
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setThumbnail("https://i.imgur.com/7wyu3ng.png");
-        eb.setTitle(r.name);
-        eb.setColor(Color.RED);
-        eb.addField("Circuit: ", r.circuitName,false);
-        eb.addField("Race: ", r.getRaceDateAsString(),true);
-        if(r.hasSprint()) { eb.addField("Sprint: ", r.getSprintDateAsString(),true); }
-        eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
-        return eb;
-    }
-    public EmbedBuilder createDriverStandingsEmbed(ArrayList<Driver> driverStandings) {
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setThumbnail("https://i.imgur.com/7wyu3ng.png");
-        eb.setTitle("Driver Standings");
-        eb.setColor(Color.RED);
-        for (Driver d : driverStandings) {
-            eb.addField("#"+d.pos+" "+d.name, d.constructorName+"\nPoints: "+d.points, true);
-        }
-        return eb;
-    }
-    public EmbedBuilder createConstructorStandingsEmbed(ArrayList<Constructor> constructorStandings) {
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setThumbnail("https://i.imgur.com/7wyu3ng.png");
-        eb.setTitle("Constructor Standings");
-        eb.setColor(Color.RED);
-        for (Constructor d : constructorStandings) {
-            eb.addField("#"+d.pos+" "+d.name, "\nPoints: "+d.points, true);
-        }
-        return eb;
     }
 }
