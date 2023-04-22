@@ -23,7 +23,6 @@ public class Main {
                 .build();
         bot.addEventListener(new CommandManager(f1Data));
         bot.awaitReady();
-        System.out.println("TEST");
         MessageScheduler messageScheduler = new MessageScheduler(bot,f1Data);
         messageScheduler.schedule();
         s.close();
