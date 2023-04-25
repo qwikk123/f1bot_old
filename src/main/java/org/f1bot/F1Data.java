@@ -7,10 +7,7 @@ import org.json.JSONTokener;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.ArrayList;
 
 public class F1Data {
@@ -111,8 +108,8 @@ public class F1Data {
     }
 
     public LocalDateTime getLocalDateTime (String date, String time) {
-        OffsetDateTime odt = Instant.parse(date+"T"+time).atOffset(ZoneOffset.ofHours(2)); //UTC+2
-        return odt.toLocalDateTime();
+        ZonedDateTime zdt = Instant.parse(date+"T"+time).atZone(ZoneId.systemDefault());
+        return zdt.toLocalDateTime();
     }
 
     public Race getRace(int i) {
