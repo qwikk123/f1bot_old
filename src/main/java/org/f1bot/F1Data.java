@@ -17,6 +17,7 @@ public class F1Data {
     private ArrayList<Driver> driverStandings;
     private ArrayList<Constructor> constructorStandings;
     private Race nextRace;
+
     public void setF1RaceData() {
         JSONObject json = getJson("https://ergast.com/api/f1/current.json");
         JSONArray jArray = json.getJSONObject("MRData")
@@ -110,15 +111,9 @@ public class F1Data {
     }
     public boolean hasRace(int i) { return i>=0&&i<raceList.size(); }
     public ArrayList<Race> getRaceList() { return raceList; }
-    public Race getRace(int i) {
-        return raceList.get(i);
-    }
-    public Race getNextRace() {
-        return nextRace;
-    }
-    public ArrayList<Driver> getDriverStandings() {
-        return driverStandings;
-    }
+    public Race getRace(int i) { return raceList.get(i); }
+    public Race getNextRace() { return nextRace; }
+    public ArrayList<Driver> getDriverStandings() { return driverStandings; }
     public ArrayList<Constructor> getConstructorStandings() { return constructorStandings; }
 
     public JSONObject getJson(String URL) {
