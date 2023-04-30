@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 
 public class RaceStartingMessage implements Runnable{
 
-    TextChannel channel;
-    LocalDateTime scheduledTime;
-    Race nextRace;
+    private final TextChannel channel;
+    private final LocalDateTime scheduledTime;
+    private final Race nextRace;
     public RaceStartingMessage (TextChannel channel, LocalDateTime scheduledTime, Race nextRace) {
         this.channel = channel;
         this.scheduledTime = scheduledTime;

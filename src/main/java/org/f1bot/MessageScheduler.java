@@ -10,10 +10,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MessageScheduler {
-    F1Data f1Data;
-    JDA bot;
-    ScheduledExecutorService executorService;
-    RaceStartingMessage nextRaceStarting;
+    private final F1Data f1Data;
+    private final JDA bot;
+    private final ScheduledExecutorService executorService;
+
     public MessageScheduler(JDA bot, F1Data f1Data) {
         executorService = Executors.newSingleThreadScheduledExecutor();
         this.bot = bot;
@@ -24,12 +24,12 @@ public class MessageScheduler {
         Race nextRace = f1Data.getNextRace();
         TextChannel channel = bot.getTextChannelById("1091044495023407174");
 
-        nextRaceStarting = new RaceStartingMessage(channel, LocalDateTime.now(), nextRace);
-        System.out.println("SCHEDULED FOR: "+nextRace.localDateTime.minusDays(2));
+        RaceStartingMessage nextRaceStarting = new RaceStartingMessage(channel, LocalDateTime.now(), nextRace);
+        System.out.println("SCHEDULED FOR: "+nextRace.getLocalDateTime().minusDays(2));
 
         executorService.schedule(
                 nextRaceStarting,
-                LocalDateTime.now().until(nextRace.localDateTime.minusDays(2), ChronoUnit.MINUTES),
+                LocalDateTime.now().until(nextRace.getLocalDateTime().minusDays(2), ChronoUnit.MINUTES),
                 TimeUnit.MINUTES);
     }
 }

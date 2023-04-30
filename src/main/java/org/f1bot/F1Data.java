@@ -11,10 +11,10 @@ import java.time.*;
 import java.util.ArrayList;
 
 public class F1Data {
-    ArrayList<Race> raceList;
-    ArrayList<Driver> driverStandings;
-    ArrayList<Constructor> constructorStandings;
-    Race nextRace;
+    private ArrayList<Race> raceList;
+    private ArrayList<Driver> driverStandings;
+    private ArrayList<Constructor> constructorStandings;
+    private Race nextRace;
     public void setF1RaceData() {
         JSONObject json = getJson("https://ergast.com/api/f1/current.json");
         JSONArray jArray = json.getJSONObject("MRData")
@@ -89,7 +89,7 @@ public class F1Data {
 
     public void setNextRace() {
         for (Race r : raceList) {
-            if (r.localDateTime.isAfter(LocalDateTime.now())) {
+            if (r.getLocalDateTime().isAfter(LocalDateTime.now())) {
                 nextRace = r;
                 return;
             }
@@ -103,23 +103,17 @@ public class F1Data {
         setF1ConstructorStandingsData();
     }
 
-    public boolean hasRace(int i) {
-        return i>=0&&i<raceList.size();
-    }
-
     public LocalDateTime getLocalDateTime (String date, String time) {
-        ZonedDateTime zdt = Instant.parse(date+"T"+time).atZone(ZoneId.systemDefault());
-        return zdt.toLocalDateTime();
+        return Instant.parse(date+"T"+time).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
-
+    public boolean hasRace(int i) { return i>=0&&i<raceList.size(); }
+    public ArrayList<Race> getRaceList() { return raceList; }
     public Race getRace(int i) {
         return raceList.get(i);
     }
-
     public Race getNextRace() {
         return nextRace;
     }
-
     public ArrayList<Driver> getDriverStandings() {
         return driverStandings;
     }

@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
-    F1Data f1Data;
-    LocalDateTime lastUpdate;
+    private final F1Data f1Data;
+    private LocalDateTime lastUpdate;
 
     public CommandManager(F1Data f1Data) {
         super();
@@ -32,7 +32,7 @@ public class CommandManager extends ListenerAdapter {
             System.out.println("UPDATING DATA");
             lastUpdate = LocalDateTime.now();
         }
-        //COMMAND /ping
+        // COMMAND /ping
         if (event.getName().equals("ping")) {
             long ping = event.getTimeCreated().until(OffsetDateTime.now(), ChronoUnit.MILLIS);
             event.reply("pong after: "+ping+" ms :)").queue();
@@ -40,23 +40,23 @@ public class CommandManager extends ListenerAdapter {
 
         // COMMAND /getrace [racenumber]
         else if (event.getName().equals("getrace")) {
-            int index = event.getOption("racenumber").getAsInt()-1;
+            int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
             Race race = f1Data.getRace(index);
             event.replyEmbeds(EmbedCreator.createRace(race).build()).queue();
         }
 
-        //COMMAND /nextrace
+        // COMMAND /nextrace
         else if (event.getName().equals("nextrace")) {
             Race race = f1Data.getNextRace();
             event.replyEmbeds(EmbedCreator.createRace(race).build()).queue();
         }
 
-        //COMMAND /driverstandings
+        // COMMAND /driverstandings
         else if (event.getName().equals("driverstandings")) {
             event.replyEmbeds(EmbedCreator.createDriverStandings(f1Data.getDriverStandings()).build()).queue();
         }
 
-        //COMMAND /constructorstandings
+        // COMMAND /constructorstandings
         else if (event.getName().equals("constructorstandings")) {
             event.replyEmbeds(EmbedCreator.createConstructorStandings(f1Data.getConstructorStandings()).build()).queue();
         }
@@ -77,22 +77,22 @@ public class CommandManager extends ListenerAdapter {
                 "racenumber",
                 "Race to get info from",
                 true,
-                true).setMinValue(1).setMaxValue(f1Data.raceList.size());
+                true).setMinValue(1).setMaxValue(f1Data.getRaceList().size());
         commandData.add(Commands.slash(
                 "getrace",
                 "nth race").addOptions(option1));
 
-        //COMMAND /nextrace
+        // COMMAND /nextrace
         commandData.add(Commands.slash(
                 "nextrace",
                 "Get the upcoming Grand Prix"));
 
-        //COMMAND /driverstandings
+        // COMMAND /driverstandings
         commandData.add(Commands.slash(
                 "driverstandings",
                 "Get info on driver championship standings"));
 
-        //COMMAND /constructorstandings
+        // COMMAND /constructorstandings
         commandData.add(Commands.slash(
                 "constructorstandings",
                 "Get info on constructor championship standings"));

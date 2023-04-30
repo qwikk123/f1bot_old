@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Race {
-    String name;
-    String circuitName;
-    LocalDateTime localDateTime;
-    LocalDateTime localDateTimeQualifying;
+    private final String name;
+    private final String circuitName;
+    private final LocalDateTime localDateTime;
 
-    LocalDateTime localDateTimeSprint;
+    private final LocalDateTime localDateTimeQualifying;
+    private LocalDateTime localDateTimeSprint;
 
     public Race(String name,String circuitName, LocalDateTime localDateTime, LocalDateTime localDateTimeQualifying) {
         this.name = name;
@@ -28,8 +28,11 @@ public class Race {
     public String getSprintDateAsString() {
         return localDateTimeSprint.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
     }
-    public void setSprint(LocalDateTime localDateTimeSprit) {
-        this.localDateTimeSprint = localDateTimeSprit;
+    public String getName() { return name; }
+    public String getCircuitName() { return circuitName; }
+    public LocalDateTime getLocalDateTime() { return localDateTime; }
+    public void setSprint(LocalDateTime localDateTimeSprint) {
+        this.localDateTimeSprint = localDateTimeSprint;
     }
     public boolean hasSprint() {
         return localDateTimeSprint != null;
