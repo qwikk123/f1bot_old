@@ -37,7 +37,7 @@ public class CommandManager extends ListenerAdapter {
         }
         else if (event.getName().equals("getrace")) {
             int index = event.getOption("racenumber").getAsInt()-1;
-            if (!f1Data.hasRace(index)) { event.reply("invalid racenumber: "+index+1).queue(); return; }
+            if (!f1Data.hasRace(index)) { event.reply("invalid racenumber: "+(index+1)).queue(); return; }
             Race race = f1Data.getRace(index);
             event.replyEmbeds(EmbedCreator.createRace(race).build()).queue();
         }

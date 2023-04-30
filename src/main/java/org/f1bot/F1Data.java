@@ -104,7 +104,7 @@ public class F1Data {
     }
 
     public boolean hasRace(int i) {
-        return i>0&&i<raceList.size();
+        return i>=0&&i<raceList.size();
     }
 
     public LocalDateTime getLocalDateTime (String date, String time) {
