@@ -32,22 +32,31 @@ public class CommandManager extends ListenerAdapter {
             System.out.println("UPDATING DATA");
             lastUpdate = LocalDateTime.now();
         }
+        //COMMAND /ping
         if (event.getName().equals("ping")) {
             long ping = event.getTimeCreated().until(OffsetDateTime.now(), ChronoUnit.MILLIS);
             event.reply("pong after: "+ping+" ms :)").queue();
         }
+
+        // COMMAND /getrace [racenumber]
         else if (event.getName().equals("getrace")) {
             int index = event.getOption("racenumber").getAsInt()-1;
             Race race = f1Data.getRace(index);
             event.replyEmbeds(EmbedCreator.createRace(race).build()).queue();
         }
+
+        //COMMAND /nextrace
         else if (event.getName().equals("nextrace")) {
             Race race = f1Data.getNextRace();
             event.replyEmbeds(EmbedCreator.createRace(race).build()).queue();
         }
+
+        //COMMAND /driverstandings
         else if (event.getName().equals("driverstandings")) {
             event.replyEmbeds(EmbedCreator.createDriverStandings(f1Data.getDriverStandings()).build()).queue();
         }
+
+        //COMMAND /constructorstandings
         else if (event.getName().equals("constructorstandings")) {
             event.replyEmbeds(EmbedCreator.createConstructorStandings(f1Data.getConstructorStandings()).build()).queue();
         }
@@ -56,21 +65,38 @@ public class CommandManager extends ListenerAdapter {
     @Override
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> commandData = new ArrayList<>();
-        commandData.add(Commands.slash("ping", "ping the bot :)"));
 
+        // COMMAND /ping
+        commandData.add(Commands.slash(
+                "ping",
+                "ping the bot :)"));
+
+        // COMMAND /getrace [racenumber]
         OptionData option1 = new OptionData(
                 OptionType.INTEGER,
                 "racenumber",
                 "Race to get info from",
                 true,
-                true)
-                .setMinValue(1)
-                .setMaxValue(f1Data.raceList.size());
+                true).setMinValue(1).setMaxValue(f1Data.raceList.size());
+        commandData.add(Commands.slash(
+                "getrace",
+                "nth race").addOptions(option1));
 
-        commandData.add(Commands.slash("getrace", "nth race").addOptions(option1));
-        commandData.add(Commands.slash("nextrace", "Get the upcoming Grand Prix"));
-        commandData.add(Commands.slash("driverstandings", "Get info on driver championship standings"));
-        commandData.add(Commands.slash("constructorstandings", "Get info on constructor championship standings"));
+        //COMMAND /nextrace
+        commandData.add(Commands.slash(
+                "nextrace",
+                "Get the upcoming Grand Prix"));
+
+        //COMMAND /driverstandings
+        commandData.add(Commands.slash(
+                "driverstandings",
+                "Get info on driver championship standings"));
+
+        //COMMAND /constructorstandings
+        commandData.add(Commands.slash(
+                "constructorstandings",
+                "Get info on constructor championship standings"));
+
 
         event.getGuild().updateCommands().addCommands(commandData).queue();
     }
