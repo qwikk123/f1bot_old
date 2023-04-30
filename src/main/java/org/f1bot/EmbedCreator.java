@@ -27,7 +27,7 @@ public class EmbedCreator {
         eb.setTitle("Driver Standings");
         eb.setColor(color);
         for (Driver d : driverStandings) {
-            eb.addField("#"+d.pos+" "+d.name, d.constructorName+"\nPoints: "+d.points, true);
+            eb.addField("#"+d.pos()+" "+d.name(), d.constructorName()+"\nPoints: "+d.points(), true);
         }
         return eb;
     }
@@ -38,7 +38,7 @@ public class EmbedCreator {
         eb.setTitle("Constructor Standings");
         eb.setColor(color);
         for (Constructor d : constructorStandings) {
-            eb.addField("#"+d.pos+" "+d.name, "\nPoints: "+d.points, true);
+            eb.addField("#"+d.pos()+" "+d.name(), "\nPoints: "+d.points(), true);
         }
         return eb;
     }
