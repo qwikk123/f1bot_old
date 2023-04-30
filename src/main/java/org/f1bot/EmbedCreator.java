@@ -2,7 +2,7 @@ package org.f1bot;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class EmbedCreator {
