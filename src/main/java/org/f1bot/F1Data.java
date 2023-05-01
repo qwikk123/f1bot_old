@@ -1,5 +1,6 @@
 package org.f1bot;
 
+import net.dv8tion.jda.api.JDA;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -17,6 +18,20 @@ public class F1Data {
     private ArrayList<Driver> driverStandings;
     private ArrayList<Constructor> constructorStandings;
     private Race nextRace;
+    private final MessageScheduler messageScheduler;
+
+    public F1Data(JDA bot) {
+        messageScheduler = new MessageScheduler(bot, this);
+        update();
+        messageScheduler.schedule();
+    }
+
+    public void update() {
+        setF1RaceData();
+        setNextRace();
+        setF1DriverStandingsData();
+        setF1ConstructorStandingsData();
+    }
 
     public void setF1RaceData() {
         JSONObject json = getJson("https://ergast.com/api/f1/current.json");
@@ -52,7 +67,9 @@ public class F1Data {
                 .getJSONObject("StandingsTable")
                 .getJSONArray("StandingsLists")
                 .getJSONObject(0).getJSONArray("DriverStandings");
+
         driverStandings = new ArrayList<>();
+
         for (int i = 0; i < jArray.length(); i++) {
             JSONObject jDriver = jArray.getJSONObject(i);
             JSONObject jDriverInfo = jDriver.getJSONObject("Driver");
@@ -75,7 +92,9 @@ public class F1Data {
                 .getJSONObject("StandingsTable")
                 .getJSONArray("StandingsLists")
                 .getJSONObject(0).getJSONArray("ConstructorStandings");
+
         constructorStandings = new ArrayList<>();
+
         for (int i = 0; i < jArray.length(); i++) {
             JSONObject jConstructor = jArray.getJSONObject(i);
             JSONObject jConstructorInfo = jConstructor.getJSONObject("Constructor");
@@ -94,16 +113,13 @@ public class F1Data {
         for (Race r : raceList) {
             if (r.getLocalDateTime().isAfter(LocalDateTime.now())) {
                 nextRace = r;
+                if (messageScheduler.hasUpcomingRaceFuture()) {
+                    messageScheduler.cancel();
+                    messageScheduler.schedule();
+                }
                 return;
             }
         }
-    }
-
-    public void update() {
-        setF1RaceData();
-        setNextRace();
-        setF1DriverStandingsData();
-        setF1ConstructorStandingsData();
     }
 
     public LocalDateTime getLocalDateTime (String date, String time) {

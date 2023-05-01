@@ -4,12 +4,12 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.time.LocalDateTime;
 
-public class RaceStartingMessage implements Runnable{
+public class UpcomingRaceMessage implements Runnable{
 
     private final TextChannel channel;
     private final LocalDateTime scheduledTime;
     private final Race nextRace;
-    public RaceStartingMessage (TextChannel channel, LocalDateTime scheduledTime, Race nextRace) {
+    public UpcomingRaceMessage(TextChannel channel, LocalDateTime scheduledTime, Race nextRace) {
         this.channel = channel;
         this.scheduledTime = scheduledTime;
         this.nextRace = nextRace;

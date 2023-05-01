@@ -11,9 +11,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-        F1Data f1Data = new F1Data();
-        f1Data.update();
-
         File f = new File("token/t.token");
         Scanner s = new Scanner(f);
 
@@ -21,10 +18,10 @@ public class Main {
                 .setActivity(Activity.listening("F1 theme song"))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
-        bot.addEventListener(new CommandManager(f1Data));
+
+        bot.addEventListener(new CommandManager(new F1Data(bot)));
         bot.awaitReady();
-        MessageScheduler messageScheduler = new MessageScheduler(bot,f1Data);
-        messageScheduler.schedule();
+
         s.close();
     }
 }
