@@ -113,7 +113,7 @@ public class F1Data {
         for (Race r : raceList) {
             if (r.getLocalDateTime().isAfter(LocalDateTime.now())) {
                 nextRace = r;
-                if (messageScheduler.hasUpcomingRaceFuture()) {
+                if (messageScheduler.hasUpcomingRaceFuture() && r.getLocalDateTime().minusDays(2).isAfter(LocalDateTime.now())) {
                     messageScheduler.cancel();
                     messageScheduler.schedule();
                 }
