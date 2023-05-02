@@ -44,6 +44,7 @@ public class F1Data {
         for (int i = 0; i < jArray.length(); i++) {
             JSONObject jRace = jArray.getJSONObject(i);
             LocalDateTime ldt = getLocalDateTime(jRace.getString("date"), jRace.getString("time"));
+            int round = jRace.getInt("round");
 
             JSONObject jQualifying = jRace.getJSONObject("Qualifying");
             LocalDateTime ldtq = getLocalDateTime(jQualifying.getString("date"), jQualifying.getString("time"));
@@ -52,7 +53,7 @@ public class F1Data {
             String circuitName = circuit.getString("circuitName");
 
             String name = jRace.getString("raceName");
-            Race r = new Race(name, circuitName, ldt, ldtq);
+            Race r = new Race(name, circuitName, ldt, ldtq, round);
             if (jRace.has("Sprint")) {
                 JSONObject jSprint = jRace.getJSONObject("Sprint");
                 r.setSprint(getLocalDateTime(jSprint.getString("date"), jSprint.getString("time")));

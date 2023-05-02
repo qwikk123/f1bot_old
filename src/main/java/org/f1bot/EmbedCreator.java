@@ -45,7 +45,7 @@ public class EmbedCreator {
     public static EmbedBuilder createRace(Race r, String extraTitle) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
-        eb.setTitle(extraTitle+r.getName());
+        eb.setTitle(extraTitle+"#"+r.getRound()+" "+r.getName());
         eb.addField("Circuit: ", r.getCircuitName(),false);
         eb.addField("Race: ", r.getRaceDateAsString(),true);
         if(r.hasSprint()) { eb.addField("Sprint: ", r.getSprintDateAsString(),true); }
