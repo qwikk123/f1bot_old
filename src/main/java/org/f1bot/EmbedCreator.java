@@ -1,6 +1,9 @@
 package org.f1bot;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import org.f1bot.f1data.Constructor;
+import org.f1bot.f1data.Driver;
+import org.f1bot.f1data.Race;
 
 import java.awt.Color;
 import java.util.ArrayList;

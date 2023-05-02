@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import org.f1bot.f1data.F1Data;
+import org.f1bot.f1data.Race;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;

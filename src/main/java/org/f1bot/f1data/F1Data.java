@@ -1,6 +1,7 @@
-package org.f1bot;
+package org.f1bot.f1data;
 
 import net.dv8tion.jda.api.JDA;
+import org.f1bot.scheduling.MessageScheduler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;

@@ -1,7 +1,9 @@
-package org.f1bot;
+package org.f1bot.scheduling;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import org.f1bot.f1data.F1Data;
+import org.f1bot.f1data.Race;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
