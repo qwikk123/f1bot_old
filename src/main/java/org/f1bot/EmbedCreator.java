@@ -10,22 +10,22 @@ public class EmbedCreator {
     private static final String thumbnailURL = "https://i.imgur.com/7wyu3ng.png";
 
     public static EmbedBuilder createRace(Race r) {
-        EmbedBuilder eb = new EmbedBuilder();
+        return createRace(r,"");
+    }
+
+    public static EmbedBuilder createUpcoming(Race r) {
+        return createRace(r,"This weekend: ");
+    }
+
+    public static void setTheme(EmbedBuilder eb) {
         eb.setThumbnail(thumbnailURL);
-        eb.setTitle(r.getName());
         eb.setColor(color);
-        eb.addField("Circuit: ", r.getCircuitName(),false);
-        eb.addField("Race: ", r.getRaceDateAsString(),true);
-        if(r.hasSprint()) { eb.addField("Sprint: ", r.getSprintDateAsString(),true); }
-        eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
-        return eb;
     }
 
     public static EmbedBuilder createDriverStandings(ArrayList<Driver> driverStandings) {
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setThumbnail(thumbnailURL);
+        setTheme(eb);
         eb.setTitle("Driver Standings");
-        eb.setColor(color);
         for (Driver d : driverStandings) {
             eb.addField("#"+d.pos()+" "+d.name(), d.constructorName()+"\nPoints: "+d.points(), true);
         }
@@ -34,20 +34,18 @@ public class EmbedCreator {
 
     public static EmbedBuilder createConstructorStandings(ArrayList<Constructor> constructorStandings) {
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setThumbnail(thumbnailURL);
+        setTheme(eb);
         eb.setTitle("Constructor Standings");
-        eb.setColor(color);
         for (Constructor d : constructorStandings) {
             eb.addField("#"+d.pos()+" "+d.name(), "\nPoints: "+d.points(), true);
         }
         return eb;
     }
 
-    public static EmbedBuilder createUpcoming(Race r) {
+    public static EmbedBuilder createRace(Race r, String extraTitle) {
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setThumbnail(thumbnailURL);
-        eb.setTitle("This weekend: "+r.getName());
-        eb.setColor(color);
+        setTheme(eb);
+        eb.setTitle(extraTitle+r.getName());
         eb.addField("Circuit: ", r.getCircuitName(),false);
         eb.addField("Race: ", r.getRaceDateAsString(),true);
         if(r.hasSprint()) { eb.addField("Sprint: ", r.getSprintDateAsString(),true); }
