@@ -49,10 +49,11 @@ public class EmbedCreator {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle(extraTitle+"#"+r.getRound()+" "+r.getName());
-        eb.addField("Circuit: ", r.getCircuitName(),false);
         eb.addField("Race: ", r.getRaceDateAsString(),true);
         if(r.hasSprint()) { eb.addField("Sprint: ", r.getSprintDateAsString(),true); }
         eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
+        eb.addField("Circuit: ", r.getCircuitName(),false);
+        eb.setImage("attachment://"+r.getCircuitName().replaceAll(" ","")+".png");
         return eb;
     }
 }

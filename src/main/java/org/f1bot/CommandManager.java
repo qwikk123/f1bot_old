@@ -7,10 +7,12 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.utils.FileUpload;
 import org.f1bot.f1data.F1Data;
 import org.f1bot.f1data.Race;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
@@ -44,13 +46,23 @@ public class CommandManager extends ListenerAdapter {
         else if (event.getName().equals("getrace")) {
             int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
             Race race = f1Data.getRace(index);
-            event.replyEmbeds(EmbedCreator.createRace(race).build()).queue();
+            String fileName = race.getCircuitName().replaceAll(" ","")+".png";
+            String path = "assets/circuitimages/"+fileName;
+            File f = new File(path);
+            System.out.println(path);
+            System.out.println(fileName);
+            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f,fileName)).queue();
         }
 
         // COMMAND /nextrace
         else if (event.getName().equals("nextrace")) {
             Race race = f1Data.getNextRace();
-            event.replyEmbeds(EmbedCreator.createRace(race).build()).queue();
+            String fileName = race.getCircuitName().replaceAll(" ","")+".png";
+            String path = "assets/circuitimages/"+fileName;
+            File f = new File(path);
+            System.out.println(path);
+            System.out.println(fileName);
+            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f,fileName)).queue();
         }
 
         // COMMAND /driverstandings
