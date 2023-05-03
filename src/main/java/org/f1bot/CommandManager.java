@@ -46,23 +46,15 @@ public class CommandManager extends ListenerAdapter {
         else if (event.getName().equals("getrace")) {
             int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
             Race race = f1Data.getRace(index);
-            String fileName = race.getCircuitName().replaceAll(" ","")+".png";
-            String path = "assets/circuitimages/"+fileName;
-            File f = new File(path);
-            System.out.println(path);
-            System.out.println(fileName);
-            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f,fileName)).queue();
+            File f = new File(race.getImagePath());
+            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, race.getImagePath())).queue();
         }
 
         // COMMAND /nextrace
         else if (event.getName().equals("nextrace")) {
             Race race = f1Data.getNextRace();
-            String fileName = race.getCircuitName().replaceAll(" ","")+".png";
-            String path = "assets/circuitimages/"+fileName;
-            File f = new File(path);
-            System.out.println(path);
-            System.out.println(fileName);
-            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f,fileName)).queue();
+            File f = new File(race.getImagePath());
+            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, race.getImagePath())).queue();
         }
 
         // COMMAND /driverstandings

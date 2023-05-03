@@ -53,7 +53,7 @@ public class EmbedCreator {
         if(r.hasSprint()) { eb.addField("Sprint: ", r.getSprintDateAsString(),true); }
         eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
         eb.addField("Circuit: ", r.getCircuitName(),false);
-        eb.setImage("attachment://"+r.getCircuitName().replaceAll(" ","")+".png");
+        eb.setImage("attachment://"+r.getImagePath());
         return eb;
     }
 }
