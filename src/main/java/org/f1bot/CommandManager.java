@@ -47,14 +47,14 @@ public class CommandManager extends ListenerAdapter {
             int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
             Race race = f1Data.getRace(index);
             File f = new File(race.getImagePath());
-            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, race.getImagePath())).queue();
+            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, race.getImageName())).queue();
         }
 
         // COMMAND /nextrace
         else if (event.getName().equals("nextrace")) {
             Race race = f1Data.getNextRace();
             File f = new File(race.getImagePath());
-            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, race.getImagePath())).queue();
+            event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, race.getImageName())).queue();
         }
 
         // COMMAND /driverstandings

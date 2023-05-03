@@ -42,4 +42,7 @@ public class Race {
     public String getImagePath() {
         return "assets/circuitimages/"+circuitName.replaceAll(" ","")+".png";
     }
+    public String getImageName() {
+        return circuitName.replaceAll(" ","")+".png";
+    }
 }
