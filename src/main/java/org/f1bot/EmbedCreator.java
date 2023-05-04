@@ -14,8 +14,8 @@ import java.util.Locale;
 public class EmbedCreator {
     private static final Color color = Color.RED;
     private static final String thumbnailURL = "https://i.imgur.com/7wyu3ng.png";
-    private static final DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-    private static final DecimalFormat df = new DecimalFormat("#.#", symbols);
+    private static final DecimalFormat df = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.US));
+
     public static EmbedBuilder createRace(Race r) {
         return createRace(r,"");
     }
