@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CommandManager {
-    private HashMap<String, BotCommand> commandMap = new HashMap<>();
+    private final HashMap<String, BotCommand> commandMap = new HashMap<>();
     public CommandManager(F1Data f1Data) {
         BotCommand ping = new Ping(
                 "ping",

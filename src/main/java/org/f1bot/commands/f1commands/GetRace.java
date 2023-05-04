@@ -10,7 +10,6 @@ import org.f1bot.f1data.F1Data;
 import org.f1bot.f1data.Race;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.text.html.Option;
 import java.io.File;
 import java.util.ArrayList;
 
