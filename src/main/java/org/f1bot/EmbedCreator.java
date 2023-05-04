@@ -6,16 +6,19 @@ import org.f1bot.f1data.Driver;
 import org.f1bot.f1data.Race;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class EmbedCreator {
     private static final Color color = Color.RED;
     private static final String thumbnailURL = "https://i.imgur.com/7wyu3ng.png";
-
+    private static final DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+    private static final DecimalFormat df = new DecimalFormat("#.#", symbols);
     public static EmbedBuilder createRace(Race r) {
         return createRace(r,"");
     }
-
     public static EmbedBuilder createUpcoming(Race r) {
         return createRace(r,"This weekend: ");
     }
@@ -29,8 +32,8 @@ public class EmbedCreator {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("Driver Standings");
-        for (Driver d : driverStandings) {
-            eb.addField("#"+d.pos()+" "+d.name(), d.constructorName()+"\nPoints: "+d.points(), true);
+        for (Driver driver : driverStandings) {
+            eb.addField("#"+driver.pos()+" "+driver.name(), driver.constructorName()+"\nPoints: "+df.format(driver.points()), true);
         }
         return eb;
     }
@@ -39,8 +42,8 @@ public class EmbedCreator {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("Constructor Standings");
-        for (Constructor d : constructorStandings) {
-            eb.addField("#"+d.pos()+" "+d.name(), "\nPoints: "+d.points(), true);
+        for (Constructor constructor : constructorStandings) {
+            eb.addField("#"+constructor.pos()+" "+constructor.name(), "\nPoints: "+df.format(constructor.points()), true);
         }
         return eb;
     }
