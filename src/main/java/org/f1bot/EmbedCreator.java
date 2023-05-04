@@ -45,7 +45,7 @@ public class EmbedCreator {
         return eb;
     }
 
-    public static EmbedBuilder createRace(Race r, String extraTitle) {
+    private static EmbedBuilder createRace(Race r, String extraTitle) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle(extraTitle+"#"+r.getRound()+" "+r.getName());
