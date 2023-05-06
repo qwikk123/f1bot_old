@@ -1,9 +1,11 @@
 package org.f1bot.scheduling;
 
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.utils.FileUpload;
 import org.f1bot.EmbedCreator;
 import org.f1bot.f1data.Race;
 
+import java.io.File;
 import java.time.LocalDateTime;
 
 public class UpcomingRaceMessage implements Runnable{
@@ -19,6 +21,7 @@ public class UpcomingRaceMessage implements Runnable{
     @Override
     public void run() {
         System.out.println("Scheduled at: "+scheduledTime+" Running at: "+LocalDateTime.now());
-        channel.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build()).queue();
+        File file = new File(nextRace.getImagePath());
+        channel.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build()).addFiles(FileUpload.fromData(file, nextRace.getImageName())).queue();
     }
 }
