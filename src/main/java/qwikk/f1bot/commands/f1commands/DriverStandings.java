@@ -18,8 +18,8 @@ public class DriverStandings extends BotCommand {
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event, F1Data f1Data) {
         ArrayList<Button> buttonList = new ArrayList<>();
-        buttonList.add(Button.danger("prev-button", "Previous").asDisabled());
-        buttonList.add(Button.danger("next-button", "Next"));
+        buttonList.add(Button.danger("prev-dstandings", "Previous").asDisabled());
+        buttonList.add(Button.danger("next-dstandings", "Next"));
         event.replyEmbeds(
                 EmbedCreator.createDriverStandings(f1Data.getDriverStandings(),0).build())
                 .setActionRow(buttonList)

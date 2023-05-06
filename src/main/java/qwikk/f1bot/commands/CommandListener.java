@@ -67,29 +67,27 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
-        if (event.getButton().getId().equals("next-button")) {
+        String buttonId = event.getButton().getId();
+        String buttonType = buttonId.split("-")[1];
+        if (buttonType.equals("dstandings")) {
             int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
-            List<Button> buttonList = event.getMessage().getButtons();
-            buttonList = buttonList.stream().map(x -> x.asEnabled()).collect(Collectors.toList());
-            page++;
-            if ((page*10)+10 >= f1Data.getDriverStandings().size()){
-                buttonList.set(1, buttonList.get(1).asDisabled());
+            List<Button> buttonList = event.getMessage().getButtons().stream()
+                    .map(Button::asEnabled)
+                    .collect(Collectors.toList());
+
+            if (buttonId.equals("next-button")) {
+                page++;
+                if ((page * 10) + 10 >= f1Data.getDriverStandings().size()) {
+                    buttonList.set(1, buttonList.get(1).asDisabled());
+                }
+            } else if (buttonId.equals("prev-button")) {
+                page--;
+                if (page == 0) {
+                    buttonList.set(0, buttonList.get(0).asDisabled());
+                }
             }
             event.editMessageEmbeds(
-                            EmbedCreator.createDriverStandings(f1Data.getDriverStandings(),page).build())
-                    .setActionRow(buttonList)
-                    .queue();
-        }
-        else if (event.getButton().getId().equals("prev-button")) {
-            int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
-            List<Button> buttonList = event.getMessage().getButtons();
-            buttonList = buttonList.stream().map(x -> x.asEnabled()).collect(Collectors.toList());
-            page--;
-            if (page == 0){
-                buttonList.set(0, buttonList.get(0).asDisabled());
-            }
-            event.editMessageEmbeds(
-                            EmbedCreator.createDriverStandings(f1Data.getDriverStandings(),page).build())
+                            EmbedCreator.createDriverStandings(f1Data.getDriverStandings(), page).build())
                     .setActionRow(buttonList)
                     .queue();
         }
