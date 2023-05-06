@@ -68,7 +68,7 @@ public class CommandListener extends ListenerAdapter {
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
         if (event.getButton().getId().equals("next-button")) {
-            Integer page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
+            int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
             List<Button> buttonList = event.getMessage().getButtons();
             buttonList = buttonList.stream().map(x -> x.asEnabled()).collect(Collectors.toList());
             page++;
@@ -81,7 +81,7 @@ public class CommandListener extends ListenerAdapter {
                     .queue();
         }
         else if (event.getButton().getId().equals("prev-button")) {
-            Integer page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
+            int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
             List<Button> buttonList = event.getMessage().getButtons();
             buttonList = buttonList.stream().map(x -> x.asEnabled()).collect(Collectors.toList());
             page--;

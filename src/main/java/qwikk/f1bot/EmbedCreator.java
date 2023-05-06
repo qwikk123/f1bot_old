@@ -37,7 +37,7 @@ public class EmbedCreator {
         for (Driver driver : driverStandings.subList(start,start+10)) {
             eb.addField("#"+driver.pos()+" "+driver.name(), driver.constructorName()+"\nPoints: "+df.format(driver.points()), true);
         }
-        eb.setFooter(page+"");
+        eb.setFooter(Integer.toString(page));
         return eb;
     }
 
