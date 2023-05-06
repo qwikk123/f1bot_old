@@ -1,8 +1,8 @@
-package org.f1bot.commands;
+package qwikk.f1bot.commands;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.f1bot.f1data.F1Data;
+import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

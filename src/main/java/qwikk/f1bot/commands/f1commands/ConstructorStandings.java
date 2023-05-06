@@ -1,9 +1,9 @@
-package org.f1bot.commands.f1commands;
+package qwikk.f1bot.commands.f1commands;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import org.f1bot.EmbedCreator;
-import org.f1bot.commands.BotCommand;
-import org.f1bot.f1data.F1Data;
+import qwikk.f1bot.EmbedCreator;
+import qwikk.f1bot.commands.BotCommand;
+import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
 public class ConstructorStandings extends BotCommand {

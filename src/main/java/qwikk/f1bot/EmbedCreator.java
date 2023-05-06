@@ -1,9 +1,9 @@
-package org.f1bot;
+package qwikk.f1bot;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import org.f1bot.f1data.Constructor;
-import org.f1bot.f1data.Driver;
-import org.f1bot.f1data.Race;
+import qwikk.f1bot.f1data.Constructor;
+import qwikk.f1bot.f1data.Driver;
+import qwikk.f1bot.f1data.Race;
 
 import java.awt.Color;
 import java.text.DecimalFormat;

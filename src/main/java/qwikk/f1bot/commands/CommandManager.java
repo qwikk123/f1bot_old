@@ -1,10 +1,10 @@
-package org.f1bot.commands;
+package qwikk.f1bot.commands;
 
-import org.f1bot.commands.f1commands.ConstructorStandings;
-import org.f1bot.commands.f1commands.DriverStandings;
-import org.f1bot.commands.f1commands.GetRace;
-import org.f1bot.commands.f1commands.NextRace;
-import org.f1bot.f1data.F1Data;
+import qwikk.f1bot.commands.f1commands.ConstructorStandings;
+import qwikk.f1bot.commands.f1commands.DriverStandings;
+import qwikk.f1bot.commands.f1commands.GetRace;
+import qwikk.f1bot.commands.f1commands.NextRace;
+import qwikk.f1bot.f1data.F1Data;
 
 import java.util.HashMap;
 import java.util.List;

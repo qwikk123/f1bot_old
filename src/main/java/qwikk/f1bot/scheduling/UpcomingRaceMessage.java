@@ -1,9 +1,9 @@
-package org.f1bot.scheduling;
+package qwikk.f1bot.scheduling;
 
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.utils.FileUpload;
-import org.f1bot.EmbedCreator;
-import org.f1bot.f1data.Race;
+import qwikk.f1bot.EmbedCreator;
+import qwikk.f1bot.f1data.Race;
 
 import java.io.File;
 import java.time.LocalDateTime;

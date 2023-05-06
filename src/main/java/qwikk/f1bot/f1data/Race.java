@@ -1,4 +1,4 @@
-package org.f1bot.f1data;
+package qwikk.f1bot.f1data;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

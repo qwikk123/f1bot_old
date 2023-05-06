@@ -1,11 +1,11 @@
-package org.f1bot;
+package qwikk.f1bot;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import org.f1bot.commands.CommandListener;
-import org.f1bot.f1data.F1Data;
+import qwikk.f1bot.commands.CommandListener;
+import qwikk.f1bot.f1data.F1Data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
