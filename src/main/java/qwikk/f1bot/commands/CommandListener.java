@@ -3,16 +3,20 @@ package qwikk.f1bot.commands;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import qwikk.f1bot.EmbedCreator;
 import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommandListener extends ListenerAdapter {
     private final F1Data f1Data;
@@ -58,6 +62,36 @@ public class CommandListener extends ListenerAdapter {
         }
         for (CommandData cd : commandData) {
             event.getGuild().upsertCommand(cd).queue();
+        }
+    }
+
+    @Override
+    public void onButtonInteraction(ButtonInteractionEvent event) {
+        if (event.getButton().getId().equals("next-button")) {
+            Integer page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
+            List<Button> buttonList = event.getMessage().getButtons();
+            buttonList = buttonList.stream().map(x -> x.asEnabled()).collect(Collectors.toList());
+            page++;
+            if ((page*10)+10 >= f1Data.getDriverStandings().size()){
+                buttonList.set(1, buttonList.get(1).asDisabled());
+            }
+            event.editMessageEmbeds(
+                            EmbedCreator.createDriverStandings(f1Data.getDriverStandings(),page).build())
+                    .setActionRow(buttonList)
+                    .queue();
+        }
+        else if (event.getButton().getId().equals("prev-button")) {
+            Integer page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
+            List<Button> buttonList = event.getMessage().getButtons();
+            buttonList = buttonList.stream().map(x -> x.asEnabled()).collect(Collectors.toList());
+            page--;
+            if (page == 0){
+                buttonList.set(0, buttonList.get(0).asDisabled());
+            }
+            event.editMessageEmbeds(
+                            EmbedCreator.createDriverStandings(f1Data.getDriverStandings(),page).build())
+                    .setActionRow(buttonList)
+                    .queue();
         }
     }
 }

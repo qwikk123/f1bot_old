@@ -28,13 +28,16 @@ public class EmbedCreator {
         eb.setColor(color);
     }
 
-    public static EmbedBuilder createDriverStandings(ArrayList<Driver> driverStandings) {
+    public static EmbedBuilder createDriverStandings(ArrayList<Driver> driverStandings, int page) {
+        int pageSize = 10;
+        int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("Driver Standings");
-        for (Driver driver : driverStandings) {
+        for (Driver driver : driverStandings.subList(start,start+10)) {
             eb.addField("#"+driver.pos()+" "+driver.name(), driver.constructorName()+"\nPoints: "+df.format(driver.points()), true);
         }
+        eb.setFooter(page+"");
         return eb;
     }
 
