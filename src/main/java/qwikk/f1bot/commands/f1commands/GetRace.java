@@ -11,6 +11,9 @@ import qwikk.f1bot.f1data.Race;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class GetRace extends BotCommand {
@@ -30,8 +33,9 @@ public class GetRace extends BotCommand {
     public void execute(@NotNull SlashCommandInteractionEvent event, F1Data  f1Data) {
         int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
         Race race = f1Data.getRace(index);
-        String img = getClass().getResource("/circuitimages/"+ race.getImageName()).getPath();
-        File f = new File(img);
+        URL img = getClass().getResource("/circuitimages/"+ race.getImageName());
+        String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
+        File f = new File(imgPath);
         event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, "circuitImage.png")).queue();
     }
 }
