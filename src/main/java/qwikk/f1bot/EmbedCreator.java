@@ -56,7 +56,7 @@ public class EmbedCreator {
         setTheme(eb);
         eb.setTitle(extraTitle+"#"+r.getRound()+" "+r.getName());
         eb.addField("Race: ", r.getRaceDateAsString(),true);
-        if(r.hasSprint()) { eb.addField("Sprint: ", r.getSprintDateAsString(),true); }
+        if(r.hasSprint()) eb.addField("Sprint: ", r.getSprintDateAsString(),true);
         eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
         eb.addField("Circuit: ", r.getCircuitName(),false);
         eb.setImage("attachment://"+"circuitImage.png");

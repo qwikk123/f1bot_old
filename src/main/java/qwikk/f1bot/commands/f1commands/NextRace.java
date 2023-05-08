@@ -20,6 +20,6 @@ public class NextRace extends BotCommand {
     public void execute(@NotNull SlashCommandInteractionEvent event, F1Data f1Data) {
         Race race = f1Data.getNextRace();
         File f = new File(race.getImagePath());
-        event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, race.getImageName())).queue();
+        event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, "circuitImage.png")).queue();
     }
 }
