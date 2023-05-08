@@ -30,7 +30,8 @@ public class GetRace extends BotCommand {
     public void execute(@NotNull SlashCommandInteractionEvent event, F1Data  f1Data) {
         int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
         Race race = f1Data.getRace(index);
-        File f = new File(race.getImagePath());
+        String img = getClass().getResource("/circuitimages/"+ race.getImageName()).getPath();
+        File f = new File(img);
         event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, "circuitImage.png")).queue();
     }
 }
