@@ -1,8 +1,6 @@
 package qwikk.f1bot.scheduling;
 
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import qwikk.f1bot.f1data.F1Data;
 import qwikk.f1bot.f1data.Race;
 
 import java.time.LocalDateTime;
@@ -13,21 +11,16 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class MessageScheduler {
-    private final F1Data f1Data;
-    private final JDA bot;
+    private final TextChannel channel;
     private final ScheduledExecutorService executorService;
     private ScheduledFuture<?> upcomingRaceFuture;
 
-    public MessageScheduler(JDA bot, F1Data f1Data) {
+    public MessageScheduler(TextChannel channel) {
         executorService = Executors.newSingleThreadScheduledExecutor();
-        this.bot = bot;
-        this.f1Data = f1Data;
+        this.channel = channel;
     }
 
-    public void schedule() {
-        Race nextRace = f1Data.getNextRace();
-        TextChannel channel = bot.getTextChannelById("831261818101694524");
-
+    public void schedule(Race nextRace) {
         UpcomingRaceMessage nextRaceStarting = new UpcomingRaceMessage(channel, LocalDateTime.now(), nextRace);
         System.out.println("SCHEDULED FOR: "+nextRace.getLocalDateTime().minusDays(2));
 
@@ -37,8 +30,6 @@ public class MessageScheduler {
                 TimeUnit.MINUTES);
     }
     public void cancel() {
-        upcomingRaceFuture.cancel(true);
+        if (upcomingRaceFuture != null) upcomingRaceFuture.cancel(true);
     }
-
-    public boolean hasUpcomingRaceFuture() { return upcomingRaceFuture != null; }
 }

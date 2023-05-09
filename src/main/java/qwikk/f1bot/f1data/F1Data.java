@@ -22,9 +22,9 @@ public class F1Data {
     private final MessageScheduler messageScheduler;
 
     public F1Data(JDA bot) {
-        messageScheduler = new MessageScheduler(bot, this);
+        messageScheduler = new MessageScheduler(bot.getTextChannelById("831261818101694524"));
         update();
-        refreshScheduler(nextRace);
+        refreshScheduler();
     }
 
     public void update() {
@@ -115,23 +115,22 @@ public class F1Data {
         for (Race r : raceList) {
             if (r.getLocalDateTime().isAfter(LocalDateTime.now())) {
                 nextRace = r;
-                refreshScheduler(r);
+                refreshScheduler();
                 return;
             }
         }
     }
 
-    public void refreshScheduler(Race r) {
-        if (messageScheduler.hasUpcomingRaceFuture() && r.getLocalDateTime().minusDays(2).isAfter(LocalDateTime.now())) {
+    public void refreshScheduler() {
+        if (nextRace.getLocalDateTime().minusDays(2).isAfter(LocalDateTime.now())) {
             messageScheduler.cancel();
-            messageScheduler.schedule();
+            messageScheduler.schedule(nextRace);
         }
     }
 
     public LocalDateTime getLocalDateTime (String date, String time) {
         return Instant.parse(date+"T"+time).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
-    public boolean hasRace(int i) { return i>=0&&i<raceList.size(); }
     public ArrayList<Race> getRaceList() { return raceList; }
     public Race getRace(int i) { return raceList.get(i); }
     public Race getNextRace() { return nextRace; }
