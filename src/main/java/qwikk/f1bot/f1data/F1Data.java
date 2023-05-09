@@ -143,11 +143,7 @@ public class F1Data {
             conn.setRequestMethod("GET");
             conn.connect();
 
-            int responsecode = conn.getResponseCode();
-            if (responsecode != 200) throw new RuntimeException("HttpResponseCode: " + responsecode);
-            else {
-                return new JSONObject(new JSONTokener(url.openStream()));
-            }
+            return new JSONObject(new JSONTokener(url.openStream()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
