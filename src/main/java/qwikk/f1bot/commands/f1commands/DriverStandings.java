@@ -23,6 +23,9 @@ public class DriverStandings extends BotCommand {
         event.replyEmbeds(
                 EmbedCreator.createDriverStandings(f1Data.getDriverStandings(),0).build())
                 .setActionRow(buttonList)
-                .queue();
+                .queue(null, (exception) -> {
+                    event.getChannel().sendMessage("There was an error " + exception).queue();
+                    exception.printStackTrace();
+                });
     }
 }
