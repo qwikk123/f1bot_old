@@ -2,7 +2,7 @@ package qwikk.f1bot.scheduling;
 
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.utils.FileUpload;
-import qwikk.f1bot.EmbedCreator;
+import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.f1data.Race;
 
 import java.io.File;

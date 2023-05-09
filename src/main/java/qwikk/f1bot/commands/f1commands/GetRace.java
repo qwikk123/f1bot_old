@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.FileUpload;
-import qwikk.f1bot.EmbedCreator;
+import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.commands.BotCommand;
 import qwikk.f1bot.f1data.F1Data;
 import qwikk.f1bot.f1data.Race;

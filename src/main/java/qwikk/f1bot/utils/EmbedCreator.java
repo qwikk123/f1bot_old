@@ -1,4 +1,4 @@
-package qwikk.f1bot;
+package qwikk.f1bot.utils;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import qwikk.f1bot.f1data.Constructor;

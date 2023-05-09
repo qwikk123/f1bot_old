@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import qwikk.f1bot.EmbedCreator;
+import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
