@@ -12,18 +12,18 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
+    public static void main(String[] args) {
         File f = new File("token/t.token");
-        Scanner s = new Scanner(f);
+        try (Scanner s = new Scanner(f)) {
+            JDA bot = JDABuilder.createDefault(s.nextLine())
+                    .setActivity(Activity.listening("F1 theme song"))
+                    .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                    .build();
 
-        JDA bot = JDABuilder.createDefault(s.nextLine())
-                .setActivity(Activity.listening("F1 theme song"))
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
-                .build();
-
-        bot.addEventListener(new CommandListener(new F1Data(bot)));
-        bot.awaitReady();
-
-        s.close();
+            bot.addEventListener(new CommandListener(new F1Data(bot)));
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("Token file is missing");
+        }
     }
 }
