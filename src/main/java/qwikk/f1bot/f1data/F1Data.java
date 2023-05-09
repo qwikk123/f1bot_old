@@ -24,7 +24,6 @@ public class F1Data {
     public F1Data(JDA bot) {
         messageScheduler = new MessageScheduler(bot.getTextChannelById("831261818101694524"));
         update();
-        refreshScheduler();
     }
 
     public void update() {
