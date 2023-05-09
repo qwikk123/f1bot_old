@@ -69,7 +69,6 @@ public class CommandListener extends ListenerAdapter {
     public void onButtonInteraction(ButtonInteractionEvent event) {
         String buttonId = event.getButton().getId();
         String buttonType = buttonId.split("-")[1];
-        System.out.println(buttonId);
         if (buttonType.equals("dstandings")) {
             int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
             List<Button> buttonList = event.getMessage().getButtons().stream()
@@ -87,14 +86,10 @@ public class CommandListener extends ListenerAdapter {
                     buttonList.set(0, buttonList.get(0).asDisabled());
                 }
             }
-            System.out.println(page);
             event.editMessageEmbeds(
                             EmbedCreator.createDriverStandings(f1Data.getDriverStandings(), page).build())
                     .setActionRow(buttonList)
-                    .queue(null, (exception) -> {
-                        event.getChannel().sendMessage("There was an error " + exception).queue();
-                        exception.printStackTrace();
-                    });
+                    .queue();
         }
     }
 }
