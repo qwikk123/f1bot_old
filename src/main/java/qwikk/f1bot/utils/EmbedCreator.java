@@ -41,7 +41,7 @@ public class EmbedCreator {
     public static EmbedBuilder createDriverStandings(HashMap<String, Driver> driverMap, int page) {
         List<Driver> driverStandings = driverMap.values().stream()
                 .sorted(Comparator.comparingDouble(Driver::wins))
-                .collect(Collectors.toList());
+                .toList();
         int pageSize = 10;
         int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();
