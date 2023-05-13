@@ -8,8 +8,8 @@ import qwikk.f1bot.f1data.Race;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class EmbedCreator {
     private static final Color color = Color.RED;
@@ -28,7 +28,20 @@ public class EmbedCreator {
         eb.setColor(color);
     }
 
-    public static EmbedBuilder createDriverStandings(ArrayList<Driver> driverStandings, int page) {
+    public static EmbedBuilder createDriverProfile(Driver driver) {
+        EmbedBuilder eb = new EmbedBuilder();
+        setTheme(eb);
+        eb.setTitle(driver.permanentNumber()+" "+driver.name());
+        eb.addField("Position", "#"+driver.pos(), true);
+        eb.addField("Wins", String.valueOf(driver.wins()), true);
+        eb.addField("Points", String.valueOf(driver.points()), true);
+        return eb;
+    }
+
+    public static EmbedBuilder createDriverStandings(HashMap<String, Driver> driverMap, int page) {
+        List<Driver> driverStandings = driverMap.values().stream()
+                .sorted(Comparator.comparingDouble(Driver::wins))
+                .collect(Collectors.toList());
         int pageSize = 10;
         int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();

@@ -1,9 +1,6 @@
 package qwikk.f1bot.commands;
 
-import qwikk.f1bot.commands.f1commands.ConstructorStandings;
-import qwikk.f1bot.commands.f1commands.DriverStandings;
-import qwikk.f1bot.commands.f1commands.GetRace;
-import qwikk.f1bot.commands.f1commands.NextRace;
+import qwikk.f1bot.commands.f1commands.*;
 import qwikk.f1bot.f1data.F1Data;
 
 import java.util.HashMap;
@@ -32,6 +29,12 @@ public class CommandManager {
                 "constructorstandings",
                 "Get the current standings in the constructor championship");
         commandMap.put(constructorStandings.name, constructorStandings);
+        BotCommand getDriver = new GetDriver(
+                "getdriver",
+                "get information about a driver",
+                f1Data);
+        commandMap.put(getDriver.name, getDriver);
+
     }
     public HashMap<String, BotCommand> getCommands() { return commandMap; }
     public List<BotCommand> getCommandList() {

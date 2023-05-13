@@ -77,7 +77,7 @@ public class CommandListener extends ListenerAdapter {
 
             if (buttonId.equals("next-dstandings")) {
                 page++;
-                if ((page * 10) + 10 >= f1Data.getDriverStandings().size()) {
+                if ((page * 10) + 10 >= f1Data.getDriverMap().size()) {
                     buttonList.set(1, buttonList.get(1).asDisabled());
                 }
             } else if (buttonId.equals("prev-dstandings")) {
@@ -87,7 +87,7 @@ public class CommandListener extends ListenerAdapter {
                 }
             }
             event.editMessageEmbeds(
-                            EmbedCreator.createDriverStandings(f1Data.getDriverStandings(), page).build())
+                            EmbedCreator.createDriverStandings(f1Data.getDriverMap(), page).build())
                     .setActionRow(buttonList)
                     .queue();
         }

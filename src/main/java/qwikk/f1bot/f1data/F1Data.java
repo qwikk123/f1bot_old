@@ -13,10 +13,11 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class F1Data {
     private ArrayList<Race> raceList;
-    private ArrayList<Driver> driverStandings;
+    private HashMap<String, Driver> driverMap;
     private ArrayList<Constructor> constructorStandings;
     private Race nextRace;
     private final MessageScheduler messageScheduler;
@@ -69,7 +70,7 @@ public class F1Data {
                 .getJSONArray("StandingsLists")
                 .getJSONObject(0).getJSONArray("DriverStandings");
 
-        driverStandings = new ArrayList<>();
+        driverMap = new HashMap<>();
 
         for (int i = 0; i < jArray.length(); i++) {
             JSONObject jDriver = jArray.getJSONObject(i);
@@ -81,8 +82,12 @@ public class F1Data {
             double points = jDriver.getDouble("points");
             int wins = jDriver.getInt("wins");
             String constructorName = jDriverConstructor.getString("name");
+            String code = jDriverInfo.getString("code");
+            String nationality = jDriverInfo.getString("nationality");
+            String driverId = jDriverInfo.getString("driverId");
+            int permanentNumber = jDriverInfo.getInt("permanentNumber");
 
-            driverStandings.add(new Driver(pos,name,constructorName,points,wins));
+            driverMap.put(driverId, new Driver(pos,name,constructorName,points,wins, code, nationality, driverId, permanentNumber));
         }
 
     }
@@ -133,8 +138,9 @@ public class F1Data {
     public ArrayList<Race> getRaceList() { return raceList; }
     public Race getRace(int i) { return raceList.get(i); }
     public Race getNextRace() { return nextRace; }
-    public ArrayList<Driver> getDriverStandings() { return driverStandings; }
+    public HashMap<String, Driver> getDriverMap() { return driverMap; }
     public ArrayList<Constructor> getConstructorStandings() { return constructorStandings; }
+    public Driver getDriver(String code) { return driverMap.get(code); }
 
     public JSONObject getJson(String URL) {
         try {
