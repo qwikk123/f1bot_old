@@ -4,12 +4,17 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.utils.FileUpload;
 import qwikk.f1bot.f1data.Driver;
 import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.commands.BotCommand;
 import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class GetDriver extends BotCommand {
@@ -29,9 +34,11 @@ public class GetDriver extends BotCommand {
 
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event, F1Data  f1Data) {
-        String code = event.getOption("drivername").getAsString(); //Non-null warning, but this will never be null as racenumber is required
-        System.out.println(code);
-        Driver driver = f1Data.getDriver(code);
-        event.replyEmbeds(EmbedCreator.createDriverProfile(driver).build()).queue();
+        String driverId = event.getOption("drivername").getAsString(); //Non-null warning, but this will never be null as racenumber is required
+        Driver driver = f1Data.getDriver(driverId);
+        URL img = getClass().getResource("/driverimages/"+driver.code()+".png");
+        String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
+        File f = new File(imgPath);
+        event.replyEmbeds(EmbedCreator.createDriverProfile(driver).build()).addFiles(FileUpload.fromData(f, "driverImage.png")).queue();
     }
 }

@@ -52,6 +52,7 @@ public class CommandListener extends ListenerAdapter {
         }
     }
 
+
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
         List<CommandData> commandData = new ArrayList<>();
