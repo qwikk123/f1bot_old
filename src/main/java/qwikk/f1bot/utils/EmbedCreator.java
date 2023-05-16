@@ -35,7 +35,7 @@ public class EmbedCreator {
         eb.addField("Team:", driver.constructorName(), false);
         eb.addField("Position", "#"+driver.pos(), true);
         eb.addField("Wins", String.valueOf(driver.wins()), true);
-        eb.addField("Points", String.valueOf(driver.points()), true);
+        eb.addField("Points", df.format(driver.points()), true);
         eb.setImage("attachment://driverImage.png");
         return eb;
     }
