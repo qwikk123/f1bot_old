@@ -71,7 +71,7 @@ public class CommandListener extends ListenerAdapter {
         String buttonId = event.getButton().getId();
         String buttonType = buttonId.split("-")[1];
         if (buttonType.equals("dstandings")) {
-            int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText());
+            int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText().split("/")[0])-1;
             List<Button> buttonList = event.getMessage().getButtons().stream()
                     .map(Button::asEnabled)
                     .collect(Collectors.toList());

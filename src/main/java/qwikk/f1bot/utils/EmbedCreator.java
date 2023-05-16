@@ -45,7 +45,7 @@ public class EmbedCreator {
 
     public static EmbedBuilder createDriverStandings(HashMap<String, Driver> driverMap, int page) {
         List<Driver> driverStandings = driverMap.values().stream()
-                .sorted(Comparator.comparingDouble(Driver::points))
+                .sorted(Comparator.comparingDouble(Driver::pos))
                 .toList();
         int pageSize = 10;
         int start = pageSize*page;
@@ -55,7 +55,7 @@ public class EmbedCreator {
         for (Driver driver : driverStandings.subList(start,start+pageSize)) {
             eb.addField("#"+driver.pos()+" "+driver.name(), driver.constructorName()+"\nPoints: "+df.format(driver.points()), true);
         }
-        eb.setFooter(Integer.toString(page));
+        eb.setFooter((page+1)+"/"+driverStandings.size()/pageSize);
         return eb;
     }
 
