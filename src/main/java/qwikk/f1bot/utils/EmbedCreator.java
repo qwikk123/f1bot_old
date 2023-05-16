@@ -8,8 +8,11 @@ import qwikk.f1bot.f1data.Race;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class EmbedCreator {
     private static final Color color = Color.RED;
