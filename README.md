@@ -4,4 +4,4 @@ The bot is made in Java with [JDA](https://github.com/DV8FromTheWorld/JDA) and g
 
 ![nextrace](https://i.imgur.com/FbbQhSG.png)
 ![driverprofile](https://i.imgur.com/f8jSnWV.png)
-![drivers](https://i.imgur.com/XPIP2Vg.png)
+![drivers](https://i.imgur.com/zVJchXm.png)
