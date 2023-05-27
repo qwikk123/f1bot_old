@@ -20,10 +20,10 @@ public class F1Data {
     private HashMap<String, Driver> driverMap;
     private ArrayList<Constructor> constructorStandings;
     private Race nextRace;
-    private final MessageScheduler messageScheduler;
+    //private final MessageScheduler messageScheduler;
 
     public F1Data(JDA bot) {
-        messageScheduler = new MessageScheduler(bot.getTextChannelById("831261818101694524"));
+        //messageScheduler = new MessageScheduler(bot.getTextChannelById("831261818101694524"));
         update();
     }
 
@@ -119,7 +119,7 @@ public class F1Data {
         for (Race r : raceList) {
             if (r.getLocalDateTime().isAfter(LocalDateTime.now())) {
                 nextRace = r;
-                refreshScheduler();
+                //refreshScheduler();
                 return;
             }
         }
@@ -127,8 +127,8 @@ public class F1Data {
 
     public void refreshScheduler() {
         if (nextRace.getLocalDateTime().minusDays(2).isAfter(LocalDateTime.now())) {
-            messageScheduler.cancel();
-            messageScheduler.schedule(nextRace);
+//            messageScheduler.cancel();
+//            messageScheduler.schedule(nextRace);
         }
     }
 
