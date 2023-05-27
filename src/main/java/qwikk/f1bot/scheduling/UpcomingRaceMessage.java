@@ -27,6 +27,6 @@ public class UpcomingRaceMessage implements Runnable{
         URL img = getClass().getResource("/circuitimages/"+ nextRace.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File file = new File(imgPath);
-        channel.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build()).addFiles(FileUpload.fromData(file, nextRace.getImageName())).queue();
+        channel.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build()).addFiles(FileUpload.fromData(file, "circuitImage.png")).queue();
     }
 }

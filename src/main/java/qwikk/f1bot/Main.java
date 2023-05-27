@@ -19,11 +19,13 @@ public class Main {
                     .setActivity(Activity.listening("F1 theme song"))
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                     .build();
-
+            bot.awaitReady();
             bot.addEventListener(new CommandListener(new F1Data(bot)));
         }
         catch (FileNotFoundException e) {
             System.out.println("Token file is missing");
+        } catch (InterruptedException e) {
+            System.out.println("Bot setup failed");
         }
     }
 }
