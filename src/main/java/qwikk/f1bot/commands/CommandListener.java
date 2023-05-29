@@ -68,6 +68,7 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
+        int pageSize = 5;
         String buttonId = event.getButton().getId();
         String buttonType = buttonId.split("-")[1];
         if (buttonType.equals("dstandings")) {
@@ -78,7 +79,7 @@ public class CommandListener extends ListenerAdapter {
 
             if (buttonId.equals("next-dstandings")) {
                 page++;
-                if ((page * 10) + 10 >= f1Data.getDriverMap().size()) {
+                if ((page * 5) + 5 >= f1Data.getDriverMap().size()) {
                     buttonList.set(1, buttonList.get(1).asDisabled());
                 }
             } else if (buttonId.equals("prev-dstandings")) {

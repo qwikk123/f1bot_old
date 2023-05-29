@@ -47,14 +47,20 @@ public class EmbedCreator {
         List<Driver> driverStandings = driverMap.values().stream()
                 .sorted(Comparator.comparingDouble(Driver::pos))
                 .toList();
-        int pageSize = 10;
+        int pageSize = 5;
         int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
-        eb.setTitle("Driver Standings");
+        String fieldText = "```Driver Standings\nDriver:                  Points:\n\n";
         for (Driver driver : driverStandings.subList(start,start+pageSize)) {
-            eb.addField("#"+driver.pos()+" "+driver.name(), driver.constructorName()+"\nPoints: "+df.format(driver.points()), true);
+            String startString = "                              ";
+            String driverString = "#"+driver.pos()+" "+driver.name();
+            String pointString = df.format(driver.points());
+            String line = driverString+startString.substring(driverString.length(),startString.length()-1)+pointString+"\nTeam: "+driver.constructorName();
+            fieldText+=line+"\n\n";
         }
+        fieldText+="```";
+        eb.addField("",fieldText,false);
         eb.setFooter((page+1)+"/"+driverStandings.size()/pageSize);
         return eb;
     }
