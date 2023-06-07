@@ -51,7 +51,8 @@ public class EmbedCreator {
         int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
-        String fieldText = "```Driver Standings\nDriver:                  Points:\n\n";
+        eb.setTitle("Driver Standings");
+        String fieldText = "```Driver:                  Points:\n\n";
         for (Driver driver : driverStandings.subList(start,start+pageSize)) {
             String startString = "                              ";
             String driverString = "#"+driver.pos()+" "+driver.name();
