@@ -13,7 +13,6 @@ import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,7 +73,7 @@ public class CommandListener extends ListenerAdapter {
 
             if (buttonId.equals("next-dstandings")) {
                 page++;
-                if ((page * 5) + 5 >= f1Data.getDriverMap().size()) {
+                if ((page * pageSize) + pageSize >= f1Data.getDriverMap().size()) {
                     buttonList.set(1, buttonList.get(1).asDisabled());
                 }
             } else if (buttonId.equals("prev-dstandings")) {
