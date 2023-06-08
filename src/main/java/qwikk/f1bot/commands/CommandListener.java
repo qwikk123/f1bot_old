@@ -20,22 +20,17 @@ import java.util.stream.Collectors;
 
 public class CommandListener extends ListenerAdapter {
     private final F1Data f1Data;
-    private LocalDateTime lastUpdate;
     private final CommandManager commandManager;
 
     public CommandListener(F1Data f1Data) {
         super();
         this.f1Data = f1Data;
-        lastUpdate = LocalDateTime.now();
         commandManager = new CommandManager(f1Data);
     }
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (lastUpdate.plusHours(2).isBefore(LocalDateTime.now())) {
-            f1Data.update();
-            lastUpdate = LocalDateTime.now();
-        }
+        f1Data.update();
         commandManager.getCommands().get(event.getName()).execute(event, f1Data);
     }
 

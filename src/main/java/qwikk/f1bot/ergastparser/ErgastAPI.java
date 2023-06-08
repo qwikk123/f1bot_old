@@ -17,8 +17,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ErgastAPI {
+    LocalDateTime lastCacheTime;
+    public ErgastAPI () {
+        lastCacheTime = LocalDateTime.now();
+    }
 
     public JSONObject getJson(String URL) {
+        //TODO caching to json file
         return getJsonFromURL(URL);
     }
 
