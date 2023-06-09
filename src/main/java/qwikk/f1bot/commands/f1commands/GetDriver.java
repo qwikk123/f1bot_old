@@ -39,6 +39,8 @@ public class GetDriver extends BotCommand {
         URL img = getClass().getResource("/driverimages/"+driver.code()+".png");
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);
-        event.replyEmbeds(EmbedCreator.createDriverProfile(driver).build()).addFiles(FileUpload.fromData(f, "driverImage.png")).queue();
+        event.getHook().sendMessageEmbeds(EmbedCreator.createDriverProfile(driver).build())
+                .addFiles(FileUpload.fromData(f, "driverImage.png"))
+                .queue();
     }
 }

@@ -30,6 +30,7 @@ public class CommandListener extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         f1Data.update();
+        event.deferReply().queue();
         commandManager.getCommands().get(event.getName()).execute(event, f1Data);
     }
 

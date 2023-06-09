@@ -20,7 +20,7 @@ public class DriverStandings extends BotCommand {
         ArrayList<Button> buttonList = new ArrayList<>();
         buttonList.add(Button.danger("prev-dstandings", "Previous").asDisabled());
         buttonList.add(Button.danger("next-dstandings", "Next"));
-        event.replyEmbeds(
+        event.getHook().sendMessageEmbeds(
                 EmbedCreator.createDriverStandings(f1Data.getDriverMap(),0).build())
                 .setActionRow(buttonList)
                 .queue();

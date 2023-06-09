@@ -25,6 +25,8 @@ public class NextRace extends BotCommand {
         URL img = getClass().getResource("/circuitimages/"+ race.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);
-        event.replyEmbeds(EmbedCreator.createRace(race).build()).addFiles(FileUpload.fromData(f, "circuitImage.png")).queue();
+        event.getHook().sendMessageEmbeds(EmbedCreator.createRace(race).build())
+                .addFiles(FileUpload.fromData(f, "circuitImage.png"))
+                .queue();
     }
 }
