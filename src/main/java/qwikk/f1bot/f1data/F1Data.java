@@ -20,7 +20,7 @@ public class F1Data {
     public F1Data(JDA bot) {
         lastUpdate = LocalDateTime.now();
         ergastAPI = new ErgastAPI();
-        messageScheduler = new MessageScheduler(bot.getTextChannelById("831261818101694524"));
+        messageScheduler = new MessageScheduler(bot.getTextChannelsByName("f1",true));
         setData();
     }
 

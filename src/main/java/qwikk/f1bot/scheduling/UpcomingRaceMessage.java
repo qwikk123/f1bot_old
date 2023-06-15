@@ -10,23 +10,30 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UpcomingRaceMessage implements Runnable{
 
-    private final TextChannel channel;
+    private final List<TextChannel> channelList;
     private final LocalDateTime scheduledTime;
     private final Race nextRace;
-    public UpcomingRaceMessage(TextChannel channel, LocalDateTime scheduledTime, Race nextRace) {
-        this.channel = channel;
+    public UpcomingRaceMessage(List<TextChannel> channelList, LocalDateTime scheduledTime, Race nextRace) {
+        this.channelList = channelList;
         this.scheduledTime = scheduledTime;
         this.nextRace = nextRace;
     }
     @Override
     public void run() {
         System.out.println("Scheduled at: "+scheduledTime+" Running at: "+LocalDateTime.now());
+
         URL img = getClass().getResource("/circuitimages/"+ nextRace.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File file = new File(imgPath);
-        channel.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build()).addFiles(FileUpload.fromData(file, "circuitImage.png")).queue();
+
+        channelList.forEach(x ->
+            x.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build())
+                    .addFiles(FileUpload.fromData(file, "circuitImage.png"))
+                    .queue()
+        );
     }
 }

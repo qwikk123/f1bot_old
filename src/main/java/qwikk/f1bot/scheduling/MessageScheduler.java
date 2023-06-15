@@ -5,23 +5,24 @@ import qwikk.f1bot.f1data.Race;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class MessageScheduler {
-    private final TextChannel channel;
+    private final List<TextChannel> channelList;
     private final ScheduledExecutorService executorService;
     private ScheduledFuture<?> upcomingRaceFuture;
 
-    public MessageScheduler(TextChannel channel) {
+    public MessageScheduler(List<TextChannel> channelList) {
         executorService = Executors.newSingleThreadScheduledExecutor();
-        this.channel = channel;
+        this.channelList = channelList;
     }
 
     public void schedule(Race nextRace) {
-        UpcomingRaceMessage nextRaceStarting = new UpcomingRaceMessage(channel, LocalDateTime.now(), nextRace);
+        UpcomingRaceMessage nextRaceStarting = new UpcomingRaceMessage(channelList, LocalDateTime.now(), nextRace);
         System.out.println("SCHEDULED FOR: "+nextRace.getLocalDateTime().minusDays(2));
 
         upcomingRaceFuture = executorService.schedule(
