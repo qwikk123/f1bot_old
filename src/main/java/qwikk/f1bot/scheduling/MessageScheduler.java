@@ -22,11 +22,11 @@ public class MessageScheduler {
     }
 
     public void schedule(Race nextRace) {
-        UpcomingRaceMessage nextRaceStarting = new UpcomingRaceMessage(channelList, LocalDateTime.now(), nextRace);
-        System.out.println("SCHEDULED FOR: "+nextRace.getLocalDateTime().minusDays(2));
+        UpcomingRaceMessage upcomingRaceMessage = new UpcomingRaceMessage(channelList, LocalDateTime.now(), nextRace);
+        System.out.println("SCHEDULED FOR: "+nextRace.getLocalDateTime().minusDays(2).withHour(12));
 
         upcomingRaceFuture = executorService.schedule(
-                nextRaceStarting,
+                upcomingRaceMessage,
                 LocalDateTime.now().until(nextRace.getLocalDateTime().minusDays(2), ChronoUnit.MINUTES),
                 TimeUnit.MINUTES);
     }
