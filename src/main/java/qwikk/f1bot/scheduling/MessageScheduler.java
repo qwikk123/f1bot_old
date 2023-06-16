@@ -12,7 +12,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class MessageScheduler {
-    private final List<TextChannel> channelList;
+    private List<TextChannel> channelList;
     private final ScheduledExecutorService executorService;
     private ScheduledFuture<?> upcomingRaceFuture;
 
@@ -32,5 +32,9 @@ public class MessageScheduler {
     }
     public void cancel() {
         if (upcomingRaceFuture != null) upcomingRaceFuture.cancel(true);
+    }
+
+    public void setChannelList(List<TextChannel> channelList) {
+        this.channelList = channelList;
     }
 }

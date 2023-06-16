@@ -15,12 +15,15 @@ public class F1Data {
     private Race nextRace;
     private final MessageScheduler messageScheduler;
     private final ErgastAPI ergastAPI;
+    private final JDA bot;
     private LocalDateTime lastUpdate;
+    private static final String scheduledTextChannel = "f1";
 
     public F1Data(JDA bot) {
+        this.bot = bot;
         lastUpdate = LocalDateTime.now();
         ergastAPI = new ErgastAPI();
-        messageScheduler = new MessageScheduler(bot.getTextChannelsByName("f1",true));
+        messageScheduler = new MessageScheduler(bot.getTextChannelsByName(scheduledTextChannel,true));
         setData();
     }
 
@@ -49,6 +52,7 @@ public class F1Data {
 
     public void refreshScheduler() {
         if (nextRace.getLocalDateTime().minusDays(2).isAfter(LocalDateTime.now())) {
+            messageScheduler.setChannelList(bot.getTextChannelsByName(scheduledTextChannel,true));
             messageScheduler.cancel();
             messageScheduler.schedule(nextRace);
         }
