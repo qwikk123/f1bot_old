@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class UpcomingRaceMessage implements Runnable{
+public class UpcomingRaceMessage implements Runnable {
 
     private final List<TextChannel> channelList;
     private final LocalDateTime scheduledTime;
