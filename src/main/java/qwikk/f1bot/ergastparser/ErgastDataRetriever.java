@@ -62,6 +62,7 @@ public class ErgastDataRetriever {
             String json = bufferedReader.lines().collect(Collectors.joining());
 
             File f = new File("cache/"+fileName);
+            Files.createDirectories(Paths.get(f.getParent()));
             FileWriter fileWriter = new FileWriter(f, false);
             fileWriter.write(json);
             fileWriter.close();
