@@ -23,7 +23,7 @@ public class MessageScheduler {
 
     public void schedule(Race nextRace) {
         UpcomingRaceMessage upcomingRaceMessage = new UpcomingRaceMessage(channelList, LocalDateTime.now(), nextRace);
-        System.out.println("SCHEDULED FOR: "+nextRace.getUpcomingDate());
+        System.out.println("SCHEDULED TASK FOR: "+nextRace.getUpcomingDate()+"\n");
 
         upcomingRaceFuture = executorService.schedule(
                 upcomingRaceMessage,

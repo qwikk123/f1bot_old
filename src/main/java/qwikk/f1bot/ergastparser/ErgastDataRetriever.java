@@ -24,7 +24,7 @@ public class ErgastDataRetriever {
     public JSONObject getJson(String URL) {
         if (LocalDateTime.now().isBefore(lastCacheTime.plusHours(2))) {
             String fileName = URL
-                    .replaceAll("\\/+","_")
+                    .replaceAll("/+","_")
                     .replaceAll(":", "")
                     .replaceFirst("\\.", "");
             File f = new File("cache/"+fileName);
@@ -58,17 +58,18 @@ public class ErgastDataRetriever {
             String json = bufferedReader.lines().collect(Collectors.joining());
 
             String fileName = URL
-                    .replaceAll("\\/+","_")
+                    .replaceAll("/+","_")
                     .replaceAll(":", "")
                     .replaceFirst("\\.", "");
 
             File f = new File("cache/"+fileName);
-            System.out.println(f.getPath());
             FileWriter fileWriter = new FileWriter(f, false);
             fileWriter.write(json);
             fileWriter.close();
             lastCacheTime = LocalDateTime.now();
-            System.out.println("Cache updated at: "+lastCacheTime);
+            System.out.println("UPDATING: "+f.getPath());
+            System.out.println("UPDATED AT: "+lastCacheTime);
+            System.out.println();
 
             return new JSONObject(new JSONTokener(json));
         } catch (Exception e) {
