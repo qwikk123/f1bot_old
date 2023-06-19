@@ -48,6 +48,10 @@ public class ErgastDataRetriever {
     }
 
     private JSONObject getJsonFromURL(String URL) {
+        String fileName = URL
+                .replaceAll("/+","_")
+                .replaceAll(":", "")
+                .replaceFirst("\\.", "");
         try {
             java.net.URL url = new URI(URL).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -56,11 +60,6 @@ public class ErgastDataRetriever {
             InputStreamReader inputStreamReader = new InputStreamReader(url.openStream());
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String json = bufferedReader.lines().collect(Collectors.joining());
-
-            String fileName = URL
-                    .replaceAll("/+","_")
-                    .replaceAll(":", "")
-                    .replaceFirst("\\.", "");
 
             File f = new File("cache/"+fileName);
             FileWriter fileWriter = new FileWriter(f, false);
@@ -72,7 +71,13 @@ public class ErgastDataRetriever {
             System.out.println();
 
             return new JSONObject(new JSONTokener(json));
-        } catch (Exception e) {
+        } catch (IOException e){
+            System.out.println("CONNECTION TO ERGAST FAILED");
+            System.out.println("RETRIEVING FROM CACHE\n");
+            File f = new File("cache/"+fileName);
+            return getJsonFromFile(f);
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
