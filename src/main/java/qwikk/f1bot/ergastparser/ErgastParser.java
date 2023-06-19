@@ -2,46 +2,24 @@ package qwikk.f1bot.ergastparser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import qwikk.f1bot.f1data.Constructor;
 import qwikk.f1bot.f1data.Driver;
 import qwikk.f1bot.f1data.Race;
 
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ErgastAPI {
-    LocalDateTime lastCacheTime;
-    public ErgastAPI () {
-        lastCacheTime = LocalDateTime.now();
+public class ErgastParser {
+
+    ErgastDataRetriever ergastDataRetriever;
+    public ErgastParser() {
+        ergastDataRetriever = new ErgastDataRetriever();
     }
-
-    public JSONObject getJson(String URL) {
-        //TODO caching to json file
-        return getJsonFromURL(URL);
-    }
-
-    public JSONObject getJsonFromURL(String URL) {
-        try {
-            URL url = new URI(URL).toURL();
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.connect();
-
-            return new JSONObject(new JSONTokener(url.openStream()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public ArrayList<Race> getF1RaceData() {
-        JSONObject json = getJson("https://ergast.com/api/f1/current.json");
+        JSONObject json = ergastDataRetriever.getJson("https://ergast.com/api/f1/current.json");
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("RaceTable")
                 .getJSONArray("Races");
@@ -71,7 +49,7 @@ public class ErgastAPI {
     }
 
     public HashMap<String, Driver> getF1DriverStandingsData() {
-        JSONObject json = getJson("https://ergast.com/api/f1/current/driverStandings.json");
+        JSONObject json = ergastDataRetriever.getJson("https://ergast.com/api/f1/current/driverStandings.json");
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("StandingsTable")
                 .getJSONArray("StandingsLists")
@@ -101,7 +79,7 @@ public class ErgastAPI {
     }
 
     public ArrayList<Constructor> getF1ConstructorStandingsData() {
-        JSONObject json = getJson("https://ergast.com/api/f1/current/constructorStandings.json");
+        JSONObject json = ergastDataRetriever.getJson("https://ergast.com/api/f1/current/constructorStandings.json");
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("StandingsTable")
                 .getJSONArray("StandingsLists")

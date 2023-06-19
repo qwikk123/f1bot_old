@@ -1,7 +1,7 @@
 package qwikk.f1bot.f1data;
 
 import net.dv8tion.jda.api.JDA;
-import qwikk.f1bot.ergastparser.ErgastAPI;
+import qwikk.f1bot.ergastparser.ErgastParser;
 import qwikk.f1bot.scheduling.MessageScheduler;
 
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ public class F1Data {
     private ArrayList<Constructor> constructorStandings;
     private Race nextRace;
     private final MessageScheduler messageScheduler;
-    private final ErgastAPI ergastAPI;
+    private final ErgastParser ergastAPI;
     private final JDA bot;
     private LocalDateTime lastUpdate;
     private static final String scheduledTextChannel = "f1";
@@ -22,7 +22,7 @@ public class F1Data {
     public F1Data(JDA bot) {
         this.bot = bot;
         lastUpdate = LocalDateTime.now();
-        ergastAPI = new ErgastAPI();
+        ergastAPI = new ErgastParser();
         messageScheduler = new MessageScheduler(bot.getTextChannelsByName(scheduledTextChannel,true));
         setData();
     }
