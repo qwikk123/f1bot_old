@@ -87,7 +87,7 @@ public class ErgastDataRetriever {
             if (f.isFile()) {
                 FileTime ft = Files.getLastModifiedTime(Paths.get(f.getPath()));
                 LocalDateTime modifiedTime = LocalDateTime.ofInstant(ft.toInstant(), ZoneId.systemDefault());
-                return LocalDateTime.now().isAfter(modifiedTime.plusHours(2));
+                return LocalDateTime.now().isAfter(modifiedTime.plusDays(1));
             }
             else {
                 return true;
