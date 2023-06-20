@@ -12,27 +12,22 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.stream.Collectors;
 
 public class ErgastDataRetriever {
-    LocalDateTime lastCacheTime;
 
-    public ErgastDataRetriever() {
-        lastCacheTime = LocalDateTime.now();
-    }
     public JSONObject getJson(String URL) {
-        if (LocalDateTime.now().isBefore(lastCacheTime.plusHours(2))) {
-            String fileName = URL
-                    .replaceAll("/+","_")
-                    .replaceAll(":", "")
-                    .replaceFirst("\\.", "");
-            File f = new File("cache/"+fileName);
-            if (f.isFile()) {
-                System.out.println("Retrieving data from cache");
-                return getJsonFromFile(f);
-            }
+        String fileName = getFileNameOfURL(URL);
+        File f = new File("cache/"+fileName);
+
+        if (f.isFile()) {
+            System.out.println("Retrieving data from cache");
+            return getJsonFromFile(f);
         }
+
         System.out.println("Retrieving data from ergast");
         return getJsonFromURL(URL);
     }
@@ -48,10 +43,7 @@ public class ErgastDataRetriever {
     }
 
     private JSONObject getJsonFromURL(String URL) {
-        String fileName = URL
-                .replaceAll("/+","_")
-                .replaceAll(":", "")
-                .replaceFirst("\\.", "");
+        String fileName = getFileNameOfURL(URL);
         try {
             java.net.URL url = new URI(URL).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -66,20 +58,44 @@ public class ErgastDataRetriever {
             FileWriter fileWriter = new FileWriter(f, false);
             fileWriter.write(json);
             fileWriter.close();
-            lastCacheTime = LocalDateTime.now();
             System.out.println("UPDATING: "+f.getPath());
-            System.out.println("UPDATED AT: "+lastCacheTime);
+            System.out.println("UPDATED AT: "+LocalDateTime.now());
             System.out.println();
 
             return new JSONObject(new JSONTokener(json));
+
         } catch (IOException e){
-            System.out.println("CONNECTION TO ERGAST FAILED");
+            System.out.println("FILE IO ERROR OR ERGAST CONNECTION FAILED");
             System.out.println("RETRIEVING FROM CACHE\n");
             File f = new File("cache/"+fileName);
             return getJsonFromFile(f);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private String getFileNameOfURL(String URL) {
+        return URL.replaceAll("/+","_")
+                .replaceAll(":", "")
+                .replaceFirst("\\.", "");
+    }
+
+    public boolean validUpdate(String URL) {
+        String fileName = getFileNameOfURL(URL);
+        File f = new File("cache/"+fileName);
+        try {
+            if (f.isFile()) {
+                FileTime ft = Files.getLastModifiedTime(Paths.get(f.getPath()));
+                LocalDateTime modifiedTime = LocalDateTime.ofInstant(ft.toInstant(), ZoneId.systemDefault());
+                return LocalDateTime.now().isAfter(modifiedTime.plusHours(2));
+            }
+            else {
+                return true;
+            }
+        }
+        catch (IOException e) {
+            //use ergast for info and try to create/recreate the file;
+            return true;
         }
     }
 }

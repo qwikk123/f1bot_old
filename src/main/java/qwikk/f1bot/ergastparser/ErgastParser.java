@@ -18,8 +18,11 @@ public class ErgastParser {
     public ErgastParser() {
         ergastDataRetriever = new ErgastDataRetriever();
     }
-    public ArrayList<Race> getF1RaceData() {
-        JSONObject json = ergastDataRetriever.getJson("https://ergast.com/api/f1/current.json");
+    public ArrayList<Race> getF1RaceData(boolean forceUpdate) {
+        String URL = "https://ergast.com/api/f1/current.json";
+        if (!forceUpdate && !ergastDataRetriever.validUpdate(URL)) { return null; }
+
+        JSONObject json = ergastDataRetriever.getJson(URL);
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("RaceTable")
                 .getJSONArray("Races");
@@ -48,8 +51,11 @@ public class ErgastParser {
         return raceList;
     }
 
-    public HashMap<String, Driver> getF1DriverStandingsData() {
-        JSONObject json = ergastDataRetriever.getJson("https://ergast.com/api/f1/current/driverStandings.json");
+    public HashMap<String, Driver> getF1DriverStandingsData(boolean forceUpdate) {
+        String URL = "https://ergast.com/api/f1/current/driverStandings.json";
+        if (!forceUpdate && !ergastDataRetriever.validUpdate(URL)) { return null; }
+
+        JSONObject json = ergastDataRetriever.getJson(URL);
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("StandingsTable")
                 .getJSONArray("StandingsLists")
@@ -78,8 +84,11 @@ public class ErgastParser {
         return driverMap;
     }
 
-    public ArrayList<Constructor> getF1ConstructorStandingsData() {
-        JSONObject json = ergastDataRetriever.getJson("https://ergast.com/api/f1/current/constructorStandings.json");
+    public ArrayList<Constructor> getF1ConstructorStandingsData(boolean forceUpdate) {
+        String URL = "https://ergast.com/api/f1/current/constructorStandings.json";
+        if (!forceUpdate && !ergastDataRetriever.validUpdate(URL)) { return null; }
+
+        JSONObject json = ergastDataRetriever.getJson(URL);
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("StandingsTable")
                 .getJSONArray("StandingsLists")
