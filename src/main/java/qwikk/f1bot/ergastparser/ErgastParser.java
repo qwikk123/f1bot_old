@@ -20,9 +20,10 @@ public class ErgastParser {
     }
     public ArrayList<Race> getF1RaceData(boolean forceUpdate) {
         String URL = "https://ergast.com/api/f1/current.json";
-        if (!forceUpdate && !ergastDataRetriever.validUpdate(URL)) { return null; }
+        boolean validUpdate = ergastDataRetriever.validUpdate(URL);
+        if (!forceUpdate && !validUpdate) { return null; }
 
-        JSONObject json = ergastDataRetriever.getJson(URL);
+        JSONObject json = ergastDataRetriever.getJson(URL, validUpdate);
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("RaceTable")
                 .getJSONArray("Races");
@@ -53,9 +54,10 @@ public class ErgastParser {
 
     public HashMap<String, Driver> getF1DriverStandingsData(boolean forceUpdate) {
         String URL = "https://ergast.com/api/f1/current/driverStandings.json";
-        if (!forceUpdate && !ergastDataRetriever.validUpdate(URL)) { return null; }
+        boolean validUpdate = ergastDataRetriever.validUpdate(URL);
+        if (!forceUpdate && !validUpdate) { return null; }
 
-        JSONObject json = ergastDataRetriever.getJson(URL);
+        JSONObject json = ergastDataRetriever.getJson(URL, validUpdate);
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("StandingsTable")
                 .getJSONArray("StandingsLists")
@@ -86,9 +88,10 @@ public class ErgastParser {
 
     public ArrayList<Constructor> getF1ConstructorStandingsData(boolean forceUpdate) {
         String URL = "https://ergast.com/api/f1/current/constructorStandings.json";
-        if (!forceUpdate && !ergastDataRetriever.validUpdate(URL)) { return null; }
+        boolean validUpdate = ergastDataRetriever.validUpdate(URL);
+        if (!forceUpdate && !validUpdate) { return null; }
 
-        JSONObject json = ergastDataRetriever.getJson(URL);
+        JSONObject json = ergastDataRetriever.getJson(URL, validUpdate);
         JSONArray jArray = json.getJSONObject("MRData")
                 .getJSONObject("StandingsTable")
                 .getJSONArray("StandingsLists")

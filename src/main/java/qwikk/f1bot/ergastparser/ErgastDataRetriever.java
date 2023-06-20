@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 
 public class ErgastDataRetriever {
 
-    public JSONObject getJson(String URL) {
+    public JSONObject getJson(String URL, boolean validUpdate) {
         String fileName = getFileNameOfURL(URL);
         File f = new File("cache/"+fileName);
 
-        if (f.isFile()) {
+        if (f.isFile() && !validUpdate) {
             System.out.println("Retrieving data from cache");
             return getJsonFromFile(f);
         }
