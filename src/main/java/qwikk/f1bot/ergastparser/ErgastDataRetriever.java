@@ -77,6 +77,7 @@ public class ErgastDataRetriever {
     private String getFileNameOfURL(String URL) {
         return URL.replaceAll("/+","_")
                 .replaceAll(":", "")
+                .replaceAll("\\?","")
                 .replaceFirst("\\.", "");
     }
 

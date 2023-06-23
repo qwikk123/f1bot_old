@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import qwikk.f1bot.f1data.Constructor;
 import qwikk.f1bot.f1data.Driver;
 import qwikk.f1bot.f1data.Race;
+import qwikk.f1bot.f1data.RaceResult;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 
 public class ErgastParser {
 
-    ErgastDataRetriever ergastDataRetriever;
+    private final ErgastDataRetriever ergastDataRetriever;
     public ErgastParser() {
         ergastDataRetriever = new ErgastDataRetriever();
     }
@@ -50,6 +51,32 @@ public class ErgastParser {
             raceList.add(r);
         }
         return raceList;
+    }
+
+    public ArrayList<RaceResult> getRaceResults(boolean forceUpdate) {
+        ArrayList<RaceResult> raceResults = new ArrayList<>();
+
+        String URL = "https://ergast.com/api/f1/current/results.json?limit=1000";
+        boolean validUpdate = ergastDataRetriever.validUpdate(URL);
+        if (!forceUpdate && !validUpdate) { return null; }
+
+        JSONObject json = ergastDataRetriever.getJson(URL, validUpdate);
+        JSONArray jArray = json.getJSONObject("MRData")
+                .getJSONObject("RaceTable")
+                .getJSONArray("Races");
+
+        for (int i = 0; i < jArray.length(); i++) {
+            RaceResult raceResult = new RaceResult(new ArrayList<>());
+            JSONObject race = jArray.getJSONObject(i);
+            JSONArray resultArray = race.getJSONArray("Results");
+
+            for (int j = 0; j < resultArray.length(); j++) {
+                String driverId = resultArray.getJSONObject(j).getJSONObject("Driver").getString("driverId");
+                raceResult.getRaceResultList().add(driverId);
+            }
+            raceResults.add(raceResult);
+        }
+        return raceResults;
     }
 
     public HashMap<String, Driver> getF1DriverStandingsData(boolean forceUpdate) {

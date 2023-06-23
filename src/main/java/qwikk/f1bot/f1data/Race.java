@@ -10,6 +10,7 @@ public class Race {
     private final LocalDateTime localDateTimeQualifying;
     private LocalDateTime localDateTimeSprint;
     private final int round;
+    private RaceResult raceResult;
 
     public Race(String name,String circuitName, LocalDateTime localDateTime, LocalDateTime localDateTimeQualifying, int round) {
         this.name = name;
@@ -20,6 +21,9 @@ public class Race {
     }
 
 
+    public void setRaceResult(RaceResult raceResult) { this.raceResult = raceResult; }
+    public RaceResult getRaceResult() { return raceResult; }
+    public boolean hasRaceResult() { return raceResult != null; }
     public String getRaceDateAsString() {
         return localDateTime.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
     }
