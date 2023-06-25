@@ -52,12 +52,9 @@ public class EmbedCreator {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("Driver Standings");
-        String fieldText = "```Driver:                  Points:\n\n";
+        String fieldText = String.format("```%-25s%s\n\n", "Driver:","Points:");
         for (Driver driver : driverStandings.subList(start,start+pageSize)) {
-            String startString = "                              ";
-            String driverString = "#"+driver.pos()+" "+driver.name();
-            String pointString = df.format(driver.points());
-            String line = driverString+startString.substring(driverString.length(),startString.length()-1)+pointString+"\nTeam: "+driver.constructorName();
+            String line = String.format("%-25s%s\nTeam: %s","#"+driver.pos()+" "+driver.name(),df.format(driver.points()), driver.constructorName());
             fieldText+=line+"\n\n";
         }
         fieldText+="```";
@@ -85,6 +82,20 @@ public class EmbedCreator {
         eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
         eb.addField("Circuit: ", r.getCircuitName(),false);
         eb.setImage("attachment://circuitImage.png");
+        return eb;
+    }
+
+    public static EmbedBuilder createRaceResult(Race r) {
+        EmbedBuilder eb = new EmbedBuilder();
+        setTheme(eb);
+        eb.setTitle("#"+r.getRound()+" "+r.getName());
+        String fieldText = "```";
+        List<String> raceResultList = r.getRaceResult().getRaceResultList();
+        for (int i = 0; i < raceResultList.size(); i+=2) {
+            fieldText += String.format("%-20s%s","#"+(i+1)+" "+raceResultList.get(i),"#"+(i+2)+" "+raceResultList.get(i+1))+"\n";
+        }
+        fieldText += "```";
+        eb.addField("Result",fieldText,true);
         return eb;
     }
 }

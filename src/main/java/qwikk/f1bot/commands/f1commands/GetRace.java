@@ -3,6 +3,7 @@ package qwikk.f1bot.commands.f1commands;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.FileUpload;
 import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.commands.BotCommand;
@@ -31,13 +32,21 @@ public class GetRace extends BotCommand {
 
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event, F1Data  f1Data) {
+        ArrayList<Button> buttonList = new ArrayList<>();
+        buttonList.add(Button.danger("info-getrace", "Info").asDisabled());
+        buttonList.add(Button.danger("result-getrace", "Result"));
+
         int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
         Race race = f1Data.getRace(index);
         URL img = getClass().getResource("/circuitimages/"+ race.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);
+
+        if (!race.hasRaceResult()) { buttonList.set(1, buttonList.get(1).asDisabled()); }
+
         event.getHook().sendMessageEmbeds(EmbedCreator.createRace(race).build())
                 .addFiles(FileUpload.fromData(f, "circuitImage.png"))
+                .addActionRow(buttonList)
                 .queue();
     }
 }

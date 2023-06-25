@@ -9,15 +9,22 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.utils.FileUpload;
+import qwikk.f1bot.f1data.Race;
 import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommandListener extends ListenerAdapter {
+    static int pageSize = 5;
     private final F1Data f1Data;
     private final CommandManager commandManager;
 
@@ -63,29 +70,65 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
-        int pageSize = 5;
         String buttonId = event.getButton().getId();
         String buttonType = buttonId.split("-")[1];
-        if (buttonType.equals("dstandings")) {
-            int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText().split("/")[0])-1;
-            List<Button> buttonList = event.getMessage().getButtons().stream()
-                    .map(Button::asEnabled)
-                    .collect(Collectors.toList());
 
-            if (buttonId.equals("next-dstandings")) {
-                page++;
-                if ((page * pageSize) + pageSize >= f1Data.getDriverMap().size()) {
-                    buttonList.set(1, buttonList.get(1).asDisabled());
-                }
-            } else if (buttonId.equals("prev-dstandings")) {
-                page--;
-                if (page == 0) {
-                    buttonList.set(0, buttonList.get(0).asDisabled());
-                }
+        if (buttonType.equals("dstandings")) {
+            driverStandingsButton(event,buttonId);
+        }
+        else if (buttonType.equals("getrace")) {
+            getRaceButton(event, buttonId);
+        }
+    }
+
+    private void driverStandingsButton(ButtonInteractionEvent event, String buttonId) {
+        int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText().split("/")[0])-1;
+        List<Button> buttonList = event.getMessage().getButtons().stream()
+                .map(Button::asEnabled)
+                .collect(Collectors.toList());
+
+        if (buttonId.equals("next-dstandings")) {
+            page++;
+            if ((page * pageSize) + pageSize >= f1Data.getDriverMap().size()) {
+                buttonList.set(1, buttonList.get(1).asDisabled());
             }
-            event.editMessageEmbeds(
-                            EmbedCreator.createDriverStandings(f1Data.getDriverMap(), page).build())
+        } else if (buttonId.equals("prev-dstandings")) {
+            page--;
+            if (page == 0) {
+                buttonList.set(0, buttonList.get(0).asDisabled());
+            }
+        }
+        event.editMessageEmbeds(
+                        EmbedCreator.createDriverStandings(f1Data.getDriverMap(), page).build())
+                .setActionRow(buttonList)
+                .queue();
+    }
+
+    private void getRaceButton (ButtonInteractionEvent event, String buttonId) {
+        List<Button> buttonList = event.getMessage().getButtons().stream()
+                .map(Button::asEnabled)
+                .collect(Collectors.toList());
+        int index = Integer.parseInt(String.valueOf(event.getMessage().getEmbeds().get(0).getTitle().charAt(1)))-1;
+        Race race = f1Data.getRace(index);
+
+        if (buttonId.equals("info-getrace")) {
+            buttonList.set(0, buttonList.get(0).asDisabled());
+
+            URL img = getClass().getResource("/circuitimages/"+ race.getImageName());
+            String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
+            File f = new File(imgPath);
+
+            event.editMessageEmbeds(EmbedCreator.createRace(race).build())
+                    .setFiles(FileUpload.fromData(f, "circuitImage.png"))
                     .setActionRow(buttonList)
+                    .queue();
+        }
+        else if (buttonId.equals("result-getrace")) {
+            buttonList.set(1, buttonList.get(1).asDisabled());
+
+            event.editMessageEmbeds(EmbedCreator.createRaceResult(race).build())
+                    .setActionRow(buttonList)
+                    .setReplace(true)
                     .queue();
         }
     }
