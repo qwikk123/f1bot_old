@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import qwikk.f1bot.commands.CommandListener;
-import qwikk.f1bot.f1data.F1Data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +21,7 @@ public class Main {
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                     .build();
             bot.awaitReady();
-            bot.addEventListener(new CommandListener(F1Data.getF1Data()));
+            bot.addEventListener(new CommandListener());
         }
         catch (FileNotFoundException e) {
             System.out.println("Token file is missing");

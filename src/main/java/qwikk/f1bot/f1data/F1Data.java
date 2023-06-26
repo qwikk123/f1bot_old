@@ -28,10 +28,6 @@ public class F1Data {
         return f1data;
     }
 
-    public void update() {
-        setData();
-    }
-
     public void setData() {
         ArrayList<Race> newRaceList = ergastParser.getF1RaceData(raceList == null);
         if (newRaceList != null) {

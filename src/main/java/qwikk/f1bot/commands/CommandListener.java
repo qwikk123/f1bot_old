@@ -25,18 +25,16 @@ import java.util.stream.Collectors;
 
 public class CommandListener extends ListenerAdapter {
     static int pageSize = 5;
-    private final F1Data f1Data;
     private final CommandManager commandManager;
 
-    public CommandListener(F1Data f1Data) {
+    public CommandListener() {
         super();
-        this.f1Data = f1Data;
         commandManager = new CommandManager();
     }
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        f1Data.update();
+        F1Data.getF1Data().setData();
         event.deferReply().queue();
         commandManager.getCommands().get(event.getName()).execute(event);
     }
@@ -89,7 +87,7 @@ public class CommandListener extends ListenerAdapter {
 
         if (buttonId.equals("next-dstandings")) {
             page++;
-            if ((page * pageSize) + pageSize >= f1Data.getDriverMap().size()) {
+            if ((page * pageSize) + pageSize >= F1Data.getF1Data().getDriverMap().size()) {
                 buttonList.set(1, buttonList.get(1).asDisabled());
             }
         } else if (buttonId.equals("prev-dstandings")) {
@@ -99,7 +97,7 @@ public class CommandListener extends ListenerAdapter {
             }
         }
         event.editMessageEmbeds(
-                        EmbedCreator.createDriverStandings(f1Data.getDriverMap(), page).build())
+                        EmbedCreator.createDriverStandings(F1Data.getF1Data().getDriverMap(), page).build())
                 .setActionRow(buttonList)
                 .queue();
     }
@@ -109,7 +107,7 @@ public class CommandListener extends ListenerAdapter {
                 .map(Button::asEnabled)
                 .collect(Collectors.toList());
         int index = Integer.parseInt(String.valueOf(event.getMessage().getEmbeds().get(0).getTitle().charAt(1)))-1;
-        Race race = f1Data.getRace(index);
+        Race race = F1Data.getF1Data().getRace(index);
 
         if (buttonId.equals("info-getrace")) {
             buttonList.set(0, buttonList.get(0).asDisabled());
