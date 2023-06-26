@@ -16,14 +16,17 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GetDriver extends BotCommand {
 
-    public GetDriver(String name, String description) {
+    HashMap<String, Driver> driverMap;
+    public GetDriver(String name, String description, HashMap<String, Driver> driverMap) {
         super(name, description);
+        this.driverMap = driverMap;
         optionList = new ArrayList<>();
         ArrayList<Command.Choice> choiceList= new ArrayList<>();
-        F1Data.getF1Data().getDriverMap().values().forEach(x -> choiceList.add(new Command.Choice(x.name(),x.driverId())));
+        driverMap.values().forEach(x -> choiceList.add(new Command.Choice(x.name(),x.driverId())));
         optionList.add(new OptionData(
                 OptionType.STRING,
                 "drivername",
@@ -35,7 +38,7 @@ public class GetDriver extends BotCommand {
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event) {
         String driverId = event.getOption("drivername").getAsString(); //Non-null warning, but this will never be null as racenumber is required
-        Driver driver = F1Data.getF1Data().getDriver(driverId);
+        Driver driver = driverMap.get(driverId);
         URL img = getClass().getResource("/driverimages/"+driver.code()+".png");
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);

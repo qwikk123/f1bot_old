@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class F1Data {
-    private static F1Data f1data;
     private ArrayList<Race> raceList;
     private HashMap<String, Driver> driverMap;
     private ArrayList<Constructor> constructorStandings;
@@ -18,14 +17,10 @@ public class F1Data {
     private final ErgastParser ergastParser;
     private static final String scheduledTextChannel = "f1";
 
-    private F1Data() {
+    public F1Data() {
         ergastParser = new ErgastParser();
         messageScheduler = new MessageScheduler(Main.bot.getTextChannelsByName(scheduledTextChannel,true));
         setData();
-    }
-    public static F1Data getF1Data() {
-        if (f1data == null) { f1data = new F1Data(); }
-        return f1data;
     }
 
     public void setData() {

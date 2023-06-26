@@ -14,18 +14,19 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 public class NextRace extends BotCommand {
+    private final Race nextRace;
 
-    public NextRace(String name, String description) {
+    public NextRace(String name, String description, Race nextRace) {
         super(name, description);
+        this.nextRace = nextRace;
     }
 
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event) {
-        Race race = F1Data.getF1Data().getNextRace();
-        URL img = getClass().getResource("/circuitimages/"+ race.getImageName());
+        URL img = getClass().getResource("/circuitimages/"+ nextRace.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);
-        event.getHook().sendMessageEmbeds(EmbedCreator.createRace(race).build())
+        event.getHook().sendMessageEmbeds(EmbedCreator.createRace(nextRace).build())
                 .addFiles(FileUpload.fromData(f, "circuitImage.png"))
                 .queue();
     }

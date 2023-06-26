@@ -26,15 +26,17 @@ import java.util.stream.Collectors;
 public class CommandListener extends ListenerAdapter {
     static int pageSize = 5;
     private final CommandManager commandManager;
+    private final F1Data f1data;
 
     public CommandListener() {
         super();
-        commandManager = new CommandManager();
+        this.f1data = new F1Data();
+        commandManager = new CommandManager(f1data);
     }
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        F1Data.getF1Data().setData();
+        f1data.setData();
         event.deferReply().queue();
         commandManager.getCommands().get(event.getName()).execute(event);
     }
@@ -87,7 +89,7 @@ public class CommandListener extends ListenerAdapter {
 
         if (buttonId.equals("next-dstandings")) {
             page++;
-            if ((page * pageSize) + pageSize >= F1Data.getF1Data().getDriverMap().size()) {
+            if ((page * pageSize) + pageSize >= f1data.getDriverMap().size()) {
                 buttonList.set(1, buttonList.get(1).asDisabled());
             }
         } else if (buttonId.equals("prev-dstandings")) {
@@ -97,7 +99,7 @@ public class CommandListener extends ListenerAdapter {
             }
         }
         event.editMessageEmbeds(
-                        EmbedCreator.createDriverStandings(F1Data.getF1Data().getDriverMap(), page).build())
+                        EmbedCreator.createDriverStandings(f1data.getDriverMap(), page).build())
                 .setActionRow(buttonList)
                 .queue();
     }
@@ -107,7 +109,7 @@ public class CommandListener extends ListenerAdapter {
                 .map(Button::asEnabled)
                 .collect(Collectors.toList());
         int index = Integer.parseInt(String.valueOf(event.getMessage().getEmbeds().get(0).getTitle().charAt(1)))-1;
-        Race race = F1Data.getF1Data().getRace(index);
+        Race race = f1data.getRace(index);
 
         if (buttonId.equals("info-getrace")) {
             buttonList.set(0, buttonList.get(0).asDisabled());
