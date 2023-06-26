@@ -1,5 +1,6 @@
 package qwikk.f1bot.commands;
 
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -28,9 +29,9 @@ public class CommandListener extends ListenerAdapter {
     private final CommandManager commandManager;
     private final F1Data f1data;
 
-    public CommandListener() {
+    public CommandListener(JDA bot) {
         super();
-        this.f1data = new F1Data();
+        this.f1data = new F1Data(bot);
         commandManager = new CommandManager(f1data);
     }
 
