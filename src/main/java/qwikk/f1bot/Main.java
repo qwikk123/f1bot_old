@@ -12,15 +12,17 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
+    public static JDA bot;
+
     public static void main(String[] args) {
         File f = new File("token/t.token");
         try (Scanner s = new Scanner(f)) {
-            JDA bot = JDABuilder.createDefault(s.nextLine())
+            bot = JDABuilder.createDefault(s.nextLine())
                     .setActivity(Activity.listening("F1 theme song"))
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                     .build();
             bot.awaitReady();
-            bot.addEventListener(new CommandListener(new F1Data(bot)));
+            bot.addEventListener(new CommandListener(F1Data.getF1Data()));
         }
         catch (FileNotFoundException e) {
             System.out.println("Token file is missing");

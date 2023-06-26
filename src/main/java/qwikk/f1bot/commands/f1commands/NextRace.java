@@ -20,8 +20,8 @@ public class NextRace extends BotCommand {
     }
 
     @Override
-    public void execute(@NotNull SlashCommandInteractionEvent event, F1Data f1Data) {
-        Race race = f1Data.getNextRace();
+    public void execute(@NotNull SlashCommandInteractionEvent event) {
+        Race race = F1Data.getF1Data().getNextRace();
         URL img = getClass().getResource("/circuitimages/"+ race.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);

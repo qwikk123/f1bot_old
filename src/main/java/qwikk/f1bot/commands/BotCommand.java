@@ -17,7 +17,7 @@ public abstract class BotCommand {
         this.description = description;
     }
 
-    public abstract void execute(@NotNull SlashCommandInteractionEvent event, F1Data f1data);
+    public abstract void execute(@NotNull SlashCommandInteractionEvent event);
     public boolean hasOptions() {
         return optionList != null;
     }

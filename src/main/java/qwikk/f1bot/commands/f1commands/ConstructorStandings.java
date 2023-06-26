@@ -13,7 +13,9 @@ public class ConstructorStandings extends BotCommand {
     }
 
     @Override
-    public void execute(@NotNull SlashCommandInteractionEvent event, F1Data f1Data) {
-        event.getHook().sendMessageEmbeds(EmbedCreator.createConstructorStandings(f1Data.getConstructorStandings()).build()).queue();
+    public void execute(@NotNull SlashCommandInteractionEvent event) {
+        event.getHook().sendMessageEmbeds(EmbedCreator.createConstructorStandings(F1Data.getF1Data().getConstructorStandings())
+                .build())
+                .queue();
     }
 }

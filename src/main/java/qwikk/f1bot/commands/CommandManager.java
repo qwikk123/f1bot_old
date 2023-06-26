@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CommandManager {
     private final HashMap<String, BotCommand> commandMap = new HashMap<>();
-    public CommandManager(F1Data f1Data) {
+    public CommandManager() {
         BotCommand ping = new Ping(
                 "ping",
                 "ping the bot :)");
@@ -16,7 +16,7 @@ public class CommandManager {
 
         BotCommand getRace = new GetRace(
                 "getrace",
-                "Get info from a specific Grand Prix", f1Data);
+                "Get info from a specific Grand Prix");
         commandMap.put(getRace.name,getRace);
 
         BotCommand nextRace = new NextRace(
@@ -36,8 +36,7 @@ public class CommandManager {
 
         BotCommand getDriver = new GetDriver(
                 "getdriver",
-                "get information about a driver",
-                f1Data);
+                "get information about a driver");
         commandMap.put(getDriver.name, getDriver);
 
     }

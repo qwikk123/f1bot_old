@@ -19,11 +19,11 @@ import java.util.ArrayList;
 
 public class GetDriver extends BotCommand {
 
-    public GetDriver(String name, String description, F1Data f1Data) {
+    public GetDriver(String name, String description) {
         super(name, description);
         optionList = new ArrayList<>();
         ArrayList<Command.Choice> choiceList= new ArrayList<>();
-        f1Data.getDriverMap().values().forEach(x -> choiceList.add(new Command.Choice(x.name(),x.driverId())));
+        F1Data.getF1Data().getDriverMap().values().forEach(x -> choiceList.add(new Command.Choice(x.name(),x.driverId())));
         optionList.add(new OptionData(
                 OptionType.STRING,
                 "drivername",
@@ -33,9 +33,9 @@ public class GetDriver extends BotCommand {
     }
 
     @Override
-    public void execute(@NotNull SlashCommandInteractionEvent event, F1Data  f1Data) {
+    public void execute(@NotNull SlashCommandInteractionEvent event) {
         String driverId = event.getOption("drivername").getAsString(); //Non-null warning, but this will never be null as racenumber is required
-        Driver driver = f1Data.getDriver(driverId);
+        Driver driver = F1Data.getF1Data().getDriver(driverId);
         URL img = getClass().getResource("/driverimages/"+driver.code()+".png");
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);

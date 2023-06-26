@@ -1,6 +1,7 @@
 package qwikk.f1bot.f1data;
 
 import net.dv8tion.jda.api.JDA;
+import qwikk.f1bot.Main;
 import qwikk.f1bot.ergastparser.ErgastParser;
 import qwikk.f1bot.scheduling.MessageScheduler;
 
@@ -9,20 +10,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class F1Data {
+    private static F1Data f1data;
     private ArrayList<Race> raceList;
     private HashMap<String, Driver> driverMap;
     private ArrayList<Constructor> constructorStandings;
     private Race nextRace;
     private final MessageScheduler messageScheduler;
     private final ErgastParser ergastParser;
-    private final JDA bot;
     private static final String scheduledTextChannel = "f1";
 
-    public F1Data(JDA bot) {
-        this.bot = bot;
+    private F1Data() {
         ergastParser = new ErgastParser();
-        messageScheduler = new MessageScheduler(bot.getTextChannelsByName(scheduledTextChannel,true));
+        messageScheduler = new MessageScheduler(Main.bot.getTextChannelsByName(scheduledTextChannel,true));
         setData();
+    }
+    public static F1Data getF1Data() {
+        if (f1data == null) { f1data = new F1Data(); }
+        return f1data;
     }
 
     public void update() {
@@ -74,7 +78,7 @@ public class F1Data {
 
     public void refreshScheduler() {
         if (nextRace.getLocalDateTime().minusDays(2).isAfter(LocalDateTime.now())) {
-            messageScheduler.setChannelList(bot.getTextChannelsByName(scheduledTextChannel,true));
+            messageScheduler.setChannelList(Main.bot.getTextChannelsByName(scheduledTextChannel,true));
             messageScheduler.cancel();
             messageScheduler.schedule(nextRace);
         }

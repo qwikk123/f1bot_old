@@ -13,7 +13,7 @@ public class Ping extends BotCommand {
     }
 
     @Override
-    public void execute(@NotNull SlashCommandInteractionEvent event, F1Data f1Data) {
+    public void execute(@NotNull SlashCommandInteractionEvent event) {
         long ping = event.getTimeCreated().until(OffsetDateTime.now(), ChronoUnit.MILLIS);
         event.getHook().sendMessage("pong after: "+ping+" ms :)").queue();
     }

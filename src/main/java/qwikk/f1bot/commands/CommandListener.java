@@ -31,14 +31,14 @@ public class CommandListener extends ListenerAdapter {
     public CommandListener(F1Data f1Data) {
         super();
         this.f1Data = f1Data;
-        commandManager = new CommandManager(f1Data);
+        commandManager = new CommandManager();
     }
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         f1Data.update();
         event.deferReply().queue();
-        commandManager.getCommands().get(event.getName()).execute(event, f1Data);
+        commandManager.getCommands().get(event.getName()).execute(event);
     }
 
     @Override

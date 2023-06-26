@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class GetRace extends BotCommand {
 
-    public GetRace(String name, String description, F1Data f1Data) {
+    public GetRace(String name, String description) {
         super(name, description);
         optionList = new ArrayList<>();
         optionList.add(new OptionData(
@@ -27,17 +27,17 @@ public class GetRace extends BotCommand {
                 "racenumber",
                 "Race to get info from",
                 true,
-                true).setMinValue(1).setMaxValue(f1Data.getRaceList().size()));
+                true).setMinValue(1).setMaxValue(F1Data.getF1Data().getRaceList().size()));
     }
 
     @Override
-    public void execute(@NotNull SlashCommandInteractionEvent event, F1Data  f1Data) {
+    public void execute(@NotNull SlashCommandInteractionEvent event) {
         ArrayList<Button> buttonList = new ArrayList<>();
         buttonList.add(Button.danger("info-getrace", "Info").asDisabled());
         buttonList.add(Button.danger("result-getrace", "Result"));
 
         int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
-        Race race = f1Data.getRace(index);
+        Race race = F1Data.getF1Data().getRace(index);
         URL img = getClass().getResource("/circuitimages/"+ race.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);

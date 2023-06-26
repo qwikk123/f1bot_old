@@ -16,12 +16,12 @@ public class DriverStandings extends BotCommand {
     }
 
     @Override
-    public void execute(@NotNull SlashCommandInteractionEvent event, F1Data f1Data) {
+    public void execute(@NotNull SlashCommandInteractionEvent event) {
         ArrayList<Button> buttonList = new ArrayList<>();
         buttonList.add(Button.danger("prev-dstandings", "Previous").asDisabled());
         buttonList.add(Button.danger("next-dstandings", "Next"));
         event.getHook().sendMessageEmbeds(
-                EmbedCreator.createDriverStandings(f1Data.getDriverMap(),0).build())
+                EmbedCreator.createDriverStandings(F1Data.getF1Data().getDriverMap(),0).build())
                 .setActionRow(buttonList)
                 .queue();
     }
