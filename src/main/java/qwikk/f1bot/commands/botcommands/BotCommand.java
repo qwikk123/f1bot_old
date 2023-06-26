@@ -23,5 +23,4 @@ public abstract class BotCommand {
     public String getName() { return name; }
     public String getDescription() { return description; }
     public List<OptionData> getOptions() { return optionList; }
-    public void setOptions(List<OptionData> optionList) { this.optionList = optionList; }
 }
