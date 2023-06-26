@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.utils.FileUpload;
 import qwikk.f1bot.f1data.Driver;
 import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.commands.BotCommand;
-import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
