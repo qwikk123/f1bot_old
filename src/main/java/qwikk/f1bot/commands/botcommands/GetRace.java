@@ -1,4 +1,4 @@
-package qwikk.f1bot.commands.f1commands;
+package qwikk.f1bot.commands.botcommands;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 import qwikk.f1bot.utils.EmbedCreator;
-import qwikk.f1bot.commands.BotCommand;
 import qwikk.f1bot.f1data.Race;
 import org.jetbrains.annotations.NotNull;
 

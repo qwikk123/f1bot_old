@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.FileUpload;
+import qwikk.f1bot.commands.botcommands.BotCommand;
 import qwikk.f1bot.f1data.Race;
 import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.f1data.F1Data;
@@ -46,8 +47,8 @@ public class CommandListener extends ListenerAdapter {
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         List<CommandData> commandData = new ArrayList<>();
         for(BotCommand command : commandManager.getCommandList()) {
-            SlashCommandData scd = Commands.slash(command.name, command.description);
-            if (command.hasOptions()) { scd.addOptions(command.optionList); }
+            SlashCommandData scd = Commands.slash(command.getName(), command.getDescription());
+            if (command.hasOptions()) { scd.addOptions(command.getOptions()); }
             commandData.add(scd);
         }
         for (CommandData cd : commandData) {
@@ -60,8 +61,8 @@ public class CommandListener extends ListenerAdapter {
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
         List<CommandData> commandData = new ArrayList<>();
         for(BotCommand command : commandManager.getCommandList()) {
-            SlashCommandData scd = Commands.slash(command.name, command.description);
-            if (command.hasOptions()) { scd.addOptions(command.optionList); }
+            SlashCommandData scd = Commands.slash(command.getName(), command.getDescription());
+            if (command.hasOptions()) { scd.addOptions(command.getOptions()); }
             commandData.add(scd);
         }
         for (CommandData cd : commandData) {

@@ -1,6 +1,6 @@
 package qwikk.f1bot.commands;
 
-import qwikk.f1bot.commands.f1commands.*;
+import qwikk.f1bot.commands.botcommands.*;
 import qwikk.f1bot.f1data.F1Data;
 
 import java.util.HashMap;
@@ -12,37 +12,37 @@ public class CommandManager {
         BotCommand ping = new Ping(
                 "ping",
                 "ping the bot :)");
-        commandMap.put(ping.name, ping);
+        commandMap.put(ping.getName(), ping);
 
         BotCommand getRace = new GetRace(
                 "getrace",
                 "Get info from a specific Grand Prix",
                 f1data.getRaceList());
-        commandMap.put(getRace.name,getRace);
+        commandMap.put(getRace.getName(),getRace);
 
         BotCommand nextRace = new NextRace(
                 "nextrace",
                 "Get info from the next Grand Prix",
                 f1data.getNextRace());
-        commandMap.put(nextRace.name, nextRace);
+        commandMap.put(nextRace.getName(), nextRace);
 
         BotCommand driverStandings = new DriverStandings(
                 "driverstandings",
                 "Get the current standings in the drivers championship",
                 f1data.getDriverMap());
-        commandMap.put(driverStandings.name, driverStandings);
+        commandMap.put(driverStandings.getName(), driverStandings);
 
         BotCommand constructorStandings = new ConstructorStandings(
                 "constructorstandings",
                 "Get the current standings in the constructor championship",
                 f1data.getConstructorStandings());
-        commandMap.put(constructorStandings.name, constructorStandings);
+        commandMap.put(constructorStandings.getName(), constructorStandings);
 
         BotCommand getDriver = new GetDriver(
                 "getdriver",
                 "get information about a driver",
                 f1data.getDriverMap());
-        commandMap.put(getDriver.name, getDriver);
+        commandMap.put(getDriver.getName(), getDriver);
 
     }
     public HashMap<String, BotCommand> getCommands() { return commandMap; }
