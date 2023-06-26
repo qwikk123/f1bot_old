@@ -1,7 +1,6 @@
 package qwikk.f1bot.commands;
 
 import qwikk.f1bot.commands.f1commands.*;
-import qwikk.f1bot.f1data.F1Data;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,7 +1,6 @@
 package qwikk.f1bot.commands;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.OffsetDateTime;

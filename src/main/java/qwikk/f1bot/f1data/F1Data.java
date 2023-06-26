@@ -1,6 +1,5 @@
 package qwikk.f1bot.f1data;
 
-import net.dv8tion.jda.api.JDA;
 import qwikk.f1bot.Main;
 import qwikk.f1bot.ergastparser.ErgastParser;
 import qwikk.f1bot.scheduling.MessageScheduler;
@@ -34,21 +33,17 @@ public class F1Data {
     }
 
     public void setData() {
-        long start = System.currentTimeMillis();
         ArrayList<Race> newRaceList = ergastParser.getF1RaceData(raceList == null);
         if (newRaceList != null) {
             raceList = newRaceList;
             setNextRace();
         }
-        long afterRaceData = System.currentTimeMillis();
 
         HashMap<String, Driver> newDriverMap = ergastParser.getF1DriverStandingsData(driverMap == null);
         if (newDriverMap != null) { driverMap = newDriverMap; }
-        long afterDriverStandings = System.currentTimeMillis();
 
         ArrayList<Constructor> newConstructorStandings = ergastParser.getF1ConstructorStandingsData(constructorStandings == null);
         if (newConstructorStandings != null) { constructorStandings = newConstructorStandings; }
-        long afterConstructorData = System.currentTimeMillis();
 
         ArrayList<RaceResult> raceResults = ergastParser.getRaceResults(raceList.get(0).getRaceResult() == null);
         if (raceResults != null) {
@@ -56,14 +51,8 @@ public class F1Data {
                 raceList.get(i).setRaceResult(raceResults.get(i));
             }
         }
-        long afterRaceResults = System.currentTimeMillis();
 
 //      Any more api requests will require a delay. Max 4 polls per second/ 200 per hour
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     public void setNextRace() {
