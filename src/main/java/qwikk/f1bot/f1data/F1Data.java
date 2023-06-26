@@ -1,7 +1,6 @@
 package qwikk.f1bot.f1data;
 
 import net.dv8tion.jda.api.JDA;
-import qwikk.f1bot.Main;
 import qwikk.f1bot.ergastparser.ErgastParser;
 import qwikk.f1bot.scheduling.MessageScheduler;
 
