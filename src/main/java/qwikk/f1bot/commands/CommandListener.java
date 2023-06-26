@@ -76,8 +76,8 @@ public class CommandListener extends ListenerAdapter {
         if (buttonType.equals("dstandings")) {
             driverStandingsButton(event,buttonId);
         }
-        else if (buttonType.equals("getrace")) {
-            getRaceButton(event, buttonId);
+        else if (buttonType.equals("getrace") || buttonType.equals("resultpage")) {
+            getRaceButton(event, buttonId, buttonType);
         }
     }
 
@@ -104,7 +104,7 @@ public class CommandListener extends ListenerAdapter {
                 .queue();
     }
 
-    private void getRaceButton (ButtonInteractionEvent event, String buttonId) {
+    private void getRaceButton (ButtonInteractionEvent event, String buttonId, String buttonType) {
         List<Button> buttonList = event.getMessage().getButtons().stream()
                 .map(Button::asEnabled)
                 .collect(Collectors.toList());
@@ -120,15 +120,38 @@ public class CommandListener extends ListenerAdapter {
 
             event.editMessageEmbeds(EmbedCreator.createRace(race).build())
                     .setFiles(FileUpload.fromData(f, "circuitImage.png"))
-                    .setActionRow(buttonList)
+                    .setActionRow(buttonList.subList(0, 2))
                     .queue();
         }
         else if (buttonId.equals("result-getrace")) {
             buttonList.set(1, buttonList.get(1).asDisabled());
+            buttonList.add(Button.danger("prev-resultpage", "Prev").asDisabled());
+            buttonList.add(Button.danger("next-resultpage", "Next"));
 
-            event.editMessageEmbeds(EmbedCreator.createRaceResult(race).build())
+            event.editMessageEmbeds(EmbedCreator.createRaceResult(race,0).build())
                     .setActionRow(buttonList)
                     .setReplace(true)
+                    .queue();
+        }
+        else if (buttonType.equals("resultpage")) {
+            String footer = event.getMessage().getEmbeds().get(0).getFooter().getText();
+            int page = Integer.parseInt(footer.split("/")[0])-1;
+            int maxPage = Integer.parseInt(footer.split("/")[1]);
+
+            if (buttonId.equals("next-resultpage")) {
+                page++;
+                if ((page * pageSize) + pageSize >= maxPage) {
+                    buttonList.set(3, buttonList.get(3).asDisabled());
+                }
+            } else if (buttonId.equals("prev-resultpage")) {
+                page--;
+                if (page == 0) {
+                    buttonList.set(2, buttonList.get(2).asDisabled());
+                }
+            }
+            buttonList.set(1, buttonList.get(1).asDisabled());
+            event.editMessageEmbeds(EmbedCreator.createRaceResult(race,page).build())
+                    .setActionRow(buttonList)
                     .queue();
         }
     }

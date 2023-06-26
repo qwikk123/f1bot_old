@@ -1,9 +1,11 @@
 package qwikk.f1bot.commands.f1commands;
 
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.commands.BotCommand;
@@ -42,11 +44,11 @@ public class GetRace extends BotCommand {
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);
 
-        if (!race.hasRaceResult()) { buttonList.set(1, buttonList.get(1).asDisabled()); }
-
-        event.getHook().sendMessageEmbeds(EmbedCreator.createRace(race).build())
-                .addFiles(FileUpload.fromData(f, "circuitImage.png"))
-                .addActionRow(buttonList)
-                .queue();
+        WebhookMessageCreateAction<Message> action = event.getHook().sendMessageEmbeds(EmbedCreator.createRace(race).build())
+                .addFiles(FileUpload.fromData(f, "circuitImage.png"));
+        if (race.hasRaceResult()) {
+            action.addActionRow(buttonList);
+        }
+        action.queue();
     }
 }

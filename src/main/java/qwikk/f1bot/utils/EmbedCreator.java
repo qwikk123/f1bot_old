@@ -85,17 +85,24 @@ public class EmbedCreator {
         return eb;
     }
 
-    public static EmbedBuilder createRaceResult(Race r) {
+    public static EmbedBuilder createRaceResult(Race r, int page) {
+        int pageSize = 10;
+        int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("#"+r.getRound()+" "+r.getName());
-        String fieldText = "```";
+        String fieldText = "```"+String.format("%-4s    %-15s","Pos:","Driver:")+"\n";
         List<String> raceResultList = r.getRaceResult().getRaceResultList();
-        for (int i = 0; i < raceResultList.size(); i+=2) {
-            fieldText += String.format("%-20s%s","#"+(i+1)+" "+raceResultList.get(i),"#"+(i+2)+" "+raceResultList.get(i+1))+"\n";
+        int pos = start;
+        for (String s : raceResultList.subList(start, start+pageSize)) {
+            fieldText += resultString(s, pos++);
         }
         fieldText += "```";
         eb.addField("Result",fieldText,true);
+        eb.setFooter((page+1)+"/"+raceResultList.size()/pageSize);
         return eb;
+    }
+    private static String resultString(String s, int i) {
+        return String.format("%-4s    %-15s","#"+(i+1), s)+"\n";
     }
 }
