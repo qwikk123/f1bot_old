@@ -38,8 +38,8 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        f1data.setData();
         event.deferReply().queue();
+        f1data.setData();
         commandManager.getCommands().get(event.getName()).execute(event);
     }
 
