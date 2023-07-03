@@ -23,7 +23,7 @@ public class CommandManager {
         BotCommand nextRace = new NextRace(
                 "nextrace",
                 "Get info from the next Grand Prix",
-                f1data.getNextRace());
+                f1data.getRaceList());
         commandMap.put(nextRace.getName(), nextRace);
 
         BotCommand driverStandings = new DriverStandings(

@@ -10,22 +10,32 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class NextRace extends BotCommand {
-    private final Race nextRace;
+    private final ArrayList<Race> raceList;
 
-    public NextRace(String name, String description, Race nextRace) {
+    public NextRace(String name, String description, ArrayList<Race> raceList) {
         super(name, description);
-        this.nextRace = nextRace;
+        this.raceList = raceList;
     }
 
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event) {
+        Race nextRace = getNextRace();
         URL img = getClass().getResource("/circuitimages/"+ nextRace.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);
         event.getHook().sendMessageEmbeds(EmbedCreator.createRace(nextRace).build())
                 .addFiles(FileUpload.fromData(f, "circuitImage.png"))
                 .queue();
+    }
+
+    private Race getNextRace() {
+        for (Race r : raceList) {
+            if (r.getLocalDateTime().isAfter(LocalDateTime.now())) { return r; }
+        }
+        return null;
     }
 }
