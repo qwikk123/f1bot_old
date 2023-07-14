@@ -23,6 +23,8 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class CommandListener extends ListenerAdapter {
@@ -110,7 +112,9 @@ public class CommandListener extends ListenerAdapter {
         List<Button> buttonList = event.getMessage().getButtons().stream()
                 .map(Button::asEnabled)
                 .collect(Collectors.toList());
-        int index = Integer.parseInt(String.valueOf(event.getMessage().getEmbeds().get(0).getTitle().charAt(1)))-1;
+        Matcher matcher = Pattern.compile("\\d+").matcher(event.getMessage().getEmbeds().get(0).getTitle());
+        if (!matcher.find()) { System.out.println("Invalid pattern in getrace"); return; }
+        int index = Integer.parseInt(matcher.group(0))-1;
         Race race = f1data.getRace(index);
 
         if (buttonId.equals("info-getrace")) {
