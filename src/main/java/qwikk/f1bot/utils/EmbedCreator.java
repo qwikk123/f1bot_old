@@ -1,6 +1,7 @@
 package qwikk.f1bot.utils;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import qwikk.f1bot.ergastparser.ResultDriver;
 import qwikk.f1bot.f1data.Constructor;
 import qwikk.f1bot.f1data.Driver;
 import qwikk.f1bot.f1data.Race;
@@ -85,24 +86,28 @@ public class EmbedCreator {
         return eb;
     }
 
-    public static EmbedBuilder createRaceResult(Race r, int page) {
+    public static EmbedBuilder createRaceResult(Race r,HashMap<String, Driver> driverMap, int page) {
+        String format = "%-4s  %-15s  %-7s  %s";
         int pageSize = 10;
         int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("#"+r.getRound()+" "+r.getName());
-        String fieldText = "```"+String.format("%-4s    %-15s","Pos:","Driver:")+"\n";
-        List<String> raceResultList = r.getRaceResult().getRaceResultList();
+        String fieldText = "```"+String.format(format,"Pos:","Driver:","Points:","Status:")+"\n";
+        List<ResultDriver> raceResultList = r.getRaceResult().getRaceResultList();
         int pos = start;
-        for (String s : raceResultList.subList(start, start+pageSize)) {
-            fieldText += resultString(s, pos++);
+        for (ResultDriver rDriver : raceResultList.subList(start, start+pageSize)) {
+            Driver d = driverMap.get(rDriver.driverId());
+            fieldText += String.format(format,
+                    "#"+((pos++)+1),
+                    d.name(),
+                    df.format(rDriver.points()),
+                    rDriver.status())
+                    +"\n";
         }
         fieldText += "```";
         eb.addField("Result",fieldText,true);
         eb.setFooter((page+1)+"/"+raceResultList.size()/pageSize);
         return eb;
-    }
-    private static String resultString(String s, int i) {
-        return String.format("%-4s    %-15s","#"+(i+1), s)+"\n";
     }
 }

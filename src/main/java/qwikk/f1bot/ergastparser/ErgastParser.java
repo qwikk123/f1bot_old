@@ -71,8 +71,17 @@ public class ErgastParser {
             JSONArray resultArray = race.getJSONArray("Results");
 
             for (int j = 0; j < resultArray.length(); j++) {
-                String driverId = resultArray.getJSONObject(j).getJSONObject("Driver").getString("driverId");
-                raceResult.getRaceResultList().add(driverId);
+
+                JSONObject jsonDriver = resultArray.getJSONObject(j);
+                String driverId = jsonDriver.getJSONObject("Driver").getString("driverId");
+                int laps = jsonDriver.getInt("laps");
+                int gridStart = jsonDriver.getInt("grid");
+                String status = jsonDriver.getString("status");
+                int points = jsonDriver.getInt("points");
+
+                ResultDriver rDriver = new ResultDriver(driverId, laps, gridStart, status, points);
+
+                raceResult.getRaceResultList().add(rDriver);
             }
             raceResults.add(raceResult);
         }

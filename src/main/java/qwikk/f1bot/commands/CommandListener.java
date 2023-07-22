@@ -134,7 +134,7 @@ public class CommandListener extends ListenerAdapter {
             buttonList.add(Button.danger("prev-resultpage", "Prev").asDisabled());
             buttonList.add(Button.danger("next-resultpage", "Next"));
 
-            event.editMessageEmbeds(EmbedCreator.createRaceResult(race,0).build())
+            event.editMessageEmbeds(EmbedCreator.createRaceResult(race,f1data.getDriverMap(),0).build())
                     .setActionRow(buttonList)
                     .setReplace(true)
                     .queue();
@@ -156,7 +156,7 @@ public class CommandListener extends ListenerAdapter {
                 }
             }
             buttonList.set(1, buttonList.get(1).asDisabled());
-            event.editMessageEmbeds(EmbedCreator.createRaceResult(race,page).build())
+            event.editMessageEmbeds(EmbedCreator.createRaceResult(race,f1data.getDriverMap(),page).build())
                     .setActionRow(buttonList)
                     .queue();
         }

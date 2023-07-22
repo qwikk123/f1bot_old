@@ -1,21 +1,23 @@
 package qwikk.f1bot.f1data;
 
+import qwikk.f1bot.ergastparser.ResultDriver;
+
 import java.util.ArrayList;
 
 public class RaceResult {
-    private final ArrayList<String> raceResult;
+    private final ArrayList<ResultDriver> raceResult;
 
-    public RaceResult(ArrayList<String> raceResultIds) {
+    public RaceResult(ArrayList<ResultDriver> raceResultIds) {
         this.raceResult = raceResultIds;
     }
 
-    public ArrayList<String> getRaceResultList() { return raceResult; }
+    public ArrayList<ResultDriver> getRaceResultList() { return raceResult; }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (String s : raceResult) {
-            sb.append(s);
+        for (ResultDriver d : raceResult) {
+            sb.append(d.driverId());
             sb.append("\n");
         }
         return sb.toString();
