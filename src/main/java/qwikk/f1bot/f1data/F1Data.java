@@ -1,6 +1,7 @@
 package qwikk.f1bot.f1data;
 
 import net.dv8tion.jda.api.JDA;
+import qwikk.f1bot.commands.CommandListener;
 import qwikk.f1bot.ergastparser.ErgastParser;
 import qwikk.f1bot.scheduling.MessageScheduler;
 
@@ -17,8 +18,10 @@ public class F1Data {
     private final ErgastParser ergastParser;
     private static final String scheduledTextChannel = "f1";
     private final JDA bot;
+    private final CommandListener commandListener;
 
-    public F1Data(JDA bot) {
+    public F1Data(JDA bot, CommandListener commandListener) {
+        this.commandListener = commandListener;
         ergastParser = new ErgastParser();
         this.bot = bot;
         messageScheduler = new MessageScheduler(bot.getTextChannelsByName(scheduledTextChannel,true));
@@ -26,26 +29,32 @@ public class F1Data {
     }
 
     public void setData() {
+        boolean updated = false;
         ArrayList<Race> newRaceList = ergastParser.getF1RaceData(raceList == null);
         if (newRaceList != null) {
             raceList = newRaceList;
             setNextRace();
+            updated = true;
         }
 
         HashMap<String, Driver> newDriverMap = ergastParser.getF1DriverStandingsData(driverMap == null);
-        if (newDriverMap != null) { driverMap = newDriverMap; }
+        if (newDriverMap != null) { driverMap = newDriverMap; updated = true;}
 
         ArrayList<Constructor> newConstructorStandings = ergastParser.getF1ConstructorStandingsData(constructorStandings == null);
-        if (newConstructorStandings != null) { constructorStandings = newConstructorStandings; }
+        if (newConstructorStandings != null) { constructorStandings = newConstructorStandings; updated = true;}
 
         ArrayList<RaceResult> raceResults = ergastParser.getRaceResults(raceList.get(0).getRaceResult() == null);
         if (raceResults != null) {
             for (int i = 0; i < raceResults.size(); i++) {
                 raceList.get(i).setRaceResult(raceResults.get(i));
             }
+            updated = true;
         }
-
 //      Any more api requests will require a delay. Max 4 polls per second/ 200 per hour
+
+        if (updated && commandListener.isReady()) {
+            commandListener.upsertCommands(bot.getGuilds());
+        }
     }
 
     public void setNextRace() {

@@ -19,7 +19,9 @@ public class Main {
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                     .build();
             bot.awaitReady();
-            bot.addEventListener(new CommandListener(bot));
+            CommandListener commandListener = new CommandListener(bot);
+            commandListener.upsertCommands(bot.getGuilds());
+            bot.addEventListener(commandListener);
         }
         catch (FileNotFoundException e) {
             System.out.println("Token file is missing");

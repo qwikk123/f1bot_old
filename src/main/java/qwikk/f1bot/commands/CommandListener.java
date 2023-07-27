@@ -1,10 +1,11 @@
 package qwikk.f1bot.commands;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
-import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -31,10 +32,11 @@ public class CommandListener extends ListenerAdapter {
     static int pageSize = 5;
     private final CommandManager commandManager;
     private final F1Data f1data;
+    private boolean ready = false;
 
     public CommandListener(JDA bot) {
         super();
-        this.f1data = new F1Data(bot);
+        this.f1data = new F1Data(bot, this);
         commandManager = new CommandManager(f1data);
     }
 
@@ -46,21 +48,19 @@ public class CommandListener extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildReady(@NotNull GuildReadyEvent event) {
-        List<CommandData> commandData = new ArrayList<>();
-        for(BotCommand command : commandManager.getCommandList()) {
-            SlashCommandData scd = Commands.slash(command.getName(), command.getDescription());
-            if (command.hasOptions()) { scd.addOptions(command.getOptions()); }
-            commandData.add(scd);
-        }
-        for (CommandData cd : commandData) {
-            event.getGuild().upsertCommand(cd).queue();
-        }
+    public void onReady(ReadyEvent event) {
+        super.onReady(event);
+        ready = true;
     }
-
 
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
+        ArrayList<Guild> guildList = new ArrayList<>();
+        guildList.add(event.getGuild());
+        upsertCommands(guildList);
+    }
+
+    public void upsertCommands(List<Guild> guilds) {
         List<CommandData> commandData = new ArrayList<>();
         for(BotCommand command : commandManager.getCommandList()) {
             SlashCommandData scd = Commands.slash(command.getName(), command.getDescription());
@@ -68,7 +68,9 @@ public class CommandListener extends ListenerAdapter {
             commandData.add(scd);
         }
         for (CommandData cd : commandData) {
-            event.getGuild().upsertCommand(cd).queue();
+            for (Guild g : guilds) {
+                g.upsertCommand(cd).queue();
+            }
         }
     }
 
@@ -161,4 +163,6 @@ public class CommandListener extends ListenerAdapter {
                     .queue();
         }
     }
+
+    public boolean isReady() {return ready;}
 }
