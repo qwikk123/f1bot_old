@@ -54,13 +54,14 @@ public class EmbedCreator {
         setTheme(eb);
         eb.setTitle("Driver Standings");
         String fieldText = String.format("```%-25s%s\n\n", "Driver:","Points:");
-        for (Driver driver : driverStandings.subList(start,start+pageSize)) {
+        for (Driver driver : driverStandings.subList(start,Math.min(start+pageSize, driverStandings.size()))) {
             String line = String.format("%-25s%s\nTeam: %s","#"+driver.pos()+" "+driver.name(),df.format(driver.points()), driver.constructorName());
             fieldText+=line+"\n\n";
         }
         fieldText+="```";
         eb.addField("",fieldText,false);
-        eb.setFooter((page+1)+"/"+driverStandings.size()/pageSize);
+        int maxPage = (int) Math.ceil((double)driverStandings.size()/pageSize);
+        eb.setFooter((page+1)+"/"+maxPage);
         return eb;
     }
 
@@ -87,7 +88,7 @@ public class EmbedCreator {
     }
 
     public static EmbedBuilder createRaceResult(Race r,HashMap<String, Driver> driverMap, int page) {
-        String format = "%-4s  %-15s  %-7s  %s";
+        String format = "%-4s  %-16s  %-7s  %s";
         int pageSize = 10;
         int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();
