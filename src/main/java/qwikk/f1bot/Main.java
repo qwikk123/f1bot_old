@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+	//Test
         File f = new File("token/t.token");
         try (Scanner s = new Scanner(f)) {
             JDA bot = JDABuilder.createDefault(s.nextLine())
