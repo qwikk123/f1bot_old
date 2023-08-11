@@ -24,7 +24,7 @@ public class NextRace extends BotCommand {
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event) {
         Race nextRace = getNextRace();
-        URL img = getClass().getResource("/circuitimages/"+ nextRace.getImageName());
+        URL img = getClass().getClassLoader().getResource("/circuitimages/"+ nextRace.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);
         event.getHook().sendMessageEmbeds(EmbedCreator.createRace(nextRace).build())

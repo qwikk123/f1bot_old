@@ -41,7 +41,7 @@ public class GetRace extends BotCommand {
 
         int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
         Race race = raceList.get(index);
-        URL img = getClass().getResource("/circuitimages/"+ race.getImageName());
+        URL img = getClass().getClassLoader().getResource("/circuitimages/"+ race.getImageName());
         String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
         File f = new File(imgPath);
 
