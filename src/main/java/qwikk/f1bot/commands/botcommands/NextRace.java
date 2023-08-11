@@ -7,6 +7,7 @@ import qwikk.f1bot.f1data.Race;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -24,11 +25,10 @@ public class NextRace extends BotCommand {
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event) {
         Race nextRace = getNextRace();
-        URL img = getClass().getClassLoader().getResource("/circuitimages/"+ nextRace.getImageName());
-        String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
-        File f = new File(imgPath);
+        InputStream inputStream = getClass().getResourceAsStream("/circuitimages/"+ nextRace.getImageName());
+
         event.getHook().sendMessageEmbeds(EmbedCreator.createRace(nextRace).build())
-                .addFiles(FileUpload.fromData(f, "circuitImage.png"))
+                .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
                 .queue();
     }
 
