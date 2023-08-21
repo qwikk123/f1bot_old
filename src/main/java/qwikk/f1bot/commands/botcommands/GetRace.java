@@ -11,11 +11,7 @@ import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.f1data.Race;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class GetRace extends BotCommand {
