@@ -18,10 +18,7 @@ import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.f1data.F1Data;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -122,12 +119,10 @@ public class CommandListener extends ListenerAdapter {
         if (buttonId.equals("info-getrace")) {
             buttonList.set(0, buttonList.get(0).asDisabled());
 
-            URL img = getClass().getResource("/circuitimages/"+ race.getImageName());
-            String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
-            File f = new File(imgPath);
+            InputStream inputStream = getClass().getResourceAsStream("/circuitimages/"+ race.getImageName());
 
             event.editMessageEmbeds(EmbedCreator.createRace(race).build())
-                    .setFiles(FileUpload.fromData(f, "circuitImage.png"))
+                    .setFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
                     .setActionRow(buttonList.subList(0, 2))
                     .queue();
         }
