@@ -2,12 +2,10 @@ package qwikk.f1bot.service;
 
 import net.dv8tion.jda.api.JDA;
 import qwikk.f1bot.commands.listeners.CommandListener;
-import qwikk.f1bot.datasource.ErgastParser;
 import qwikk.f1bot.datasource.F1DataSource;
 import qwikk.f1bot.model.Constructor;
 import qwikk.f1bot.model.Driver;
 import qwikk.f1bot.model.Race;
-import qwikk.f1bot.model.RaceResult;
 import qwikk.f1bot.scheduling.MessageScheduler;
 
 import java.time.LocalDateTime;
