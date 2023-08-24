@@ -44,8 +44,5 @@ public class Race {
         return localDateTimeSprint != null;
     }
     public String getImagePath() { return "/circuitimages/"+circuitName.replaceAll(" ","")+".png"; }
-    public String getImageName() {
-        return circuitName.replaceAll(" ","")+".png";
-    }
     public LocalDateTime getUpcomingDate() { return localDateTime.minusDays(2).withHour(7); }
 }

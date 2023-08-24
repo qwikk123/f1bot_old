@@ -50,7 +50,7 @@ public class GetRace extends BotCommand {
                 .getAsInt()-1;
         Race race = raceList.get(index);
         InputStream inputStream = Objects.requireNonNull(
-                getClass().getResourceAsStream("/circuitimages/"+ race.getImageName()), "inputStream is null");
+                getClass().getResourceAsStream(race.getImagePath()), "inputStream is null");
 
         WebhookMessageCreateAction<Message> action = event.getHook().sendMessageEmbeds(EmbedCreator.createRace(race).build())
                 .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"));

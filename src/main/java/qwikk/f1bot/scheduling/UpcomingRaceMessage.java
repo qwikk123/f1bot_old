@@ -5,12 +5,10 @@ import net.dv8tion.jda.api.utils.FileUpload;
 import qwikk.f1bot.utils.EmbedCreator;
 import qwikk.f1bot.f1data.Race;
 
-import java.io.File;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class UpcomingRaceMessage implements Runnable {
 
@@ -26,13 +24,12 @@ public class UpcomingRaceMessage implements Runnable {
     public void run() {
         System.out.println("Scheduled at: "+scheduledTime+" Running at: "+LocalDateTime.now());
 
-        URL img = getClass().getResource("/circuitimages/"+ nextRace.getImageName());
-        String imgPath = URLDecoder.decode(img.getPath(), StandardCharsets.UTF_8);
-        File file = new File(imgPath);
+        InputStream inputStream = Objects.requireNonNull(
+                getClass().getResourceAsStream(nextRace.getImagePath()), "inputStream is null");
 
         channelList.forEach(x ->
             x.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build())
-                    .addFiles(FileUpload.fromData(file, "circuitImage.png"))
+                    .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
                     .queue()
         );
     }
