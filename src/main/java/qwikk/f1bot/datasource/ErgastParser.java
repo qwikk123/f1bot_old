@@ -10,12 +10,27 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class for parsing data from the Ergast API for the f1bot's model classes and datasource.
+ */
 public class ErgastParser {
 
     private final ErgastDataRetriever ergastDataRetriever;
+
+    /**
+     * Creates an instance of the ErgastParser and initializes an ErgastDataRetriever.
+     */
     public ErgastParser() {
         ergastDataRetriever = new ErgastDataRetriever();
     }
+
+    /**
+     * Parses information from an ErgastDataRetriever.
+     * The data is parsed as a JSON object.
+     * The method will not update anything unless validUpdate() returns true.
+     * @param forceUpdate forces the update of data (this is mostly used for initial data retrieval on bot startup)
+     * @return A list containing a Race instance for each race in the F1 season.
+     */
     public ArrayList<Race> getF1RaceData(boolean forceUpdate) {
         String URL = "https://ergast.com/api/f1/current.json";
         boolean validUpdate = ergastDataRetriever.validUpdate(URL);
@@ -50,6 +65,13 @@ public class ErgastParser {
         return raceList;
     }
 
+    /**
+     * Parses information from an ErgastDataRetriever.
+     * The data is parsed as a JSON object.
+     * The method will not update anything unless validUpdate() returns true.
+     * @param forceUpdate forces the update of data (this is mostly used for initial data retrieval on bot startup)
+     * @return A List containing RaceResults for each race in the F1 season
+     */
     public ArrayList<RaceResult> getRaceResults(boolean forceUpdate) {
         ArrayList<RaceResult> raceResults = new ArrayList<>();
 
@@ -85,6 +107,13 @@ public class ErgastParser {
         return raceResults;
     }
 
+    /**
+     * Parses information from an ErgastDataRetriever.
+     * The data is parsed as a JSON object.
+     * The method will not update anything unless validUpdate() returns true.
+     * @param forceUpdate forces the update of data (this is mostly used for initial data retrieval on bot startup)
+     * @return A HashMap containing all the drivers in the F1 season mapped to their driverId
+     */
     public HashMap<String, Driver> getF1DriverStandingsData(boolean forceUpdate) {
         String URL = "https://ergast.com/api/f1/current/driverStandings.json";
         boolean validUpdate = ergastDataRetriever.validUpdate(URL);
@@ -119,6 +148,13 @@ public class ErgastParser {
         return driverMap;
     }
 
+    /**
+     * Parses information from an ErgastDataRetriever.
+     * The data is parsed as a JSON object.
+     * The method will not update anything unless validUpdate() returns true.
+     * @param forceUpdate forces the update of data (this is mostly used for initial data retrieval on bot startup)
+     * @return A list containing the constructors for this F1 season.
+     */
     public ArrayList<Constructor> getF1ConstructorStandingsData(boolean forceUpdate) {
         String URL = "https://ergast.com/api/f1/current/constructorStandings.json";
         boolean validUpdate = ergastDataRetriever.validUpdate(URL);
@@ -148,6 +184,12 @@ public class ErgastParser {
         return constructorStandings;
     }
 
+    /**
+     * Gets a LocalDateTime object from separate string and time strings. (Strings missing the T separator)
+     * @param date String representing date
+     * @param time String representing time
+     * @return A new LocalDateTime object.
+     */
     public LocalDateTime getLocalDateTime (String date, String time) {
         return Instant.parse(date+"T"+time).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }

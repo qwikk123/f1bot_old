@@ -21,7 +21,12 @@ public class F1DataService {
     private final F1DataSource dataSource;
     private Race nextRace;
 
-
+    /**
+     * Creates an F1DataService and initializes its F1DataSource and MessageScheduler.
+     * Then it tells the dataSource to set its data.
+     * @param bot an instance of a JDA bot
+     * @param commandListener an instance of a CommandListener
+     */
     public F1DataService(JDA bot, CommandListener commandListener) {
         this.commandListener = commandListener;
         dataSource = new F1DataSource();
@@ -30,6 +35,11 @@ public class F1DataService {
         setData();
     }
 
+    /**
+     * setData() will request an F1DataSource to update its data.
+     * If the dataSource is updated the service will update its nextRace and
+     * tell the messageScheduler to reschedule the new race
+     */
     public void setData() {
         boolean updated = dataSource.setData();
 
@@ -39,6 +49,10 @@ public class F1DataService {
         }
     }
 
+    /**
+     * Finds the next race from today in raceList, updates nextRace and tells the scheduler to refresh itself.
+     * @param raceList
+     */
     public void setNextRace(List<Race> raceList) {
         for (Race r : raceList) {
             if (r.getLocalDateTime().isAfter(LocalDateTime.now())) {
@@ -49,8 +63,12 @@ public class F1DataService {
         }
     }
 
+    /**
+     * Refreshes the messageScheduler if the current time is before its scheduled datetime
+     * (The scheduled message datetime is always 2 days before the race date at 7 AM)
+     */
     public void refreshScheduler() {
-        if (nextRace.getLocalDateTime().minusDays(2).isAfter(LocalDateTime.now())) {
+        if (nextRace.getUpcomingDate().isAfter(LocalDateTime.now())) {
             messageScheduler.setChannelList(bot.getTextChannelsByName(scheduledTextChannel,true));
             messageScheduler.cancel();
             messageScheduler.schedule(nextRace);

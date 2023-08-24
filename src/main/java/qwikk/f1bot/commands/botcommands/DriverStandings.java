@@ -13,10 +13,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Class representing the /driverstandings command.
+ */
 public class DriverStandings extends BotCommand {
 
     private final HashMap<String, Driver> driverMap;
     private static final int pageSize = 5;
+
+    /**
+     * Creates an instance of DriverStandings.
+     * @param name This commands name
+     * @param description This commands description
+     * @param driverMap Map containing the drivers from this F1 season.
+     */
     public DriverStandings(String name, String description, HashMap<String, Driver> driverMap) {
         super(name, description);
         this.driverMap = driverMap;
@@ -33,6 +43,12 @@ public class DriverStandings extends BotCommand {
                 .queue();
     }
 
+
+    /**
+     * Method to handle the buttons for this bot command.
+     * @param event event from Discord.
+     * @param buttonId The pressed buttons id
+     */
     public void handleButtons(ButtonInteractionEvent event, String buttonId) {
         String pageNumber = Objects.requireNonNull(
                         event.getMessage().getEmbeds().get(0).getFooter().getText(), "driverstandings footer is null")

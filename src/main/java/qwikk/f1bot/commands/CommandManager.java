@@ -6,8 +6,17 @@ import qwikk.f1bot.service.F1DataService;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class for managing all the bot commands.
+ * It maps the commands to their respective names/ids.
+ */
 public class CommandManager {
     private final HashMap<String, BotCommand> commandMap = new HashMap<>();
+
+    /**
+     * Creates an instance of CommandManager and initializes all the commands the bot will use.
+     * @param f1DataService F1DataService to get initial command data from.
+     */
     public CommandManager(F1DataService f1DataService) {
         BotCommand ping = new Ping(
                 "ping",

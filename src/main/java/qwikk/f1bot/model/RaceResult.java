@@ -2,22 +2,19 @@ package qwikk.f1bot.model;
 
 import java.util.ArrayList;
 
+/**
+ * Class that contains a list of ResultDrivers(Driver ids and their race results) for a race.
+ */
 public class RaceResult {
-    private final ArrayList<ResultDriver> raceResult;
+    private final ArrayList<ResultDriver> resultDriverList;
 
-    public RaceResult(ArrayList<ResultDriver> raceResultIds) {
-        this.raceResult = raceResultIds;
+    /**
+     * Creates a instance of RaceResult
+     * @param resultDriverList a list containing ResultDrivers(Driver ids and their race result)
+     */
+    public RaceResult(ArrayList<ResultDriver> resultDriverList) {
+        this.resultDriverList = resultDriverList;
     }
 
-    public ArrayList<ResultDriver> getRaceResultList() { return raceResult; }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (ResultDriver d : raceResult) {
-            sb.append(d.driverId());
-            sb.append("\n");
-        }
-        return sb.toString();
-    }
+    public ArrayList<ResultDriver> getRaceResultList() { return resultDriverList; }
 }

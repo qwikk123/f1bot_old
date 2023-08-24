@@ -6,6 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Class representing the /ping command.
+ */
 public class Ping extends BotCommand {
     public Ping(String name, String description) {
         super(name, description);

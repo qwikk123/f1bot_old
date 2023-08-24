@@ -10,9 +10,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Main class for F1bot
+ */
 public class Main {
+    /**
+     * The method reads the bot token from token/t.token and then builds and runs the JDA bot
+     * with a CommandListener
+     */
     public static void main(String[] args) {
-	//Test
         File f = new File("token/t.token");
         try (Scanner s = new Scanner(f)) {
             JDA bot = JDABuilder.createDefault(s.nextLine())

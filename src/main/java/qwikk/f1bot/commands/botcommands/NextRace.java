@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class representing the /nextrace command.
+ */
 public class NextRace extends BotCommand {
     private final ArrayList<Race> raceList;
 

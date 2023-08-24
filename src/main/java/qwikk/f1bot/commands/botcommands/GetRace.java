@@ -22,11 +22,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * Class representing the /getrace command.
+ */
 public class GetRace extends BotCommand {
 
     private final ArrayList<Race> raceList;
     private static final int pageSize = 10;
 
+    /**
+     * Creates an instance of GetRace.
+     * @param name This commands name
+     * @param description This commands description
+     * @param raceList A list of races in this F1 season
+     */
     public GetRace(String name, String description, ArrayList<Race> raceList) {
         super(name, description);
         this.raceList = raceList;
@@ -60,6 +69,13 @@ public class GetRace extends BotCommand {
         action.queue();
     }
 
+    /**
+     * Method for handling button presses for this command.
+     * @param event event from Discord.
+     * @param buttonId The id for the pressed button
+     * @param buttonType The type for the pressed button
+     * @param driverMap Map containing the drivers from this F1 season.
+     */
     public void handleButtons(ButtonInteractionEvent event, String buttonId, String buttonType, HashMap<String, Driver> driverMap) {
         List<Button> buttonList = event.getMessage().getButtons().stream()
                 .map(Button::asEnabled)
@@ -81,6 +97,12 @@ public class GetRace extends BotCommand {
         }
     }
 
+    /**
+     * Method to handle the press of the Info button.
+     * @param buttonList List of buttons from the current Discord event
+     * @param event event from Discord
+     * @param race Current race to get info from
+     */
     public void clickInfo(List<Button> buttonList, ButtonInteractionEvent event, Race race) {
         buttonList.set(0, buttonList.get(0).asDisabled());
 
@@ -93,6 +115,13 @@ public class GetRace extends BotCommand {
                 .queue();
     }
 
+    /**
+     * Method to handle the press of the Result button.
+     * @param buttonList List of buttons from the current Discord event
+     * @param event event from Discord
+     * @param race Current race to get info from
+     * @param driverMap Map containing the drivers from this F1 season.
+     */
     public void clickResult(List<Button> buttonList, ButtonInteractionEvent event, Race race, HashMap<String, Driver> driverMap) {
         buttonList.set(1, buttonList.get(1).asDisabled());
         buttonList.add(Button.danger("prev-resultpage", "Prev").asDisabled());
@@ -104,6 +133,14 @@ public class GetRace extends BotCommand {
                 .queue();
     }
 
+    /**
+     * Method for handling paging for the race result table.
+     * @param buttonList List of buttons from the current Discord event
+     * @param event event from Discord
+     * @param race Current race to get info from
+     * @param driverMap Map containing the drivers from this F1 season.
+     * @param buttonId Id for the pressed button
+     */
     public void clickResultPage(List<Button> buttonList, ButtonInteractionEvent event, Race race, HashMap<String, Driver> driverMap, String buttonId) {
         String footer = Objects.requireNonNull(event.getMessage().getEmbeds().get(0).getFooter().getText(), "footer is null");
         int page = Integer.parseInt(footer.split("/")[0])-1;

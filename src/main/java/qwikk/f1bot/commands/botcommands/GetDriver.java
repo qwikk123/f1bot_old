@@ -14,9 +14,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * Class representing the /getdriver command.
+ */
 public class GetDriver extends BotCommand {
 
     HashMap<String, Driver> driverMap;
+
+    /**
+     * Creates an instance of GetDriver.
+     * @param name This commands name
+     * @param description This commands description
+     * @param driverMap Map containing the drivers from this F1 season.
+     */
     public GetDriver(String name, String description, HashMap<String, Driver> driverMap) {
         super(name, description);
         this.driverMap = driverMap;

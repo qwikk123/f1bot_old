@@ -21,17 +21,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class for managing EventListeners relating to BotCommands and their buttons.
+ * The class extends the JDA class ListenerAdapter
+ */
 public class CommandListener extends ListenerAdapter {
     private final CommandManager commandManager;
     private final F1DataService f1DataService;
     private boolean ready = false;
 
+    /**
+     * Creates an instance of the CommandListener class and initializes the F1DataService and CommandManager.
+     * @param bot The instance of this programs JDA bot.
+     */
     public CommandListener(JDA bot) {
         super();
         this.f1DataService = new F1DataService(bot, this);
         commandManager = new CommandManager(f1DataService);
     }
 
+    /**
+     * Method to handle SlashCommands (/commandName) from Discord.
+     * @param event event coming from Discord.
+     */
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         event.deferReply().queue();
@@ -39,12 +51,23 @@ public class CommandListener extends ListenerAdapter {
         commandManager.getCommands().get(event.getName()).execute(event);
     }
 
+    /**
+     * Method that sets the boolean ready to true
+     * It runs on the bots ReadyEvent.
+     * This is to stop the Listener from updating commands before the CommandManager and F1DataService is ready.
+     * It is initialized in the Main method through upsertCommands()
+     * @param event event coming from Discord.
+     */
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         super.onReady(event);
         ready = true;
     }
 
+    /**
+     * Method to update commands when the bot joins a new server.
+     * @param event event coming from Discord.
+     */
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
         ArrayList<Guild> guildList = new ArrayList<>();
@@ -52,6 +75,10 @@ public class CommandListener extends ListenerAdapter {
         upsertCommands(guildList);
     }
 
+    /**
+     * Method to update or create new commands on a discord server.
+     * @param guilds List of servers to add/update commands for.
+     */
     public void upsertCommands(List<Guild> guilds) {
         List<CommandData> commandData = new ArrayList<>();
         for(BotCommand command : commandManager.getCommandList()) {
@@ -66,6 +93,10 @@ public class CommandListener extends ListenerAdapter {
         }
     }
 
+    /**
+     * Method handling button interactions it calls the specific commands button methods.
+     * @param event event coming from Discord.
+     */
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
         String buttonId = Objects.requireNonNull(event.getButton().getId(), "buttonId is null");

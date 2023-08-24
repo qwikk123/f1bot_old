@@ -17,8 +17,17 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.stream.Collectors;
 
+/**
+ * Class for retrieving data from the Ergast API
+ */
 public class ErgastDataRetriever {
 
+    /**
+     * Method to get json information from the ergast api or the cache
+     * @param URL url pointing to the Ergast API endpoint.
+     * @param validUpdate Whether to use cache or retrieve new data.
+     * @return a JSONObject containing Ergast API data.
+     */
     public JSONObject getJson(String URL, boolean validUpdate) {
         String fileName = getFileNameOfURL(URL);
         File f = new File("cache/"+fileName);
@@ -32,6 +41,11 @@ public class ErgastDataRetriever {
         return getJsonFromURL(URL);
     }
 
+    /**
+     * Method to get a JSONObject from the cache
+     * @param f Which file to retrieve data from.
+     * @return A JSONObject containing Ergast API data.
+     */
     private JSONObject getJsonFromFile(File f) {
         try {
             String json = Files.readString(Paths.get(f.getPath()));
@@ -42,6 +56,12 @@ public class ErgastDataRetriever {
         }
     }
 
+    /**
+     * Method to retrieve data from an Ergast API endpoint.
+     * If the Ergast API is down the method will attempt to retrieve data from the cache instead.
+     * @param URL url pointing an Ergast API endpoint.
+     * @return A JSONObject containing Ergast API data.
+     */
     private JSONObject getJsonFromURL(String URL) {
         String fileName = getFileNameOfURL(URL);
         try {
@@ -74,6 +94,11 @@ public class ErgastDataRetriever {
         }
     }
 
+    /**
+     * Method converting a url endpoint to a filename.
+     * @param URL url of Ergast API endpoint.
+     * @return String containing a filename.
+     */
     private String getFileNameOfURL(String URL) {
         return URL.replaceAll("/+","_")
                 .replaceAll(":", "")
@@ -81,6 +106,12 @@ public class ErgastDataRetriever {
                 .replaceFirst("\\.", "");
     }
 
+    /**
+     * Method to check whether an update from the api is needed or not.
+     * The update interval is set to maximum update once every 24 hours.
+     * @param URL url of Ergast Endpoint.
+     * @return true if the cache is out of date.
+     */
     public boolean validUpdate(String URL) {
         String fileName = getFileNameOfURL(URL);
         File f = new File("cache/"+fileName);
