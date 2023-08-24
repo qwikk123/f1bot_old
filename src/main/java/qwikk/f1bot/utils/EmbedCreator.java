@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Class containing utility functions for creating embed messages.
+ */
 public class EmbedCreator {
     private static final Color color = Color.RED;
     private static final String thumbnailURL = "https://i.imgur.com/7wyu3ng.png";
@@ -27,11 +30,20 @@ public class EmbedCreator {
         return createRace(r,"This weekend: ");
     }
 
+    /**
+     * Sets the general theme of an EmbedBuilder
+     * @param eb EmbedBuilder to set the theme for.
+     */
     public static void setTheme(EmbedBuilder eb) {
         eb.setThumbnail(thumbnailURL);
         eb.setColor(color);
     }
 
+    /**
+     * Creates an EmbedBuilder for the driver profile message.
+     * @param driver the driver to create a profile for
+     * @return an EmbedBuilder with the driver profile
+     */
     public static EmbedBuilder createDriverProfile(Driver driver) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
@@ -44,6 +56,12 @@ public class EmbedCreator {
         return eb;
     }
 
+    /**
+     * Creates an EmbedBuilder for the driver standings message.
+     * @param driverMap Map of the drivers for this F1 season.
+     * @param page The page to create standings for.
+     * @return an EmbedBuilder with the driver standings.
+     */
     public static EmbedBuilder createDriverStandings(HashMap<String, Driver> driverMap, int page) {
         List<Driver> driverStandings = driverMap.values().stream()
                 .sorted(Comparator.comparingDouble(Driver::pos))
@@ -65,6 +83,11 @@ public class EmbedCreator {
         return eb;
     }
 
+    /**
+     * Creates an EmbedBuilder for the constructor standings message.
+     * @param constructorStandings A list with the constructors from this F1 season in sorted order.
+     * @return an EmbedBuilder containing the constructor standings.
+     */
     public static EmbedBuilder createConstructorStandings(ArrayList<Constructor> constructorStandings) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
@@ -75,6 +98,12 @@ public class EmbedCreator {
         return eb;
     }
 
+    /**
+     * Creates an EmbedBuilder for a race message.
+     * @param r the race to create a message for.
+     * @param extraTitle extra prefix for the embeds title.
+     * @return an EmbedBuilder containing the race.
+     */
     private static EmbedBuilder createRace(Race r, String extraTitle) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
@@ -87,6 +116,13 @@ public class EmbedCreator {
         return eb;
     }
 
+    /**
+     * Creates an EmbedBuilder for a race result page.
+     * @param r the race to create a result embed for.
+     * @param driverMap a list of drivers in the current F1 season.
+     * @param page the page to create the embed for.
+     * @return an EmbedBuilder containing the result page.
+     */
     public static EmbedBuilder createRaceResult(Race r,HashMap<String, Driver> driverMap, int page) {
         String format = "%-4s  %-16s  %-7s  %s";
         int pageSize = 10;
