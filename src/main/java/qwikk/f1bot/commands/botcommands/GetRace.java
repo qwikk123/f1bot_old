@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 public class GetRace extends BotCommand {
 
-    private ArrayList<Race> raceList;
+    private final ArrayList<Race> raceList;
     private static final int pageSize = 10;
 
     public GetRace(String name, String description, ArrayList<Race> raceList) {

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class DriverStandings extends BotCommand {
 
-    private HashMap<String, Driver> driverMap;
+    private final HashMap<String, Driver> driverMap;
     private static final int pageSize = 5;
     public DriverStandings(String name, String description, HashMap<String, Driver> driverMap) {
         super(name, description);
