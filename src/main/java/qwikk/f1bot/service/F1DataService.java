@@ -51,7 +51,7 @@ public class F1DataService {
 
     /**
      * Finds the next race from today in raceList, updates nextRace and tells the scheduler to refresh itself.
-     * @param raceList
+     * @param raceList List of races in the current F1 season.
      */
     public void setNextRace(List<Race> raceList) {
         for (Race r : raceList) {
