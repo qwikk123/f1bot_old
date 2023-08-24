@@ -73,8 +73,12 @@ public class EmbedCreator {
         eb.setTitle("Driver Standings");
         String fieldText = String.format("```%-25s%s\n\n", "Driver:","Points:");
         for (Driver driver : driverStandings.subList(start,Math.min(start+pageSize, driverStandings.size()))) {
-            String line = String.format("%-25s%s\nTeam: %s","#"+driver.pos()+" "+driver.name(),df.format(driver.points()), driver.constructorName());
-            fieldText+=line+"\n\n";
+            String line = String.format("%-25s%s\n%s%s",
+                    "#"+driver.pos()+" "+driver.name(),
+                    df.format(driver.points()),
+                    " ".repeat(String.valueOf(driver.pos()).length()+2),
+                    driver.constructorName());
+            fieldText+="-".repeat(31)+"\n"+line+"\n";
         }
         fieldText+="```";
         eb.addField("",fieldText,false);
