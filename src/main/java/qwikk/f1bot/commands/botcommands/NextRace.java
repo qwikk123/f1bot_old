@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NextRace extends BotCommand {
     private final ArrayList<Race> raceList;
@@ -21,7 +22,8 @@ public class NextRace extends BotCommand {
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event) {
         Race nextRace = getNextRace();
-        InputStream inputStream = getClass().getResourceAsStream("/circuitimages/"+ nextRace.getImageName());
+        InputStream inputStream = Objects.requireNonNull(
+                getClass().getResourceAsStream(nextRace.getImagePath()), "inputStream is null");
 
         event.getHook().sendMessageEmbeds(EmbedCreator.createRace(nextRace).build())
                 .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"))

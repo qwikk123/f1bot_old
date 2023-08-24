@@ -85,7 +85,7 @@ public class GetRace extends BotCommand {
         buttonList.set(0, buttonList.get(0).asDisabled());
 
         InputStream inputStream = Objects.requireNonNull(
-                getClass().getResourceAsStream("/circuitimages/"+ race.getImageName()), "inputStream is null");
+                getClass().getResourceAsStream(race.getImagePath()), "inputStream is null");
 
         event.editMessageEmbeds(EmbedCreator.createRace(race).build())
                 .setFiles(FileUpload.fromData(inputStream, "circuitImage.png"))

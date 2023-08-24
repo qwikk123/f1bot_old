@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class GetDriver extends BotCommand {
 
@@ -34,7 +35,7 @@ public class GetDriver extends BotCommand {
     public void execute(@NotNull SlashCommandInteractionEvent event) {
         String driverId = event.getOption("drivername").getAsString(); //Non-null warning, but this will never be null as racenumber is required
         Driver driver = driverMap.get(driverId);
-        InputStream inputStream = getClass().getResourceAsStream("/driverimages/"+driver.code()+".png");
+        InputStream inputStream = Objects.requireNonNull(getClass().getResourceAsStream("/driverimages/"+driver.code()+".png"), "inputStream is null");
 
         event.getHook().sendMessageEmbeds(EmbedCreator.createDriverProfile(driver).build())
                 .addFiles(FileUpload.fromData(inputStream, "driverImage.png"))

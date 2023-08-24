@@ -43,9 +43,7 @@ public class Race {
     public boolean hasSprint() {
         return localDateTimeSprint != null;
     }
-    public String getImagePath() {
-        return "assets/circuitimages/"+circuitName.replaceAll(" ","")+".png";
-    }
+    public String getImagePath() { return "circuitimages/"+circuitName.replaceAll(" ","")+".png"; }
     public String getImageName() {
         return circuitName.replaceAll(" ","")+".png";
     }

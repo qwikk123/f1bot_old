@@ -76,9 +76,6 @@ public class F1Data {
     }
 
     public ArrayList<Race> getRaceList() { return raceList; }
-    public Race getRace(int i) { return raceList.get(i); }
-    public Race getNextRace() { return nextRace; }
     public HashMap<String, Driver> getDriverMap() { return driverMap; }
     public ArrayList<Constructor> getConstructorStandings() { return constructorStandings; }
-    public Driver getDriver(String code) { return driverMap.get(code); }
 }
