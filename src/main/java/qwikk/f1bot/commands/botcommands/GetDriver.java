@@ -33,7 +33,7 @@ public class GetDriver extends BotCommand {
 
     @Override
     public void execute(@NotNull SlashCommandInteractionEvent event) {
-        String driverId = event.getOption("drivername").getAsString(); //Non-null warning, but this will never be null as racenumber is required
+        String driverId = Objects.requireNonNull(event.getOption("drivername")).getAsString();
         Driver driver = driverMap.get(driverId);
         InputStream inputStream = Objects.requireNonNull(getClass().getResourceAsStream("/driverimages/"+driver.code()+".png"), "inputStream is null");
 
