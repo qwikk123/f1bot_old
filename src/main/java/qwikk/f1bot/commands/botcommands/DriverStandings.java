@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class DriverStandings extends BotCommand {
@@ -33,7 +34,11 @@ public class DriverStandings extends BotCommand {
     }
 
     public void handleButtons(ButtonInteractionEvent event, String buttonId) {
-        int page = Integer.parseInt(event.getMessage().getEmbeds().get(0).getFooter().getText().split("/")[0])-1;
+        String pageNumber = Objects.requireNonNull(
+                        event.getMessage().getEmbeds().get(0).getFooter().getText(), "driverstandings footer is null")
+                        .split("/")[0];
+
+        int page = Integer.parseInt(pageNumber)-1;
         List<Button> buttonList = event.getMessage().getButtons().stream()
                 .map(Button::asEnabled)
                 .collect(Collectors.toList());

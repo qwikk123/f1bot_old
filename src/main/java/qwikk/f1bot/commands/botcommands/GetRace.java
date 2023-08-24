@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -44,9 +45,12 @@ public class GetRace extends BotCommand {
         buttonList.add(Button.danger("info-getrace", "Info").asDisabled());
         buttonList.add(Button.danger("result-getrace", "Result"));
 
-        int index = event.getOption("racenumber").getAsInt()-1; //Non-null warning, but this will never be null as racenumber is required
+        int index = Objects.requireNonNull(
+                event.getOption("racenumber"), "racenumber option is null")
+                .getAsInt()-1;
         Race race = raceList.get(index);
-        InputStream inputStream = getClass().getResourceAsStream("/circuitimages/"+ race.getImageName());
+        InputStream inputStream = Objects.requireNonNull(
+                getClass().getResourceAsStream("/circuitimages/"+ race.getImageName()), "inputStream is null");
 
         WebhookMessageCreateAction<Message> action = event.getHook().sendMessageEmbeds(EmbedCreator.createRace(race).build())
                 .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"));
@@ -60,7 +64,8 @@ public class GetRace extends BotCommand {
         List<Button> buttonList = event.getMessage().getButtons().stream()
                 .map(Button::asEnabled)
                 .collect(Collectors.toList());
-        Matcher matcher = Pattern.compile("\\d+").matcher(event.getMessage().getEmbeds().get(0).getTitle());
+        String title = Objects.requireNonNull(event.getMessage().getEmbeds().get(0).getTitle(), "title is null");
+        Matcher matcher = Pattern.compile("\\d+").matcher(title);
         if (!matcher.find()) { System.out.println("Invalid pattern in getrace"); return; }
         int index = Integer.parseInt(matcher.group(0))-1;
         Race race = raceList.get(index);
@@ -79,7 +84,8 @@ public class GetRace extends BotCommand {
     public void clickInfo(List<Button> buttonList, ButtonInteractionEvent event, Race race) {
         buttonList.set(0, buttonList.get(0).asDisabled());
 
-        InputStream inputStream = getClass().getResourceAsStream("/circuitimages/"+ race.getImageName());
+        InputStream inputStream = Objects.requireNonNull(
+                getClass().getResourceAsStream("/circuitimages/"+ race.getImageName()), "inputStream is null");
 
         event.editMessageEmbeds(EmbedCreator.createRace(race).build())
                 .setFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
@@ -99,7 +105,7 @@ public class GetRace extends BotCommand {
     }
 
     public void clickResultPage(List<Button> buttonList, ButtonInteractionEvent event, Race race, HashMap<String, Driver> driverMap, String buttonId) {
-        String footer = event.getMessage().getEmbeds().get(0).getFooter().getText();
+        String footer = Objects.requireNonNull(event.getMessage().getEmbeds().get(0).getFooter().getText(), "footer is null");
         int page = Integer.parseInt(footer.split("/")[0])-1;
         int maxPage = Integer.parseInt(footer.split("/")[1]);
 

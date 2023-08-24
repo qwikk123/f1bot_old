@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CommandListener extends ListenerAdapter {
     private final CommandManager commandManager;
@@ -38,7 +39,7 @@ public class CommandListener extends ListenerAdapter {
     }
 
     @Override
-    public void onReady(ReadyEvent event) {
+    public void onReady(@NotNull ReadyEvent event) {
         super.onReady(event);
         ready = true;
     }
@@ -66,7 +67,7 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
-        String buttonId = event.getButton().getId();
+        String buttonId = Objects.requireNonNull(event.getButton().getId(), "buttonId is null");
         String buttonType = buttonId.split("-")[1];
 
         if (buttonType.equals("dstandings")) {
