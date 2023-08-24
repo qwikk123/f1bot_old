@@ -8,9 +8,9 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
 import net.dv8tion.jda.api.utils.FileUpload;
-import qwikk.f1bot.f1data.Driver;
+import qwikk.f1bot.model.Driver;
 import qwikk.f1bot.utils.EmbedCreator;
-import qwikk.f1bot.f1data.Race;
+import qwikk.f1bot.model.Race;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;

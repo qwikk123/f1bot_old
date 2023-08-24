@@ -1,11 +1,8 @@
-package qwikk.f1bot.ergastparser;
+package qwikk.f1bot.datasource;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import qwikk.f1bot.f1data.Constructor;
-import qwikk.f1bot.f1data.Driver;
-import qwikk.f1bot.f1data.Race;
-import qwikk.f1bot.f1data.RaceResult;
+import qwikk.f1bot.model.*;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

@@ -1,10 +1,10 @@
 package qwikk.f1bot.utils;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import qwikk.f1bot.ergastparser.ResultDriver;
-import qwikk.f1bot.f1data.Constructor;
-import qwikk.f1bot.f1data.Driver;
-import qwikk.f1bot.f1data.Race;
+import qwikk.f1bot.model.ResultDriver;
+import qwikk.f1bot.model.Constructor;
+import qwikk.f1bot.model.Driver;
+import qwikk.f1bot.model.Race;
 
 import java.awt.Color;
 import java.text.DecimalFormat;

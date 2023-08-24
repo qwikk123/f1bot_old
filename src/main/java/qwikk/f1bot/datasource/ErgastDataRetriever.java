@@ -1,4 +1,4 @@
-package qwikk.f1bot.ergastparser;
+package qwikk.f1bot.datasource;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;

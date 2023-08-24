@@ -1,7 +1,7 @@
 package qwikk.f1bot.scheduling;
 
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import qwikk.f1bot.f1data.Race;
+import qwikk.f1bot.model.Race;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

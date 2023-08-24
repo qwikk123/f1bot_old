@@ -1,4 +1,4 @@
-package qwikk.f1bot.f1data;
+package qwikk.f1bot.model;
 
 public record Driver (int pos,
                       String name,

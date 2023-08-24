@@ -1,4 +1,4 @@
-package qwikk.f1bot.ergastparser;
+package qwikk.f1bot.model;
 
 public record ResultDriver (
         String driverId,

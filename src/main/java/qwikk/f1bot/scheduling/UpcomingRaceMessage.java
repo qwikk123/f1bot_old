@@ -3,7 +3,7 @@ package qwikk.f1bot.scheduling;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.utils.FileUpload;
 import qwikk.f1bot.utils.EmbedCreator;
-import qwikk.f1bot.f1data.Race;
+import qwikk.f1bot.model.Race;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;

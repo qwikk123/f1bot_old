@@ -3,7 +3,7 @@ package qwikk.f1bot.commands.botcommands;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import qwikk.f1bot.f1data.Driver;
+import qwikk.f1bot.model.Driver;
 import qwikk.f1bot.utils.EmbedCreator;
 import org.jetbrains.annotations.NotNull;
 

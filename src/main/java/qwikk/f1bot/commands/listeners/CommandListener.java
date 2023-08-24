@@ -1,4 +1,4 @@
-package qwikk.f1bot.commands;
+package qwikk.f1bot.commands.listeners;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -10,10 +10,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import qwikk.f1bot.commands.CommandManager;
 import qwikk.f1bot.commands.botcommands.BotCommand;
 import qwikk.f1bot.commands.botcommands.DriverStandings;
 import qwikk.f1bot.commands.botcommands.GetRace;
-import qwikk.f1bot.f1data.F1Data;
+import qwikk.f1bot.service.F1DataService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -22,19 +23,19 @@ import java.util.Objects;
 
 public class CommandListener extends ListenerAdapter {
     private final CommandManager commandManager;
-    private final F1Data f1data;
+    private final F1DataService f1DataService;
     private boolean ready = false;
 
     public CommandListener(JDA bot) {
         super();
-        this.f1data = new F1Data(bot, this);
-        commandManager = new CommandManager(f1data);
+        this.f1DataService = new F1DataService(bot, this);
+        commandManager = new CommandManager(f1DataService);
     }
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        f1data.setData();
+        f1DataService.setData();
         commandManager.getCommands().get(event.getName()).execute(event);
     }
 
@@ -79,7 +80,7 @@ public class CommandListener extends ListenerAdapter {
         else if (buttonType.equals("getrace") || buttonType.equals("resultpage")) {
             BotCommand command = commandManager.getCommands().get("getrace");
             if (command instanceof GetRace) {
-                ((GetRace) command).handleButtons(event, buttonId, buttonType, f1data.getDriverMap());
+                ((GetRace) command).handleButtons(event, buttonId, buttonType, f1DataService.getDriverMap());
             }
         }
     }

@@ -1,6 +1,4 @@
-package qwikk.f1bot.f1data;
-
-import qwikk.f1bot.ergastparser.ResultDriver;
+package qwikk.f1bot.model;
 
 import java.util.ArrayList;
 
