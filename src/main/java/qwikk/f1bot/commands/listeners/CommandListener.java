@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import qwikk.f1bot.commands.CommandManager;
 import qwikk.f1bot.commands.botcommands.BotCommand;
 import qwikk.f1bot.commands.botcommands.DriverStandings;
-import qwikk.f1bot.commands.botcommands.GetCalendar;
 import qwikk.f1bot.commands.botcommands.GetRace;
 import qwikk.f1bot.service.F1DataService;
 import org.jetbrains.annotations.NotNull;
@@ -108,12 +107,6 @@ public class CommandListener extends ListenerAdapter {
                 BotCommand command = commandManager.getCommands().get("driverstandings");
                 if (command instanceof DriverStandings) {
                     ((DriverStandings) command).handleButtons(event, buttonId);
-                }
-            }
-            case "calendar" -> {
-                BotCommand command = commandManager.getCommands().get("getcalendar");
-                if (command instanceof GetCalendar) {
-                    ((GetCalendar) command).handleButtons(event, buttonId);
                 }
             }
             case "getrace", "resultpage" -> {

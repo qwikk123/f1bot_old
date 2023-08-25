@@ -153,25 +153,13 @@ public class EmbedCreator {
         return eb;
     }
 
-    public static EmbedBuilder createCalendar(List<Race> raceList, int page) {
-        String format = "%-3s  %-25s  %s";
-        int pageSize = 10;
-        int start = pageSize*page;
+    public static EmbedBuilder createCalendar(List<Race> raceList) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("Calendar");
-        String fieldText = "```"+String.format(format,"#:","Race:","Date:")+"\n";
-        for (Race r : raceList.subList(start, Math.min(start+pageSize, raceList.size()))) {
-            fieldText += String.format(format,
-                    "#"+r.getRound(),
-                    r.getName(),
-                    r.getRaceDateOnly())
-                    +"\n";
+        for (Race r : raceList) {
+            eb.addField("#"+r.getRound()+" "+r.getName(), r.getRaceDateOnly(), true);
         }
-        fieldText += "```";
-        eb.addField("",fieldText,true);
-        int maxPage = (int) Math.ceil((double)raceList.size()/pageSize);
-        eb.setFooter((page+1)+"/"+maxPage);
         return eb;
     }
 }

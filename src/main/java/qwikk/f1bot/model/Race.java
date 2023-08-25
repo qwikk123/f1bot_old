@@ -3,8 +3,6 @@ package qwikk.f1bot.model;
 import net.dv8tion.jda.api.utils.TimeFormat;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -42,9 +40,7 @@ public class Race {
     public String getRaceCountdown() {
         return TimeFormat.RELATIVE.atInstant(raceInstant).toString();
     }
-    public String getRaceDateOnly() {
-        return DateTimeFormatter.ofPattern("dd / LLLL").withZone(ZoneId.systemDefault()).format(raceInstant);
-    }
+    public String getRaceDateOnly() { return TimeFormat.DATE_LONG.atInstant(raceInstant).toString(); }
     public String getRaceDateAsString() {
         return TimeFormat.DATE_TIME_SHORT.atInstant(raceInstant).toString();
     }
