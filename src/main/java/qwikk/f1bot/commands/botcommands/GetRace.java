@@ -76,7 +76,7 @@ public class GetRace extends BotCommand {
      * @param buttonType The type for the pressed button
      * @param driverMap Map containing the drivers from this F1 season.
      */
-    public void handleButtons(ButtonInteractionEvent event, String buttonId, String buttonType, HashMap<String, Driver> driverMap) {
+    public void handleButtons(@NotNull ButtonInteractionEvent event, String buttonId, String buttonType, HashMap<String, Driver> driverMap) {
         List<Button> buttonList = event.getMessage().getButtons().stream()
                 .map(Button::asEnabled)
                 .collect(Collectors.toList());

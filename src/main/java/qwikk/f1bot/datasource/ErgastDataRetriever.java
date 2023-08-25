@@ -56,10 +56,10 @@ public class ErgastDataRetriever {
         }
     }
 
+
     /**
-     * Method to retrieve data from an Ergast API endpoint.
-     * If the Ergast API is down the method will attempt to retrieve data from the cache instead.
-     * @param URL url pointing an Ergast API endpoint.
+     * Method to get a JSONObject from an Ergast endpoint.
+     * @param URL Which Ergast endpoint to retrieve data from.
      * @return A JSONObject containing Ergast API data.
      */
     private JSONObject getJsonFromURL(String URL) {

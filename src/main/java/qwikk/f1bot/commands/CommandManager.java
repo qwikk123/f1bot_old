@@ -53,6 +53,12 @@ public class CommandManager {
                 f1DataService.getDriverMap());
         commandMap.put(getDriver.getName(), getDriver);
 
+        BotCommand getCalendar = new GetCalendar(
+                "getcalendar",
+                "show the current f1 calendar",
+                f1DataService.getRaceList());
+        commandMap.put(getCalendar.getName(), getCalendar);
+
     }
     public HashMap<String, BotCommand> getCommands() { return commandMap; }
     public List<BotCommand> getCommandList() {

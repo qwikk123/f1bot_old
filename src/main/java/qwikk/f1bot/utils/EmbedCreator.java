@@ -137,7 +137,7 @@ public class EmbedCreator {
         String fieldText = "```"+String.format(format,"Pos:","Driver:","Points:","Status:")+"\n";
         List<ResultDriver> raceResultList = r.getRaceResult().getRaceResultList();
         int pos = start;
-        for (ResultDriver rDriver : raceResultList.subList(start, start+pageSize)) {
+        for (ResultDriver rDriver : raceResultList.subList(start, Math.min(start+pageSize, raceResultList.size()))) {
             Driver d = driverMap.get(rDriver.driverId());
             fieldText += String.format(format,
                     "#"+((pos++)+1),
@@ -148,7 +148,30 @@ public class EmbedCreator {
         }
         fieldText += "```";
         eb.addField("Result",fieldText,true);
-        eb.setFooter((page+1)+"/"+raceResultList.size()/pageSize);
+        int maxPage = (int) Math.ceil((double)raceResultList.size()/pageSize);
+        eb.setFooter((page+1)+"/"+maxPage);
+        return eb;
+    }
+
+    public static EmbedBuilder createCalendar(List<Race> raceList, int page) {
+        String format = "%-3s  %-25s  %s";
+        int pageSize = 10;
+        int start = pageSize*page;
+        EmbedBuilder eb = new EmbedBuilder();
+        setTheme(eb);
+        eb.setTitle("Calendar");
+        String fieldText = "```"+String.format(format,"#:","Race:","Date:")+"\n";
+        for (Race r : raceList.subList(start, Math.min(start+pageSize, raceList.size()))) {
+            fieldText += String.format(format,
+                    "#"+r.getRound(),
+                    r.getName(),
+                    r.getRaceDateOnly())
+                    +"\n";
+        }
+        fieldText += "```";
+        eb.addField("",fieldText,true);
+        int maxPage = (int) Math.ceil((double)raceList.size()/pageSize);
+        eb.setFooter((page+1)+"/"+maxPage);
         return eb;
     }
 }
