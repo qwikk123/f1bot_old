@@ -16,21 +16,25 @@ public class Race {
     private Instant sprintInstant;
     private final int round;
     private RaceResult raceResult;
+    private final String countryName;
 
     /**
      * Creates an instance of Race representing an F1 Race
-     * @param name name of the race
-     * @param circuitName name of the circuit the race is using
-     * @param raceInstant the datetime for when the race starts
+     *
+     * @param name         name of the race
+     * @param circuitName  name of the circuit the race is using
+     * @param raceInstant  the datetime for when the race starts
      * @param qualiInstant the datetime for when the qualifying starts
-     * @param round the race position in the calendar
+     * @param round        the race position in the calendar
+     * @param countryName  The name of the country where this race takes place
      */
-    public Race(String name, String circuitName, Instant raceInstant, Instant qualiInstant, int round) {
+    public Race(String name, String circuitName, Instant raceInstant, Instant qualiInstant, int round, String countryName) {
         this.name = name;
         this.raceInstant = raceInstant;
         this.qualiInstant = qualiInstant;
         this.circuitName = circuitName;
         this.round = round;
+        this.countryName = countryName;
     }
 
 
@@ -40,6 +44,7 @@ public class Race {
     public String getRaceCountdown() {
         return TimeFormat.RELATIVE.atInstant(raceInstant).toString();
     }
+    public String getCountryName() { return countryName; }
     public String getRaceDateOnly() { return TimeFormat.DATE_LONG.atInstant(raceInstant).toString(); }
     public String getRaceDateAsString() {
         return TimeFormat.DATE_TIME_SHORT.atInstant(raceInstant).toString();

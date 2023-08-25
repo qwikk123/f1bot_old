@@ -47,13 +47,15 @@ public class ErgastParser {
             int round = jRace.getInt("round");
 
             JSONObject jQualifying = jRace.getJSONObject("Qualifying");
+
             Instant qualiInstant = getInstant(jQualifying.getString("date"), jQualifying.getString("time"));
 
             JSONObject circuit = jRace.getJSONObject("Circuit");
             String circuitName = circuit.getString("circuitName");
 
             String name = jRace.getString("raceName");
-            Race r = new Race(name, circuitName, raceInstant, qualiInstant, round);
+            String countryName = jRace.getJSONObject("Circuit").getJSONObject("Location").getString("country");
+            Race r = new Race(name, circuitName, raceInstant, qualiInstant, round, countryName);
             if (jRace.has("Sprint")) {
                 JSONObject jSprint = jRace.getJSONObject("Sprint");
                 r.setSprint(getInstant(jSprint.getString("date"), jSprint.getString("time")));

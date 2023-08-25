@@ -9,11 +9,7 @@ import qwikk.f1bot.model.Race;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Class containing utility functions for creating embed messages.
@@ -153,12 +149,15 @@ public class EmbedCreator {
         return eb;
     }
 
-    public static EmbedBuilder createCalendar(List<Race> raceList) {
+    public static EmbedBuilder createCalendar(List<Race> raceList, HashMap<String, String> countryCodeMap) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("Calendar");
         for (Race r : raceList) {
-            eb.addField("#"+r.getRound()+" "+r.getName(), r.getRaceDateOnly(), true);
+            String temp = countryCodeMap.get(r.getCountryName());
+            if (temp != null) temp = temp.toLowerCase();
+            String countryCodeEmoji = ":flag_"+temp+":";
+            eb.addField("#"+r.getRound()+" "+countryCodeEmoji+" "+r.getName(), r.getRaceDateOnly(), true);
         }
         return eb;
     }
