@@ -112,7 +112,7 @@ public class EmbedCreator {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle(extraTitle+"#"+r.getRound()+" "+r.getName());
-        eb.addField("Race: ", r.getRaceDateAsString(),true);
+        eb.addField("Race: ", r.getRaceDateAsString()+"\n"+r.getRaceCountdown(),true);
         if(r.hasSprint()) eb.addField("Sprint: ", r.getSprintDateAsString(),true);
         eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
         eb.addField("Circuit: ", r.getCircuitName(),false);

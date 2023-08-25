@@ -8,7 +8,7 @@ import qwikk.f1bot.model.Driver;
 import qwikk.f1bot.model.Race;
 import qwikk.f1bot.scheduling.MessageScheduler;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +55,7 @@ public class F1DataService {
      */
     public void setNextRace(List<Race> raceList) {
         for (Race r : raceList) {
-            if (r.getLocalDateTime().isAfter(LocalDateTime.now())) {
+            if (r.getRaceInstant().isAfter(Instant.now())) {
                 nextRace = r;
                 refreshScheduler();
                 return;
@@ -65,10 +65,10 @@ public class F1DataService {
 
     /**
      * Refreshes the messageScheduler if the current time is before its scheduled datetime
-     * (The scheduled message datetime is always 2 days before the race date at 7 AM)
+     * (The scheduled message datetime is always 2 days before the race date)
      */
     public void refreshScheduler() {
-        if (nextRace.getUpcomingDate().isAfter(LocalDateTime.now())) {
+        if (nextRace.getUpcomingDate().isAfter(Instant.now())) {
             messageScheduler.setChannelList(bot.getTextChannelsByName(scheduledTextChannel,true));
             messageScheduler.cancel();
             messageScheduler.schedule(nextRace);

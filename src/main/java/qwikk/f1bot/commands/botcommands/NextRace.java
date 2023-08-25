@@ -7,7 +7,7 @@ import qwikk.f1bot.model.Race;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -35,7 +35,7 @@ public class NextRace extends BotCommand {
 
     private Race getNextRace() {
         for (Race r : raceList) {
-            if (r.getLocalDateTime().isAfter(LocalDateTime.now())) { return r; }
+            if (r.getRaceInstant().isAfter(Instant.now())) { return r; }
         }
         return null;
     }

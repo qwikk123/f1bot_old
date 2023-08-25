@@ -5,8 +5,6 @@ import org.json.JSONObject;
 import qwikk.f1bot.model.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -45,20 +43,20 @@ public class ErgastParser {
 
         for (int i = 0; i < jArray.length(); i++) {
             JSONObject jRace = jArray.getJSONObject(i);
-            LocalDateTime ldt = getLocalDateTime(jRace.getString("date"), jRace.getString("time"));
+            Instant raceInstant = getInstant(jRace.getString("date"), jRace.getString("time"));
             int round = jRace.getInt("round");
 
             JSONObject jQualifying = jRace.getJSONObject("Qualifying");
-            LocalDateTime ldtq = getLocalDateTime(jQualifying.getString("date"), jQualifying.getString("time"));
+            Instant qualiInstant = getInstant(jQualifying.getString("date"), jQualifying.getString("time"));
 
             JSONObject circuit = jRace.getJSONObject("Circuit");
             String circuitName = circuit.getString("circuitName");
 
             String name = jRace.getString("raceName");
-            Race r = new Race(name, circuitName, ldt, ldtq, round);
+            Race r = new Race(name, circuitName, raceInstant, qualiInstant, round);
             if (jRace.has("Sprint")) {
                 JSONObject jSprint = jRace.getJSONObject("Sprint");
-                r.setSprint(getLocalDateTime(jSprint.getString("date"), jSprint.getString("time")));
+                r.setSprint(getInstant(jSprint.getString("date"), jSprint.getString("time")));
             }
             raceList.add(r);
         }
@@ -190,7 +188,7 @@ public class ErgastParser {
      * @param time String representing time
      * @return A new LocalDateTime object.
      */
-    public LocalDateTime getLocalDateTime (String date, String time) {
-        return Instant.parse(date+"T"+time).atZone(ZoneId.systemDefault()).toLocalDateTime();
+    public Instant getInstant(String date, String time) {
+        return Instant.parse(date+"T"+time);
     }
 }

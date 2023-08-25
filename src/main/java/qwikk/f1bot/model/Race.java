@@ -1,7 +1,9 @@
 package qwikk.f1bot.model;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import net.dv8tion.jda.api.utils.TimeFormat;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Class that represents an F1 race.
@@ -9,9 +11,9 @@ import java.time.format.DateTimeFormatter;
 public class Race {
     private final String name;
     private final String circuitName;
-    private final LocalDateTime localDateTime;
-    private final LocalDateTime localDateTimeQualifying;
-    private LocalDateTime localDateTimeSprint;
+    private final Instant raceInstant;
+    private final Instant qualiInstant;
+    private Instant sprintInstant;
     private final int round;
     private RaceResult raceResult;
 
@@ -19,14 +21,14 @@ public class Race {
      * Creates an instance of Race representing an F1 Race
      * @param name name of the race
      * @param circuitName name of the circuit the race is using
-     * @param localDateTime the datetime for when the race starts
-     * @param localDateTimeQualifying the datetime for when the qualifying starts
+     * @param raceInstant the datetime for when the race starts
+     * @param qualiInstant the datetime for when the qualifying starts
      * @param round the race position in the calendar
      */
-    public Race(String name,String circuitName, LocalDateTime localDateTime, LocalDateTime localDateTimeQualifying, int round) {
+    public Race(String name, String circuitName, Instant raceInstant, Instant qualiInstant, int round) {
         this.name = name;
-        this.localDateTime = localDateTime;
-        this.localDateTimeQualifying = localDateTimeQualifying;
+        this.raceInstant = raceInstant;
+        this.qualiInstant = qualiInstant;
         this.circuitName = circuitName;
         this.round = round;
     }
@@ -35,25 +37,30 @@ public class Race {
     public void setRaceResult(RaceResult raceResult) { this.raceResult = raceResult; }
     public RaceResult getRaceResult() { return raceResult; }
     public boolean hasRaceResult() { return raceResult != null; }
+    public String getRaceCountdown() {
+        return TimeFormat.RELATIVE.atInstant(raceInstant).toString();
+    }
     public String getRaceDateAsString() {
-        return localDateTime.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
+        return TimeFormat.DATE_TIME_SHORT.atInstant(raceInstant).toString();
     }
     public String getQualifyingDateAsString() {
-        return localDateTimeQualifying.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
+        return TimeFormat.DATE_TIME_SHORT.atInstant(qualiInstant).toString();
     }
     public String getSprintDateAsString() {
-        return localDateTimeSprint.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
+        return TimeFormat.DATE_TIME_SHORT.atInstant(sprintInstant).toString();
     }
     public String getName() { return name; }
     public int getRound() { return round; }
     public String getCircuitName() { return circuitName; }
-    public LocalDateTime getLocalDateTime() { return localDateTime; }
-    public void setSprint(LocalDateTime localDateTimeSprint) {
-        this.localDateTimeSprint = localDateTimeSprint;
+    public Instant getRaceInstant() { return raceInstant; }
+    public void setSprint(Instant sprintInstant) {
+        this.sprintInstant = sprintInstant;
     }
     public boolean hasSprint() {
-        return localDateTimeSprint != null;
+        return sprintInstant != null;
     }
     public String getImagePath() { return "/circuitimages/"+circuitName.replaceAll(" ","")+".png"; }
-    public LocalDateTime getUpcomingDate() { return localDateTime.minusDays(2).withHour(7); }
+    public Instant getUpcomingDate() {
+        return raceInstant.minus(2, ChronoUnit.DAYS);
+    }
 }

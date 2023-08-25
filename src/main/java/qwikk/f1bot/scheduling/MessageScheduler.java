@@ -3,6 +3,7 @@ package qwikk.f1bot.scheduling;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import qwikk.f1bot.model.Race;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -38,7 +39,7 @@ public class MessageScheduler {
 
         upcomingRaceFuture = executorService.schedule(
                 upcomingRaceMessage,
-                LocalDateTime.now().until(nextRace.getUpcomingDate(), ChronoUnit.MINUTES),
+                Instant.now().until(nextRace.getUpcomingDate(), ChronoUnit.MINUTES),
                 TimeUnit.MINUTES);
     }
 
