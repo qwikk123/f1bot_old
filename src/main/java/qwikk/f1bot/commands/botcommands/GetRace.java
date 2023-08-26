@@ -32,9 +32,10 @@ public class GetRace extends BotCommand {
 
     /**
      * Creates an instance of GetRace.
-     * @param name This commands name
-     * @param description This commands description
-     * @param raceList A list of races in this F1 season
+     *
+     * @param name           This commands name
+     * @param description    This commands description
+     * @param raceList       A list of races in this F1 season
      */
     public GetRace(String name, String description, ArrayList<Race> raceList) {
         super(name, description);

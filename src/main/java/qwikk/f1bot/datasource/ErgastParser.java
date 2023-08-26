@@ -7,6 +7,7 @@ import qwikk.f1bot.model.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Class for parsing data from the Ergast API for the f1bot's model classes and datasource.
@@ -14,12 +15,20 @@ import java.util.HashMap;
 public class ErgastParser {
 
     private final ErgastDataRetriever ergastDataRetriever;
+    private final HashMap<String, String> countryCodeMap;
 
     /**
      * Creates an instance of the ErgastParser and initializes an ErgastDataRetriever.
      */
     public ErgastParser() {
         ergastDataRetriever = new ErgastDataRetriever();
+        countryCodeMap = new HashMap<>();
+        for (Locale iso : Locale.getAvailableLocales()) {
+            countryCodeMap.put(iso.getDisplayCountry(), iso.getCountry());
+        }
+        countryCodeMap.put("UAE", "ae");
+        countryCodeMap.put("USA", "us");
+        countryCodeMap.put("UK", "gb");
     }
 
     /**
@@ -55,7 +64,8 @@ public class ErgastParser {
 
             String name = jRace.getString("raceName");
             String countryName = jRace.getJSONObject("Circuit").getJSONObject("Location").getString("country");
-            Race r = new Race(name, circuitName, raceInstant, qualiInstant, round, countryName);
+            String countryCode = countryCodeMap.get(countryName);
+            Race r = new Race(name, circuitName, raceInstant, qualiInstant, round, countryCode);
             if (jRace.has("Sprint")) {
                 JSONObject jSprint = jRace.getJSONObject("Sprint");
                 r.setSprint(getInstant(jSprint.getString("date"), jSprint.getString("time")));

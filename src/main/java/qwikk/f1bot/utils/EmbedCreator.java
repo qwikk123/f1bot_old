@@ -107,7 +107,8 @@ public class EmbedCreator {
     private static EmbedBuilder createRace(Race r, String extraTitle) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
-        eb.setTitle(extraTitle+"#"+r.getRound()+" "+r.getName());
+        String countryCodeEmoji = ":flag_"+r.getCountryCode()+":";
+        eb.setTitle(extraTitle+"#"+r.getRound()+" "+countryCodeEmoji+" "+r.getName());
         eb.addField("Race: ", r.getRaceDateAsString()+"\n"+r.getRaceCountdown(),true);
         if(r.hasSprint()) eb.addField("Sprint: ", r.getSprintDateAsString(),true);
         eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
@@ -149,14 +150,12 @@ public class EmbedCreator {
         return eb;
     }
 
-    public static EmbedBuilder createCalendar(List<Race> raceList, HashMap<String, String> countryCodeMap) {
+    public static EmbedBuilder createCalendar(List<Race> raceList) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("Calendar");
         for (Race r : raceList) {
-            String temp = countryCodeMap.get(r.getCountryName());
-            if (temp != null) temp = temp.toLowerCase();
-            String countryCodeEmoji = ":flag_"+temp+":";
+            String countryCodeEmoji = ":flag_"+r.getCountryCode()+":";
             eb.addField("#"+r.getRound()+" "+countryCodeEmoji+" "+r.getName(), r.getRaceDateOnly(), true);
         }
         return eb;
