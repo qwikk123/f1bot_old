@@ -1,6 +1,7 @@
 package qwikk.f1bot.service;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import qwikk.f1bot.commands.listeners.CommandListener;
 import qwikk.f1bot.datasource.F1DataSource;
 import qwikk.f1bot.model.Constructor;
@@ -47,6 +48,7 @@ public class F1DataService {
             setNextRace(dataSource.retrieveRaceList());
             if (commandListener.isReady()) commandListener.upsertCommands(bot.getGuilds());
         }
+        updateTextChannelDescription();
     }
 
     /**
@@ -72,6 +74,13 @@ public class F1DataService {
             messageScheduler.setChannelList(bot.getTextChannelsByName(scheduledTextChannel,true));
             messageScheduler.cancel();
             messageScheduler.schedule(nextRace);
+        }
+    }
+
+    public void updateTextChannelDescription() {
+        List<TextChannel> textChannels = bot.getTextChannelsByName(scheduledTextChannel,true);
+        for (TextChannel textChannel : textChannels) {
+            textChannel.getManager().setTopic("Everything Formula 1 | Next race: "+nextRace.getRaceCountdown()).queue();
         }
     }
 
