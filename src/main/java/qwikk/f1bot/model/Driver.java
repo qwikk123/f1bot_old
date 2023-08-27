@@ -20,4 +20,5 @@ public record Driver (int pos,
                       String code,
                       String nationality,
                       String driverId,
-                      int permanentNumber) {}
+                      int permanentNumber,
+                      String isoCode) {}

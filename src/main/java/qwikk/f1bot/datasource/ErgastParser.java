@@ -4,10 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import qwikk.f1bot.model.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Class for parsing data from the Ergast API for the f1bot's model classes and datasource.
@@ -16,6 +16,7 @@ public class ErgastParser {
 
     private final ErgastDataRetriever ergastDataRetriever;
     private final HashMap<String, String> countryCodeMap;
+    private final HashMap<String, String> nationalityCodeMap;
 
     /**
      * Creates an instance of the ErgastParser and initializes an ErgastDataRetriever.
@@ -29,6 +30,7 @@ public class ErgastParser {
         countryCodeMap.put("UAE", "ae");
         countryCodeMap.put("USA", "us");
         countryCodeMap.put("UK", "gb");
+        nationalityCodeMap = readNationalityCodeMapCSV();
     }
 
     /**
@@ -151,8 +153,9 @@ public class ErgastParser {
             String nationality = jDriverInfo.getString("nationality");
             String driverId = jDriverInfo.getString("driverId");
             int permanentNumber = jDriverInfo.getInt("permanentNumber");
+            String isoCode = nationalityCodeMap.get(nationality);
 
-            driverMap.put(driverId, new Driver(pos,name,constructorName,points,wins, code, nationality, driverId, permanentNumber));
+            driverMap.put(driverId, new Driver(pos,name,constructorName,points,wins, code, nationality, driverId, permanentNumber, isoCode));
         }
 
         return driverMap;
@@ -202,5 +205,20 @@ public class ErgastParser {
      */
     public Instant getInstant(String date, String time) {
         return Instant.parse(date+"T"+time);
+    }
+
+    private HashMap<String, String> readNationalityCodeMapCSV() {
+        try (InputStream inputStream = Objects.requireNonNull(getClass().getResourceAsStream("/nationalitycodemapping/nationality_code_map.csv"), "inputStream is null")){
+            HashMap<String, String> map = new HashMap<>();
+            Scanner scanner = new Scanner(inputStream);
+            while (scanner.hasNextLine()) {
+                String[] tokens = scanner.nextLine().split(",");
+                map.put(tokens[3],tokens[0].toLowerCase());
+            }
+            scanner.close();
+            return map;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

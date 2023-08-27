@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class DriverStandings extends BotCommand {
 
     private final HashMap<String, Driver> driverMap;
-    private static final int pageSize = 5;
+    private static final int pageSize = 7;
 
     /**
      * Creates an instance of DriverStandings.
@@ -38,7 +38,7 @@ public class DriverStandings extends BotCommand {
         buttonList.add(Button.danger("prev-dstandings", "Previous").asDisabled());
         buttonList.add(Button.danger("next-dstandings", "Next"));
         event.getHook().sendMessageEmbeds(
-                EmbedCreator.createDriverStandings(driverMap,0).build())
+                EmbedCreator.createDriverStandings(driverMap,0, pageSize).build())
                 .setActionRow(buttonList)
                 .queue();
     }
@@ -72,7 +72,7 @@ public class DriverStandings extends BotCommand {
             }
         }
         event.editMessageEmbeds(
-                        EmbedCreator.createDriverStandings(driverMap, page).build())
+                        EmbedCreator.createDriverStandings(driverMap, page, pageSize).build())
                 .setActionRow(buttonList)
                 .queue();
     }

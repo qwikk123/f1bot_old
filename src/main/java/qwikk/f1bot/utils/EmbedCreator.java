@@ -43,7 +43,7 @@ public class EmbedCreator {
     public static EmbedBuilder createDriverProfile(Driver driver) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
-        eb.setTitle(driver.permanentNumber()+" "+driver.name());
+        eb.setTitle(driver.permanentNumber()+" "+getCountryCodeEmoji(driver.isoCode())+driver.name());
         eb.addField("Team:", driver.constructorName(), false);
         eb.addField("Position", "#"+driver.pos(), true);
         eb.addField("Wins", String.valueOf(driver.wins()), true);
@@ -58,26 +58,22 @@ public class EmbedCreator {
      * @param page The page to create standings for.
      * @return an EmbedBuilder with the driver standings.
      */
-    public static EmbedBuilder createDriverStandings(HashMap<String, Driver> driverMap, int page) {
+    public static EmbedBuilder createDriverStandings(HashMap<String, Driver> driverMap, int page, int pageSize) {
         List<Driver> driverStandings = driverMap.values().stream()
                 .sorted(Comparator.comparingDouble(Driver::pos))
                 .toList();
-        int pageSize = 5;
         int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
         eb.setTitle("Driver Standings");
-        String fieldText = String.format("```%-25s%s\n\n", "Driver:","Points:");
+        eb.addField("Driver:","",true);
+        eb.addField("Team:","",true);
+        eb.addField("Points:","",true);
         for (Driver driver : driverStandings.subList(start,Math.min(start+pageSize, driverStandings.size()))) {
-            String line = String.format("%-25s%s\n%s%s",
-                    "#"+driver.pos()+" "+driver.name(),
-                    df.format(driver.points()),
-                    " ".repeat(String.valueOf(driver.pos()).length()+2),
-                    driver.constructorName());
-            fieldText+="-".repeat(31)+"\n"+line+"\n";
+            eb.addField("#"+driver.pos()+" "+getCountryCodeEmoji(driver.isoCode())+driver.name(),"",true);
+            eb.addField(driver.constructorName(),"",true);
+            eb.addField(df.format(driver.points()), "", true);
         }
-        fieldText+="```";
-        eb.addField("",fieldText,false);
         int maxPage = (int) Math.ceil((double)driverStandings.size()/pageSize);
         eb.setFooter((page+1)+"/"+maxPage);
         return eb;
@@ -107,8 +103,7 @@ public class EmbedCreator {
     private static EmbedBuilder createRace(Race r, String extraTitle) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
-        String countryCodeEmoji = ":flag_"+r.getCountryCode()+":";
-        eb.setTitle(extraTitle+"#"+r.getRound()+" "+countryCodeEmoji+" "+r.getName());
+        eb.setTitle(extraTitle+"#"+r.getRound()+" "+getCountryCodeEmoji(r.getCountryCode())+" "+r.getName());
         eb.addField("Race: ", r.getRaceDateAsString()+"\n"+r.getRaceCountdown(),true);
         if(r.hasSprint()) eb.addField("Sprint: ", r.getSprintDateAsString(),true);
         eb.addField("Qualifying: ", r.getQualifyingDateAsString(),true);
@@ -160,4 +155,35 @@ public class EmbedCreator {
         }
         return eb;
     }
+
+     private static String getCountryCodeEmoji(String isoCode) {
+        return ":flag_"+isoCode+":";
+     }
+
+    /*
+    public static EmbedBuilder createDriverStandings(HashMap<String, Driver> driverMap, int page) {
+        List<Driver> driverStandings = driverMap.values().stream()
+                .sorted(Comparator.comparingDouble(Driver::pos))
+                .toList();
+        int pageSize = 5;
+        int start = pageSize*page;
+        EmbedBuilder eb = new EmbedBuilder();
+        setTheme(eb);
+        eb.setTitle("Driver Standings");
+        String fieldText = String.format("```%-25s%s\n\n", "Driver:","Points:");
+        for (Driver driver : driverStandings.subList(start,Math.min(start+pageSize, driverStandings.size()))) {
+            String line = String.format("%-25s%s\n%s%s",
+                    "#"+driver.pos()+" "+driver.name(),
+                    df.format(driver.points()),
+                    " ".repeat(String.valueOf(driver.pos()).length()+2),
+                    driver.constructorName());
+            fieldText+="-".repeat(31)+"\n"+line+"\n";
+        }
+        fieldText+="```";
+        eb.addField("",fieldText,false);
+        int maxPage = (int) Math.ceil((double)driverStandings.size()/pageSize);
+        eb.setFooter((page+1)+"/"+maxPage);
+        return eb;
+    }
+     */
 }
