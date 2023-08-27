@@ -125,7 +125,7 @@ public class EmbedCreator {
         int start = pageSize*page;
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
-        eb.setTitle("#"+r.getRound()+" "+r.getName());
+        eb.setTitle("#"+r.getRound()+" "+getCountryCodeEmoji(r.getCountryCode())+r.getName());
         String fieldText = "```"+String.format(format,"Pos:","Driver:","Points:","Status:")+"\n";
         List<ResultDriver> raceResultList = r.getRaceResult().getRaceResultList();
         int pos = start;
