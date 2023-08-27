@@ -41,32 +41,18 @@ public class Race {
     public void setRaceResult(RaceResult raceResult) { this.raceResult = raceResult; }
     public RaceResult getRaceResult() { return raceResult; }
     public boolean hasRaceResult() { return raceResult != null; }
-    public String getRaceCountdown() {
-        return TimeFormat.RELATIVE.atInstant(raceInstant).toString();
-    }
     public String getCountryCode() { return countryCode.toLowerCase(); }
-    public String getRaceDateOnly() { return TimeFormat.DATE_LONG.atInstant(raceInstant).toString(); }
-    public String getRaceDateAsString() {
-        return TimeFormat.DATE_TIME_SHORT.atInstant(raceInstant).toString();
-    }
-    public String getQualifyingDateAsString() {
-        return TimeFormat.DATE_TIME_SHORT.atInstant(qualiInstant).toString();
-    }
-    public String getSprintDateAsString() {
-        return TimeFormat.DATE_TIME_SHORT.atInstant(sprintInstant).toString();
-    }
+    public String getRaceRelativeTimestamp() { return TimeFormat.RELATIVE.atInstant(raceInstant).toString(); }
+    public String getRaceTimestampDateOnly() { return TimeFormat.DATE_LONG.atInstant(raceInstant).toString(); }
+    public String getRaceTimestamp() { return TimeFormat.DATE_TIME_SHORT.atInstant(raceInstant).toString(); }
+    public String getQualifyingTimestamp() { return TimeFormat.DATE_TIME_SHORT.atInstant(qualiInstant).toString(); }
+    public String getSprintTimestamp() { return TimeFormat.DATE_TIME_SHORT.atInstant(sprintInstant).toString(); }
     public String getName() { return name; }
     public int getRound() { return round; }
     public String getCircuitName() { return circuitName; }
     public Instant getRaceInstant() { return raceInstant; }
-    public void setSprint(Instant sprintInstant) {
-        this.sprintInstant = sprintInstant;
-    }
-    public boolean hasSprint() {
-        return sprintInstant != null;
-    }
+    public void setSprint(Instant sprintInstant) { this.sprintInstant = sprintInstant; }
+    public boolean hasSprint() { return sprintInstant != null; }
     public String getImagePath() { return "/circuitimages/"+circuitName.replaceAll(" ","")+".png"; }
-    public Instant getUpcomingDate() {
-        return raceInstant.minus(2, ChronoUnit.DAYS);
-    }
+    public Instant getUpcomingDate() { return raceInstant.minus(2, ChronoUnit.DAYS); }
 }

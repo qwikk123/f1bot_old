@@ -13,8 +13,9 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -108,7 +109,7 @@ public class ErgastDataRetriever {
 
     /**
      * Method to check whether an update from the api is needed or not.
-     * The update interval is set to maximum update once every 24 hours.
+     * The update interval is set to wait at least 24 hours between updates.
      * @param URL url of Ergast Endpoint.
      * @return true if the cache is out of date.
      */
@@ -118,8 +119,7 @@ public class ErgastDataRetriever {
         try {
             if (f.isFile()) {
                 FileTime ft = Files.getLastModifiedTime(Paths.get(f.getPath()));
-                LocalDateTime modifiedTime = LocalDateTime.ofInstant(ft.toInstant(), ZoneId.systemDefault());
-                return LocalDateTime.now().isAfter(modifiedTime.plusDays(1));
+                return Instant.now().isAfter(ft.toInstant().plus(1, ChronoUnit.DAYS));
             }
             else {
                 return true;

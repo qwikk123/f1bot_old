@@ -8,10 +8,11 @@ package qwikk.f1bot.model;
  * @param status
  * @param points
  */
-public record ResultDriver (
+public record DriverResult(
         String driverId,
         int laps,
         int gridStart,
         String status,
-        double points
+        double points,
+        int pos
 ) {}

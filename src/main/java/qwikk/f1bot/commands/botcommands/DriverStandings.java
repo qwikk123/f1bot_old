@@ -59,16 +59,18 @@ public class DriverStandings extends BotCommand {
                 .map(Button::asEnabled)
                 .collect(Collectors.toList());
 
-        if (buttonId.equals("next-dstandings")) {
-            page++;
-            if ((page * pageSize) + pageSize >= driverMap.size()) {
-                buttonList.set(1, buttonList.get(1).asDisabled());
+        switch (buttonId) {
+            case "next-dstandings" -> {
+                page++;
+                if ((page * pageSize) + pageSize >= driverMap.size()) {
+                    buttonList.set(1, buttonList.get(1).asDisabled());
+                }
             }
-        }
-        else if (buttonId.equals("prev-dstandings")) {
-            page--;
-            if (page == 0) {
-                buttonList.set(0, buttonList.get(0).asDisabled());
+            case "prev-dstandings" -> {
+                page--;
+                if (page == 0) {
+                    buttonList.set(0, buttonList.get(0).asDisabled());
+                }
             }
         }
         event.editMessageEmbeds(

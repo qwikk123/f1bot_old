@@ -109,8 +109,9 @@ public class ErgastParser {
                 int gridStart = jsonDriver.getInt("grid");
                 String status = jsonDriver.getString("status");
                 int points = jsonDriver.getInt("points");
+                int pos = jsonDriver.getInt("position");
 
-                ResultDriver rDriver = new ResultDriver(driverId, laps, gridStart, status, points);
+                DriverResult rDriver = new DriverResult(driverId, laps, gridStart, status, points, pos);
 
                 raceResult.getRaceResultList().add(rDriver);
             }

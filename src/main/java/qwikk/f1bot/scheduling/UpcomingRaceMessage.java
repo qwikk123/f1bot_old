@@ -32,7 +32,7 @@ public class UpcomingRaceMessage implements Runnable {
     }
 
     /**
-     * Method that runs the scheduled task
+     * Method that runs the scheduled task.
      * Sends an upcoming race message to every text channel in the channelList.
      */
     @Override

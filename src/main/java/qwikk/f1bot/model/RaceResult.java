@@ -6,15 +6,15 @@ import java.util.ArrayList;
  * Class that contains a list of ResultDrivers(Driver ids and their race results) for a race.
  */
 public class RaceResult {
-    private final ArrayList<ResultDriver> resultDriverList;
+    private final ArrayList<DriverResult> driverResultList;
 
     /**
      * Creates a instance of RaceResult
-     * @param resultDriverList a list containing ResultDrivers(Driver ids and their race result)
+     * @param driverResultList a list containing ResultDrivers(Driver ids and their race result)
      */
-    public RaceResult(ArrayList<ResultDriver> resultDriverList) {
-        this.resultDriverList = resultDriverList;
+    public RaceResult(ArrayList<DriverResult> driverResultList) {
+        this.driverResultList = driverResultList;
     }
 
-    public ArrayList<ResultDriver> getRaceResultList() { return resultDriverList; }
+    public ArrayList<DriverResult> getRaceResultList() { return driverResultList; }
 }

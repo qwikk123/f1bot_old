@@ -77,10 +77,13 @@ public class F1DataService {
         }
     }
 
+    /**
+     * Method that sets a text channel description.
+     */
     public void updateTextChannelDescription() {
         List<TextChannel> textChannels = bot.getTextChannelsByName(scheduledTextChannel,true);
         for (TextChannel textChannel : textChannels) {
-            textChannel.getManager().setTopic("Everything Formula 1 | Next race: "+nextRace.getRaceCountdown()).queue();
+            textChannel.getManager().setTopic("Everything Formula 1 | Next race: "+nextRace.getRaceRelativeTimestamp()).queue();
         }
     }
 

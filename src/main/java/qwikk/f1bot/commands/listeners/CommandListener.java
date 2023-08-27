@@ -31,7 +31,7 @@ public class CommandListener extends ListenerAdapter {
     private boolean ready = false;
 
     /**
-     * Creates an instance of the CommandListener class and initializes the F1DataService and CommandManager.
+     * Creates an instance of CommandListener and initializes the F1DataService and CommandManager.
      * @param bot The instance of this programs JDA bot.
      */
     public CommandListener(JDA bot) {
@@ -52,7 +52,7 @@ public class CommandListener extends ListenerAdapter {
     }
 
     /**
-     * Method that sets the boolean ready to true
+     * Method that sets the boolean ready to true.
      * It runs on the bots ReadyEvent.
      * This is to stop the Listener from updating commands before the CommandManager and F1DataService is ready.
      * It is initialized in the Main method through upsertCommands()

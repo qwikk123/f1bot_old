@@ -128,7 +128,7 @@ public class GetRace extends BotCommand {
         buttonList.add(Button.danger("prev-resultpage", "Prev").asDisabled());
         buttonList.add(Button.danger("next-resultpage", "Next"));
 
-        event.editMessageEmbeds(EmbedCreator.createRaceResult(race,driverMap,0).build())
+        event.editMessageEmbeds(EmbedCreator.createRaceResult(race,driverMap,0, pageSize).build())
                 .setActionRow(buttonList)
                 .setReplace(true)
                 .queue();
@@ -147,19 +147,22 @@ public class GetRace extends BotCommand {
         int page = Integer.parseInt(footer.split("/")[0])-1;
         int maxPage = Integer.parseInt(footer.split("/")[1]);
 
-        if (buttonId.equals("next-resultpage")) {
-            page++;
-            if ((page * pageSize) + pageSize >= maxPage) {
-                buttonList.set(3, buttonList.get(3).asDisabled());
+        switch (buttonId) {
+            case "next-resultpage" -> {
+                page++;
+                if ((page * pageSize) + pageSize >= maxPage) {
+                    buttonList.set(3, buttonList.get(3).asDisabled());
+                }
             }
-        } else if (buttonId.equals("prev-resultpage")) {
-            page--;
-            if (page == 0) {
-                buttonList.set(2, buttonList.get(2).asDisabled());
+            case "prev-resultpage" -> {
+                page--;
+                if (page == 0) {
+                    buttonList.set(2, buttonList.get(2).asDisabled());
+                }
             }
         }
         buttonList.set(1, buttonList.get(1).asDisabled());
-        event.editMessageEmbeds(EmbedCreator.createRaceResult(race,driverMap,page).build())
+        event.editMessageEmbeds(EmbedCreator.createRaceResult(race,driverMap,page, pageSize).build())
                 .setActionRow(buttonList)
                 .queue();
     }
