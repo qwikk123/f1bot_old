@@ -43,7 +43,7 @@ public class EmbedCreator {
     public static EmbedBuilder createDriverProfile(Driver driver) {
         EmbedBuilder eb = new EmbedBuilder();
         setTheme(eb);
-        eb.setTitle(driver.permanentNumber()+" "+getCountryCodeEmoji(driver.isoCode())+driver.name());
+        eb.setTitle("#"+driver.permanentNumber()+" "+getCountryCodeEmoji(driver.isoCode())+driver.name());
         eb.addField("Team:", driver.constructorName(), false);
         eb.addField("Position", "#"+driver.pos(), true);
         eb.addField("Wins", String.valueOf(driver.wins()), true);
